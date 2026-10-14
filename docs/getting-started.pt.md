@@ -21,7 +21,7 @@ Esta página cobre tudo o que você precisa para instalar e configurar o NexusPr
 
 ## Instalação
 
-1. Baixe o `NexusPrism.jar` mais recente na página de [GitHub Releases](https://github.com/TigerDevLabs/NexusPrism/releases).
+1. Baixe o `NexusPrism.jar` mais recente na página de [GitHub Releases](https://github.com/Tg-TheNexus/NexusPrism/releases).
 2. Coloque o JAR na pasta `plugins/` do seu servidor.
 3. Inicie o servidor uma vez para gerar todos os arquivos de configuração padrão.
 4. Pare o servidor, edite as configurações geradas (veja abaixo) e reinicie.
@@ -124,9 +124,9 @@ NexusPrism é um **projeto Maven multi-módulo**. Todos os módulos são empacot
 
 ## API para Desenvolvedores (Jitpack)
 
-Adicione o NexusPrism como dependência no seu addon ou plugin usando o [Jitpack](https://jitpack.io/#TigerDevLabs/NexusPrism).
+Adicione o NexusPrism como dependência no seu addon ou plugin usando o [Jitpack](https://jitpack.io/#Tg-TheNexus/NexusPrism).
 
-[![](https://jitpack.io/v/TigerDevLabs/NexusPrism.svg)](https://jitpack.io/#TigerDevLabs/NexusPrism)
+[![](https://jitpack.io/v/Tg-TheNexus/NexusPrism.svg)](https://jitpack.io/#Tg-TheNexus/NexusPrism)
 
 !!! info "Dependência somente da API"
     Dependa de `nexusprism-api`, não de `nexusprism-plugin`, para evitar puxar a implementação completa para o seu projeto. Marque como `provided` — o JAR do plugin já está no servidor em tempo de execução.
@@ -143,7 +143,7 @@ Adicione o NexusPrism como dependência no seu addon ou plugin usando o [Jitpack
 
     <dependencies>
         <dependency>
-            <groupId>com.github.TigerDevLabs.NexusPrism</groupId>
+            <groupId>com.github.Tg-TheNexus.NexusPrism</groupId>
             <artifactId>nexusprism-api</artifactId>
             <version>TAG</version>
             <scope>provided</scope>
@@ -159,7 +159,7 @@ Adicione o NexusPrism como dependência no seu addon ou plugin usando o [Jitpack
     }
 
     dependencies {
-        compileOnly("com.github.TigerDevLabs.NexusPrism:nexusprism-api:TAG")
+        compileOnly("com.github.Tg-TheNexus.NexusPrism:nexusprism-api:TAG")
     }
     ```
 
@@ -171,7 +171,7 @@ Adicione o NexusPrism como dependência no seu addon ou plugin usando o [Jitpack
     }
 
     dependencies {
-        compileOnly 'com.github.TigerDevLabs.NexusPrism:nexusprism-api:TAG'
+        compileOnly 'com.github.Tg-TheNexus.NexusPrism:nexusprism-api:TAG'
     }
     ```
 

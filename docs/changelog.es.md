@@ -1,6 +1,6 @@
 # Historial de Cambios
 
-> Generado automáticamente desde los commits de [NexusPrism](https://github.com/TigerDevLabs/NexusPrism).
+> Generado automáticamente desde los commits de [NexusPrism](https://github.com/Tg-TheNexus/NexusPrism).
 > Traducido automáticamente — pueden esperarse pequeñas diferencias de redacción.
 
 ---
@@ -779,7 +779,7 @@
 ### 🔧Mantenimiento
 
 - **deps**: Mejora de acciones/carga de artefacto de 4 a 7
-- Migrar referencias de organizaciones de O-Tiger a TigerDevLabs
+- Migrar referencias de organizaciones de O-Tiger a Tg-TheNexus
 ## [2026-05-02] · `ba0ebd5`
 
 
