@@ -1,6 +1,6 @@
 # Changelog
 
-> Auto-generated from [NexusPrism](https://github.com/TigerDevLabs/NexusPrism) commits.
+> Auto-generated from [NexusPrism](https://github.com/Tg-TheNexus/NexusPrism) commits.
 > Translated automatically — minor phrasing differences are expected.
 
 ---
@@ -796,7 +796,7 @@
 ### 🔧 Maintenance
 
 - **deps**: Bump actions/upload-artifact from 4 to 7
-- Migrate org references from O-Tiger to TigerDevLabs
+- Migrate org references from O-Tiger to Tg-TheNexus
 
 ## [2026-05-02] · `ba0ebd5`
 

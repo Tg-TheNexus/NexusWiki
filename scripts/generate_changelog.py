@@ -454,7 +454,7 @@ def prepend_to_file(path: Path, new_content: str) -> None:
 HEADER_EN = """\
 # Changelog
 
-> Auto-generated from [NexusPrism](https://github.com/TigerDevLabs/NexusPrism) commits.
+> Auto-generated from [NexusPrism](https://github.com/Tg-TheNexus/NexusPrism) commits.
 > Translated automatically — minor phrasing differences are expected.
 
 ---
@@ -463,7 +463,7 @@ HEADER_EN = """\
 HEADER_PT = """\
 # Histórico de Alterações
 
-> Gerado automaticamente a partir dos commits do [NexusPrism](https://github.com/TigerDevLabs/NexusPrism).
+> Gerado automaticamente a partir dos commits do [NexusPrism](https://github.com/Tg-TheNexus/NexusPrism).
 > Traduzido automaticamente — pequenas diferenças de fraseado são esperadas.
 
 ---
@@ -472,7 +472,7 @@ HEADER_PT = """\
 HEADER_ES = """\
 # Historial de Cambios
 
-> Generado automáticamente desde los commits de [NexusPrism](https://github.com/TigerDevLabs/NexusPrism).
+> Generado automáticamente desde los commits de [NexusPrism](https://github.com/Tg-TheNexus/NexusPrism).
 > Traducido automáticamente — pueden esperarse pequeñas diferencias de redacción.
 
 ---

@@ -21,7 +21,7 @@ This page covers everything you need to install and configure NexusPrism on your
 
 ## Installation
 
-1. Download the latest `NexusPrism.jar` from the [GitHub Releases](https://github.com/TigerDevLabs/NexusPrism/releases) page.
+1. Download the latest `NexusPrism.jar` from the [GitHub Releases](https://github.com/Tg-TheNexus/NexusPrism/releases) page.
 2. Place the JAR in your server's `plugins/` folder.
 3. Start the server once to generate all default configuration files.
 4. Stop the server, edit the generated configs (see below), then restart.
@@ -132,8 +132,8 @@ All modules are bundled into the final plugin JAR automatically.
 
 ## Developer API (Jitpack)
 
-Add NexusPrism as a dependency in your addon or plugin using [Jitpack](https://jitpack.io/#TigerDevLabs/NexusPrism).
-Jitpack status badge: [![](https://jitpack.io/v/TigerDevLabs/NexusPrism.svg)](https://jitpack.io/#TigerDevLabs/NexusPrism)
+Add NexusPrism as a dependency in your addon or plugin using [Jitpack](https://jitpack.io/#Tg-TheNexus/NexusPrism).
+Jitpack status badge: [![](https://jitpack.io/v/Tg-TheNexus/NexusPrism.svg)](https://jitpack.io/#Tg-TheNexus/NexusPrism)
 
 !!! info "API-only dependency"
     Depend on `nexusprism-api`, not `nexusprism-plugin`, to avoid pulling the full implementation into your project. Mark it as `provided` — the plugin JAR is already on the server at runtime.
@@ -150,7 +150,7 @@ Jitpack status badge: [![](https://jitpack.io/v/TigerDevLabs/NexusPrism.svg)](ht
 
     <dependencies>
         <dependency>
-            <groupId>com.github.TigerDevLabs.NexusPrism</groupId>
+            <groupId>com.github.Tg-TheNexus.NexusPrism</groupId>
             <artifactId>nexusprism-api</artifactId>
             <version>TAG</version>
             <scope>provided</scope>
@@ -166,7 +166,7 @@ Jitpack status badge: [![](https://jitpack.io/v/TigerDevLabs/NexusPrism.svg)](ht
     }
 
     dependencies {
-        compileOnly("com.github.TigerDevLabs.NexusPrism:nexusprism-api:TAG")
+        compileOnly("com.github.Tg-TheNexus.NexusPrism:nexusprism-api:TAG")
     }
     ```
 
@@ -178,7 +178,7 @@ Jitpack status badge: [![](https://jitpack.io/v/TigerDevLabs/NexusPrism.svg)](ht
     }
 
     dependencies {
-        compileOnly 'com.github.TigerDevLabs.NexusPrism:nexusprism-api:TAG'
+        compileOnly 'com.github.Tg-TheNexus.NexusPrism:nexusprism-api:TAG'
     }
     ```
 
@@ -228,7 +228,7 @@ See [Core Module](modules/core.md) for the other real extension hooks
 item registry — item content lives entirely in NexusATS now.
 
 !!! tip "Uploading to Jitpack"
-    Push a tagged release to GitHub, then visit `https://jitpack.io/#TigerDevLabs/NexusPrism` and click **Look up** next to your tag to trigger the build. Once green, the dependency is ready to use.
+    Push a tagged release to GitHub, then visit `https://jitpack.io/#Tg-TheNexus/NexusPrism` and click **Look up** next to your tag to trigger the build. Once green, the dependency is ready to use.
 
 ---
 
