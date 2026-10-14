@@ -5,6 +5,27 @@
 
 ---
 
+## [2026-10-14] · `2aa89fa`
+
+
+### 🐛 Corregido
+
+- **web**: Unify the lynx address and move the webhook secret to key_configs
+
+### 🔧 Mantenimiento
+
+- Rename GitHub org to Tg-TheNexus
+- Rename org to Tg-TheNexus and unify lynx and webhook config keys (#47)
+
+## [2026-10-03] · `780b8af`
+
+
+### 🔧 Mantenimiento
+
+- **config**: Point defaults at the nexusheim.com hosts
+
+---
+
 ## [2026-09-28] · `c392ae4`
 
 
