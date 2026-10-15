@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-14] · `64bc66f`
+
+
+### ✨ Added
+
+- **store**: Cosmetic-only default sku-map and supporter titles (#51)
+
+---
+
 ## [2026-10-14] · `41a480b`
 
 
