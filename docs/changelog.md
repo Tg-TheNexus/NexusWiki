@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-14] · `abfc6dc`
+
+
+### 🐛 Fixed
+
+- **delivery**: Bind timestamptz values when marking an order delivered (#49)
+
+---
+
 ## [2026-10-14] · `222e5f3`
 
 
