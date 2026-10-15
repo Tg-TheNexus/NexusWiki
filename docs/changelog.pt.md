@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-14] · `fefe853`
+
+
+### ✨ Adicionado
+
+- **supporters**: Supporter-pass SKU and the nxsupporter command (#52)
+
+---
+
 ## [2026-10-14] · `64bc66f`
 
 
