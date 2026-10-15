@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-14] · `222e5f3`
+
+
+### ✨ Añadido
+
+- **delivery**: Bridge database from key_configs, fix item keys, unmapped skus and mark-delivered path (#48)
+
+---
+
 ## [2026-10-14] · `2aa89fa`
 
 
