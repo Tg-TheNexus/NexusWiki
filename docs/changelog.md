@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-14] · `41a480b`
+
+
+### 📚 Documentation
+
+- How to turn the delivery bridge on in a server (#50)
+
+---
+
 ## [2026-10-14] · `abfc6dc`
 
 
