@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `396a934`
+
+
+### 🐛 Corregido
+
+- **auth**: Validate names before the Mojang lookup, shorten demotions, log close errors (#58)
+
+---
+
 ## [2026-10-16] · `44787b3`
 
 
