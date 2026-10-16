@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `0cdf25e`
+
+
+### 🔧 Mantenimiento
+
+- **deps**: Minor bumps, HikariCP 7, JUnit 6 (#65)
+
+---
+
 ## [2026-10-16] · `4a62e51`
 
 
