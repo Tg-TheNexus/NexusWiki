@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `e1085d5`
+
+
+### ✨ Added
+
+- **security**: Trusted test accounts skip the CAPTCHA by name and IP (#53)
+
+---
+
 ## [2026-10-14] · `fefe853`
 
 
