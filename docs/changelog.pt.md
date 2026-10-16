@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `039ff07`
+
+
+### 🔧 Manutenção
+
+- **deps**: Dependabot leaves the Paper API version to a deliberate migration (#70)
+
+---
+
 ## [2026-10-16] · `b11abcc`
 
 
