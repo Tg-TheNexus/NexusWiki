@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `447b0d4`
+
+
+### 🔧 Maintenance
+
+- **deps**: Keep dependabot away from log4j (provided by the server) (#60)
+
+---
+
 ## [2026-10-16] · `04b94fb`
 
 
