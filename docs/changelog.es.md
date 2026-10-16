@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `0e9dad2`
+
+
+### 🔧 Mantenimiento
+
+- **deps**: Bump actions/checkout from 4 to 7 (#61)
+
+---
+
 ## [2026-10-16] · `0cdf25e`
 
 
