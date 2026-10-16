@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `96d8c8c`
+
+
+### 🐛 Corregido
+
+- **auth**: Mask passwords in logs, BCrypt off the main thread, pre-auth restrictions, per-address lockouts, IP whitelist actually enforced (#55)
+
+---
+
 ## [2026-10-16] · `d066a4d`
 
 
