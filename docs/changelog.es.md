@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `d066a4d`
+
+
+### 🐛 Corregido
+
+- **auth**: Bind persistent sessions to the IP and review the identity settings at startup (#54)
+
+---
+
 ## [2026-10-16] · `e1085d5`
 
 
