@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `4a62e51`
+
+
+### 🐛 Fixed
+
+- **ci**: Skip the Discord notices when the webhook secret is empty (Dependabot runs) (#64)
+
+---
+
 ## [2026-10-16] · `2acbad9`
 
 
