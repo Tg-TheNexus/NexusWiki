@@ -5,6 +5,19 @@
 
 ---
 
+## [2026-10-16] · `b11abcc`
+
+
+### 🐛 Fixed
+
+- **ci**: Serialize the wiki changelog runs and rebase before pushing (#68)
+
+### 🔧 Maintenance
+
+- **deps**: Bump actions/setup-java from 4 to 5 (#44)
+
+---
+
 ## [2026-10-16] · `0e9dad2`
 
 
