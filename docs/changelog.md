@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `04b94fb`
+
+
+### 🐛 Fixed
+
+- **auth**: Prune old name and IP records and uncollected notifications in UUIDConflictResolver (#59)
+
+---
+
 ## [2026-10-16] · `396a934`
 
 
