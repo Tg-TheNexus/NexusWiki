@@ -1,96 +1,97 @@
-# Core Module
+# Módulo Core
 
-The Core module is the foundation of NexusPrism: language system (i18n), the GUI framework,
-per-player data storage (with a generic extension API for addons), the structure-loot event
-hook, and the personal waypoint system.
+O módulo Core é a base do NexusPrism: sistema de idiomas (i18n), o framework de GUI,
+armazenamento de dados por jogador (com uma API genérica de extensão para addons), o hook do
+evento de loot de estruturas, e o sistema pessoal de pontos de viagem.
 
-> **Item/machine/energy/research content has moved to NexusATS.** NexusPrism itself no
-> longer ships a custom item registry, machine engine, energy network, or research tree —
-> that entire domain lives in the separate NexusATS plugin now. If NexusATS is installed,
-> its commands are exposed under `/nexusprism <subcommand>` (see below); without NexusATS,
-> those subcommands are unavailable.
-
----
-
-## PDC System
-
-NexusPrism uses Minecraft's **PersistentDataContainer** for its own player/machine-placement
-bookkeeping. Addon plugins (like NexusATS) use the same pattern for their own items and
-blocks under their own PDC namespace.
+> **O conteúdo de itens/máquinas/energia/pesquisa foi movido para o NexusATS.** O NexusPrism
+> em si não fornece mais um registro de itens personalizados, motor de máquinas, rede de
+> energia ou árvore de pesquisa — todo esse domínio agora vive no plugin separado NexusATS.
+> Se o NexusATS estiver instalado, seus comandos ficam disponíveis sob `/nexusprism
+> <subcomando>` (veja abaixo); sem o NexusATS, esses subcomandos ficam indisponíveis.
 
 ---
 
-## Addon Extension Hooks
+## Sistema PDC
 
-NexusPrism exposes a small set of generic hooks so addon plugins (NexusATS, and any future
-addon) can integrate without NexusPrism needing to know about them ahead of time:
+O NexusPrism usa o **PersistentDataContainer** do Minecraft para sua própria gestão de
+dados de jogador/posicionamento de máquinas. Addons (como o NexusATS) usam o mesmo padrão
+para seus próprios itens e blocos, sob seu próprio namespace de PDC.
 
-| Hook | Purpose |
+---
+
+## Hooks de Extensão para Addons
+
+O NexusPrism expõe um pequeno conjunto de hooks genéricos para que addons (NexusATS, e
+qualquer addon futuro) possam se integrar sem que o NexusPrism precise conhecê-los de
+antemão:
+
+| Hook | Finalidade |
 | --- | --- |
-| `NexusPrism.registerBlockClassifier(isAddonBlock, addonBlockIdLookup)` | Lets an addon mark its own blocks so RNG/traits/MMO/Waila skip or redirect on them |
-| `NexusPrism.registerAddonCommand(subCommand, handler)` | Registers a `/nexusprism <subCommand>` handler owned by the addon |
-| `NexusPrism.registerAddonTabCompleter(subCommand, completer)` | Tab-completion for an addon-registered subcommand |
-| `DataManager.setPlayerField(playerId, namespace, key, value)` / `getPlayerField(...)` / `getPlayerFields(...)` | Generic per-player key/value storage, scoped by namespace, for addons that need to persist their own data through NexusPrism's database without a schema migration |
+| `NexusPrism.registerBlockClassifier(isAddonBlock, addonBlockIdLookup)` | Permite que um addon marque seus próprios blocos para que RNG/traits/MMO/Waila os ignorem ou redirecionem sobre eles |
+| `NexusPrism.registerAddonCommand(subCommand, handler)` | Registra um handler de `/nexusprism <subCommand>` pertencente ao addon |
+| `NexusPrism.registerAddonTabCompleter(subCommand, completer)` | Auto-completar para um subcomando registrado por addon |
+| `DataManager.setPlayerField(playerId, namespace, key, value)` / `getPlayerField(...)` / `getPlayerFields(...)` | Armazenamento genérico de chave/valor por jogador, isolado por namespace, para addons que precisam persistir seus próprios dados através do banco de dados do NexusPrism sem migração de schema |
 
 ---
 
-## Waypoints
+## Pontos de Viagem
 
-Waypoints are personal fast-travel points saved by the player.
+Pontos de viagem são pontos pessoais de teleporte rápido salvos pelo jogador.
 
-### Waypoints Commands
+### Comandos de Pontos de Viagem
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/waypoint create <name>` | Create a waypoint | `nexusprism.essentials.waypoint` |
-| `/waypoint delete <name>` | Delete a waypoint | `nexusprism.essentials.waypoint` |
-| `/waypoint list` | List all waypoints | `nexusprism.essentials.waypoint` |
-| `/waypoint tp <name>` | Teleport to a waypoint | `nexusprism.essentials.waypoint` |
-| `/waypoint info <name>` | Show waypoint details | `nexusprism.essentials.waypoint` |
+| `/waypoint create <nome>` | Criar um ponto de viagem | `nexusprism.essentials.waypoint` |
+| `/waypoint delete <nome>` | Excluir um ponto de viagem | `nexusprism.essentials.waypoint` |
+| `/waypoint list` | Listar todos os pontos de viagem | `nexusprism.essentials.waypoint` |
+| `/waypoint tp <nome>` | Teleportar para um ponto de viagem | `nexusprism.essentials.waypoint` |
+| `/waypoint info <nome>` | Mostrar detalhes do ponto de viagem | `nexusprism.essentials.waypoint` |
 
 Aliases: `/wp`
 
-### Slot Limit Permissions
+### Permissões de Limite de Slots
 
-| Permission | Slots |
+| Permissão | Slots |
 | --- | --- |
-| `nexusprism.essentials.waypoints.1` | 1 (default) |
+| `nexusprism.essentials.waypoints.1` | 1 (padrão) |
 | `nexusprism.essentials.waypoints.5` | 5 |
 | `nexusprism.essentials.waypoints.25` | 25 |
-| `nexusprism.essentials.waypoints.unlimited` | Unlimited (OP) |
+| `nexusprism.essentials.waypoints.unlimited` | Ilimitado (OP) |
 
 ---
 
-## Main Plugin Commands
+## Comandos Principais do Plugin
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/nexusprism help` | Show help | `nexusprism.command` |
-| `/nexusprism info` | Plugin info | `nexusprism.command` |
-| `/nexusprism reload` | Reload all configs | `nexusprism.admin.reload` |
-| `/nexusprism modules` | List loaded modules | `nexusprism.command` |
-| `/nexusprism give <player> <item>` | Give an item — requires NexusATS | `nexusprism.admin.give` |
-| `/nexusprism guide` | Open the item guide — requires NexusATS | `nexusprism.command` |
-| `/nexusprism machines` | Machine info — requires NexusATS | `nexusprism.command` |
-| `/nexusprism research` | Research menu — requires NexusATS | `nexusprism.command` |
-| `/nexusprism recipe` | Recipe lookup — requires NexusATS | `nexusprism.command` |
+| `/nexusprism help` | Mostrar ajuda | `nexusprism.command` |
+| `/nexusprism info` | Informações do plugin | `nexusprism.command` |
+| `/nexusprism reload` | Recarregar todas as configurações | `nexusprism.admin.reload` |
+| `/nexusprism modules` | Listar módulos carregados | `nexusprism.command` |
+| `/nexusprism give <jogador> <item>` | Dar um item — requer NexusATS | `nexusprism.admin.give` |
+| `/nexusprism guide` | Abrir o guia de itens — requer NexusATS | `nexusprism.command` |
+| `/nexusprism machines` | Informações de máquina — requer NexusATS | `nexusprism.command` |
+| `/nexusprism research` | Menu de pesquisa — requer NexusATS | `nexusprism.command` |
+| `/nexusprism recipe` | Consulta de receitas — requer NexusATS | `nexusprism.command` |
 
 Aliases: `/ns`, `/nexus`, `/slime`, `/nslime`
 
 ---
 
-## Language Support
+## Suporte a Idiomas
 
-NexusPrism ships with four language files:
+O NexusPrism vem com quatro arquivos de idioma:
 
-| File | Language |
+| Arquivo | Idioma |
 | --- | --- |
-| `lang/en_US.yml` | English (default) |
-| `lang/pt_BR.yml` | Brazilian Portuguese |
-| `lang/es_ES.yml` | Spanish |
-| `lang/zh_CN.yml` | Chinese (Simplified) |
+| `lang/en_US.yml` | Inglês (padrão) |
+| `lang/pt_BR.yml` | Português Brasileiro |
+| `lang/es_ES.yml` | Espanhol |
+| `lang/zh_CN.yml` | Chinês (Simplificado) |
 
-Set the active language in `config.yml`:
+Defina o idioma ativo em `config.yml`:
 
 ```yaml
 settings:

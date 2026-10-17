@@ -1,47 +1,47 @@
-# Discord Module
+# Módulo Discord
 
-The Discord module provides a **JDA-powered bot** with Minecraft ↔ Discord chat bridging, player account linking, role synchronization, webhook delivery, and GitHub Actions monitoring.
+O módulo Discord fornece um **bot com JDA** com ponte de chat Minecraft ↔ Discord, vinculação de contas de jogadores, sincronização de cargos, entrega por webhooks e monitoramento de GitHub Actions.
 
 ---
 
-## Features
+## Funcionalidades
 
-| Feature | Description |
+| Funcionalidade | Descrição |
 | --- | --- |
-| **Chat Bridge** | Relay in-game chat to Discord channels and vice versa |
-| **Account Linking** | Link Discord accounts to Minecraft accounts via DM |
-| **Role Sync** | Assign Discord roles based on LuckPerms groups |
-| **Webhooks** | Push player events (join, death, achievement) to Discord |
-| **Mention Alerts** | Notify in-game players when mentioned on Discord |
-| **GitHub Actions** | Monitor and trigger CI/CD workflows from Discord |
-| **Server Vote** | Community-driven restart vote via Discord slash command |
-| **Panel Control** | Admin start/stop commands via Pterodactyl API |
+| **Ponte de Chat** | Retransmite o chat do jogo para canais do Discord e vice-versa |
+| **Vinculação de Contas** | Vincula contas do Discord a contas do Minecraft via DM |
+| **Sincronização de Cargos** | Atribui cargos do Discord com base nos grupos do LuckPerms |
+| **Webhooks** | Envia eventos de jogadores (entrada, morte, conquista) para o Discord |
+| **Alertas de Menção** | Notifica jogadores no jogo quando são mencionados no Discord |
+| **GitHub Actions** | Monitora e aciona fluxos de CI/CD a partir do Discord |
+| **Voto do Servidor** | Votação da comunidade para reiniciar o servidor via slash command |
+| **Controle do Painel** | Comandos admin de iniciar/parar via API do Pterodactyl |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/discord` | Show Discord invite link | *(all players)* |
-| `/discord link` | Start account linking process | *(all players)* |
-| `/discord unlink` | Unlink your Discord account | *(all players)* |
-| `/discord info` | Show your linked Discord account | *(all players)* |
-| `/discordrr` | Manage reaction-role messages | `nexusprism.admin` |
+| `/discord` | Exibe o link de convite do Discord | *(todos os jogadores)* |
+| `/discord link` | Inicia o processo de vinculação de conta | *(todos os jogadores)* |
+| `/discord unlink` | Desvincula sua conta do Discord | *(todos os jogadores)* |
+| `/discord info` | Exibe sua conta do Discord vinculada | *(todos os jogadores)* |
+| `/discordrr` | Gerencia mensagens de reação-cargo | `nexusprism.admin` |
 
 ---
 
-## Setup
+## Configuração
 
-### 1. Create a Discord Bot
+### 1. Criar um Bot no Discord
 
-1. Go to [discord.com/developers/applications](https://discord.com/developers/applications)
-2. Create a new Application → Bot
-3. Copy the **Bot Token**
-4. Enable **Message Content Intent** and **Server Members Intent**
-5. Invite the bot to your server with `bot` + `applications.commands` scopes
+1. Acesse [discord.com/developers/applications](https://discord.com/developers/applications)
+2. Crie uma nova Aplicação → Bot
+3. Copie o **Token do Bot**
+4. Ative **Message Content Intent** e **Server Members Intent**
+5. Convide o bot para o seu servidor com os escopos `bot` + `applications.commands`
 
-### 2. Configure the Bot (`discord/config.yml`)
+### 2. Configurar o Bot (`discord/config.yml`)
 
 ```yaml
 enabled: true
@@ -64,23 +64,23 @@ bot:
   enabled: true
 ```
 
-### 3. Configure Bot Settings (`discord/bot.yml`)
+### 3. Configurar Definições do Bot (`discord/bot.yml`)
 
 ```yaml
 token: "YOUR_BOT_TOKEN_HERE"
 guild-id: "YOUR_GUILD_ID"
 
-# Channel IDs for bridging
+# IDs de canais para a ponte
 channels:
   global-chat: "CHANNEL_ID"
   announcements: "CHANNEL_ID"
   staff: "CHANNEL_ID"
 ```
 
-### 4. Configure Channels (`discord/channels.yml`)
+### 4. Configurar Canais (`discord/channels.yml`)
 
 ```yaml
-# Map in-game chat channels to Discord channel IDs
+# Mapeia canais de chat do jogo para IDs de canais do Discord
 global:
   discord-id: "123456789012345678"
   webhook: "https://discord.com/api/webhooks/..."
@@ -95,7 +95,7 @@ staff:
 
 ---
 
-## Player Event Webhooks (`discord/playerEvents.yml`)
+## Webhooks de Eventos de Jogadores (`discord/playerEvents.yml`)
 
 ```yaml
 join:
@@ -121,10 +121,10 @@ achievement:
 
 ---
 
-## Role Mappings (`discord/roles.yml`)
+## Mapeamento de Cargos (`discord/roles.yml`)
 
 ```yaml
-# LuckPerms group → Discord Role ID
+# Grupo do LuckPerms → ID de Cargo do Discord
 mappings:
   vip: "DISCORD_ROLE_ID"
   mvp: "DISCORD_ROLE_ID"
@@ -134,7 +134,7 @@ mappings:
 
 ---
 
-## Outbound Webhooks (`discord/outbound.yml`)
+## Webhooks de Saída (`discord/outbound.yml`)
 
 ```yaml
 webhooks:
@@ -145,7 +145,7 @@ webhooks:
 
 ---
 
-## Webstore Integration (`discord/webstore.yml`)
+## Integração com Loja (`discord/webstore.yml`)
 
 ```yaml
 enabled: true
@@ -155,40 +155,48 @@ message: "**{player}** just purchased **{package}** from the store! Thank you!"
 
 ---
 
-## Server Vote & Panel Control
+## Integração com GitHub Actions
 
-### `/server vote` — Community Restart Vote
+O módulo Discord pode monitorar fluxos de trabalho do GitHub Actions e permitir que a equipe os acione a partir do Discord.
 
-Any Discord member (optionally restricted to specific roles) can start a vote to restart the server.
+Classes principais: `GitHubActionsManager`, `WorkflowPoller`, `WorkflowTriggerRecord`
 
-1. Member runs `/server vote` in Discord.
-2. Bot posts an embed with **✅ Yes** and **❌ No** buttons.
-3. Each member can change their vote at any time during the window.
-4. When the window closes the bot evaluates the result:
-   - Requires `min-votes` cast **and** `threshold`% yes to pass.
-   - On pass: RCON broadcasts an in-game warning, then Pterodactyl sends a `restart` signal after `warn-seconds`.
-   - On fail: embed is updated with the result, no action is taken.
-5. A configurable cooldown prevents back-to-back votes.
+---
 
-### `/server start` / `/server stop` — Admin Commands
+## Voto do Servidor e Controle do Painel
 
-Restricted to roles listed under `server-vote.admin-roles` (or Discord Administrator permission if the list is empty).
+### `/server vote` — Votação da Comunidade
 
-| Discord Slash Command | Action |
+Qualquer membro do Discord (opcionalmente restrito a cargos específicos) pode iniciar uma votação para reiniciar o servidor.
+
+1. O membro executa `/server vote` no Discord.
+2. O bot posta um embed com botões **✅ Sim** e **❌ Não**.
+3. Cada membro pode mudar seu voto durante a janela de votação.
+4. Ao encerrar a janela, o bot avalia o resultado:
+   - Requer `min-votes` votos **e** `threshold`% de sim para aprovar.
+   - Se aprovado: RCON transmite aviso no jogo, depois o Pterodactyl envia sinal `restart` após `warn-seconds`.
+   - Se reprovado: embed é atualizado com o resultado, nenhuma ação é tomada.
+5. Um cooldown configurável impede votações consecutivas.
+
+### `/server start` / `/server stop` — Comandos Admin
+
+Restrito a cargos listados em `server-vote.admin-roles` (ou permissão de Administrador do Discord se a lista estiver vazia).
+
+| Slash Command Discord | Ação |
 | --- | --- |
-| `/server vote` | Start a community restart vote |
-| `/server start` | Send `start` signal to Pterodactyl (server offline → online) |
-| `/server stop` | Broadcast RCON warning then send `stop` signal |
+| `/server vote` | Iniciar votação comunitária de reinicialização |
+| `/server start` | Enviar sinal `start` ao Pterodactyl |
+| `/server stop` | Transmitir aviso RCON e enviar sinal `stop` |
 
-### Configuration — `discord/panel.yml`
+### Configuração — `discord/panel.yml`
 
 ```yaml
-panel: pterodactyl          # panel type (only pterodactyl supported)
+panel: pterodactyl
 
 pterodactyl:
   base-url: "https://panel.example.com"
-  client-api-key: ""        # Account → API Credentials in your panel
-  server-uuid: ""           # Server UUID from the panel URL
+  client-api-key: ""
+  server-uuid: ""
 
 rcon:
   host: "127.0.0.1"
@@ -198,29 +206,21 @@ rcon:
 
 server-vote:
   enabled: true
-  voter-roles: []           # role IDs/names allowed to start a vote (empty = anyone)
-  admin-roles: []           # role IDs/names for /server start|stop (empty = ADMINISTRATOR perm)
-  min-votes: 3              # minimum votes before threshold is evaluated
-  threshold: 0.6            # 60% yes required to pass
-  window-seconds: 120       # voting window
-  cooldown-minutes: 30      # cooldown between votes
-  warn-seconds: 60          # RCON warning time before restart executes
-  channel: "default"        # channel key or numeric Discord channel ID
+  voter-roles: []
+  admin-roles: []
+  min-votes: 3
+  threshold: 0.6
+  window-seconds: 120
+  cooldown-minutes: 30
+  warn-seconds: 60
+  channel: "default"
 ```
 
 ---
 
-## GitHub Actions Integration
+## Permissões
 
-The Discord module can monitor GitHub Actions workflows and allow staff to trigger them from Discord.
-
-Key classes: `GitHubActionsManager`, `WorkflowPoller`, `WorkflowTriggerRecord`
-
----
-
-## Permissions
-
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.discord.link` | Link Discord account | true |
-| `nexusprism.admin` | Admin Discord commands | OP |
+| `nexusprism.discord.link` | Vincular conta do Discord | true |
+| `nexusprism.admin` | Comandos administrativos do Discord | OP |

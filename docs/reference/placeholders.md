@@ -1,192 +1,193 @@
-# PlaceholderAPI Reference
+# Referência PlaceholderAPI
 
-NexusPrism registers its own PlaceholderAPI expansion under the `nexusprism` identifier. All placeholders follow the pattern `%nexusprism_<name>%`.
+O NexusPrism registra sua própria expansão PlaceholderAPI sob o identificador `nexusprism`. Todos os placeholders seguem o padrão `%nexusprism_<nome>%`.
 
-**Requires:** [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) (soft dependency — install separately)
-
----
-
-## Economy
-
-| Placeholder | Description | Example |
-| --- | --- | --- |
-| `%nexusprism_money%` | Player's current money balance | `12500.00` |
+**Requer:** [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) (dependência suave — instale separadamente)
 
 ---
 
-## Essentials
+## Economia
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_playtime%` | Total playtime (formatted) | `3d 12h 45m` |
-| `%nexusprism_playtime_minutes%` | Total playtime in minutes | `5085` |
-| `%nexusprism_homes%` | Number of homes set | `3` |
-| `%nexusprism_afk%` | `true` if player is AFK | `false` |
-| `%nexusprism_afk_status%` | Human-readable AFK status | `AFK` / `Online` |
+| `%nexusprism_money%` | Saldo atual de dinheiro do jogador | `12500.00` |
 
 ---
 
-## Clans
+## Essenciais
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_clan_name%` | Player's clan name | `Shadowborn` |
-| `%nexusprism_clan_tag%` | Clan tag | `SHD` |
-| `%nexusprism_clan_role%` | Player's role in clan | `Owner` / `Officer` / `Member` |
-| `%nexusprism_clan_level%` | Clan's current level | `5` |
-| `%nexusprism_clan_members%` | Online member count | `8` |
-| `%nexusprism_clan_bank%` | Clan bank balance | `75000.00` |
+| `%nexusprism_playtime%` | Tempo total de jogo (formatado) | `3d 12h 45m` |
+| `%nexusprism_playtime_minutes%` | Tempo total de jogo em minutos | `5085` |
+| `%nexusprism_homes%` | Número de homes definidos | `3` |
+| `%nexusprism_afk%` | `true` se o jogador estiver AFK | `false` |
+| `%nexusprism_afk_status%` | Status AFK legível por humanos | `AFK` / `Online` |
 
-Returns empty string if the player is not in a clan.
+---
+
+## Clãs
+
+| Placeholder | Descrição | Exemplo |
+| --- | --- | --- |
+| `%nexusprism_clan_name%` | Nome do clã do jogador | `Shadowborn` |
+| `%nexusprism_clan_tag%` | Tag do clã | `SHD` |
+| `%nexusprism_clan_role%` | Cargo do jogador no clã | `Owner` / `Officer` / `Member` |
+| `%nexusprism_clan_level%` | Nível atual do clã | `5` |
+| `%nexusprism_clan_members%` | Contagem de membros online | `8` |
+| `%nexusprism_clan_bank%` | Saldo do banco do clã | `75000.00` |
+
+Retorna string vazia se o jogador não estiver em um clã.
 
 ---
 
 ## Crystal Defense
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_crystal_wave%` | Current wave number | `7` |
-| `%nexusprism_crystal_health%` | Crystal HP remaining | `680.0` |
-| `%nexusprism_crystal_points%` | Player's kill points in current game | `145` |
-| `%nexusprism_crystal_arena%` | Arena name the player is in | `arena1` |
+| `%nexusprism_crystal_wave%` | Número da onda atual | `7` |
+| `%nexusprism_crystal_health%` | HP restante do cristal | `680.0` |
+| `%nexusprism_crystal_points%` | Pontos de abate do jogador no jogo atual | `145` |
+| `%nexusprism_crystal_arena%` | Nome da arena em que o jogador está | `arena1` |
 
-Returns empty string if the player is not in a Crystal Defense game.
+Retorna string vazia se o jogador não estiver em um jogo de Crystal Defense.
 
 ---
 
-## Security
+## Segurança
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_authenticated%` | `true` if the player is logged in | `true` |
-| `%nexusprism_auth_status%` | Human-readable auth status | `Authenticated` / `Pending` |
+| `%nexusprism_authenticated%` | `true` se o jogador estiver logado | `true` |
+| `%nexusprism_auth_status%` | Status de autenticação legível | `Authenticated` / `Pending` |
 
 ---
 
 ## Votifier
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_votes_total%` | Total lifetime votes | `127` |
-| `%nexusprism_vote_streak%` | Current vote streak length | `12` |
+| `%nexusprism_votes_total%` | Total de votos acumulados | `127` |
+| `%nexusprism_vote_streak%` | Tamanho da sequência de votos atual | `12` |
 
 ---
 
-## Player Stats
+## Estatísticas do Jogador
 
-⚠️ Item/machine/energy/research stat placeholders (blocks broken, machines placed, items
-crafted, energy generated, research unlocked) were removed 2026-08-06 — the underlying
-`player_stats` table and the systems that would feed it were confirmed dead (no code ever
-persisted or fed those values; see `ECOSYSTEM.md`). Only generic player-level stats remain:
+⚠️ Placeholders de estatísticas de item/máquina/energia/pesquisa (blocos quebrados, máquinas
+colocadas, itens criados, energia gerada, pesquisa desbloqueada) foram removidos em
+2026-08-06 — a tabela `player_stats` subjacente e os sistemas que a alimentariam foram
+confirmados como código morto (nenhum código jamais persistiu ou alimentou esses valores;
+veja `ECOSYSTEM.md`). Apenas estatísticas genéricas de nível do jogador permanecem:
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_player_level%` | Player NexusPrism level | `15` |
+| `%nexusprism_player_level%` | Nível NexusPrism do jogador | `15` |
 
 ---
 
 ## LuckPerms
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_lp_prefix%` | Player's LuckPerms prefix | `&6[VIP]` |
-| `%nexusprism_lp_suffix%` | Player's LuckPerms suffix | `&7✦` |
+| `%nexusprism_lp_prefix%` | Prefixo LuckPerms do jogador | `&6[VIP]` |
+| `%nexusprism_lp_suffix%` | Sufixo LuckPerms do jogador | `&7✦` |
 
-These require LuckPerms to be installed.
+Requerem que o LuckPerms esteja instalado.
 
 ---
 
 ## MMO
 
-**Module required** (`nexusprism-mmo`).
+**Módulo obrigatório** (`nexusprism-mmo`).
 
-| Placeholder | Returns | Notes |
+| Placeholder | Retorna | Notas |
 | --- | --- | --- |
-| `%nexusprism_mmo_level%` | MMO character level | integer |
-| `%nexusprism_mmo_mana%` | Current mana | integer |
-| `%nexusprism_mmo_mana_max%` | Maximum mana | integer |
-| `%nexusprism_mmo_stat_points%` | Unspent stat points | integer |
-| `%nexusprism_mmo_stat_strength%` | STRENGTH value | integer |
-| `%nexusprism_mmo_stat_dexterity%` | DEXTERITY value | integer |
-| `%nexusprism_mmo_stat_intelligence%` | INTELLIGENCE value | integer |
-| `%nexusprism_mmo_stat_vitality%` | VITALITY value | integer |
-| `%nexusprism_mmo_stat_endurance%` | ENDURANCE value | integer |
-| `%nexusprism_mmo_stat_luck%` | LUCK value | integer |
-| `%nexusprism_mmo_skill_<treeid>%` | Skill tree level | e.g. `mmo_skill_warrior` |
-| `%nexusprism_mmo_profession_<profid>%` | Profession level | e.g. `mmo_profession_mining` |
+| `%nexusprism_mmo_level%` | Nível de personagem MMO | inteiro |
+| `%nexusprism_mmo_mana%` | Mana atual | inteiro |
+| `%nexusprism_mmo_mana_max%` | Mana máxima | inteiro |
+| `%nexusprism_mmo_stat_points%` | Pontos de atributo não gastos | inteiro |
+| `%nexusprism_mmo_stat_strength%` | Valor de FORÇA | inteiro |
+| `%nexusprism_mmo_stat_dexterity%` | Valor de DESTREZA | inteiro |
+| `%nexusprism_mmo_stat_intelligence%` | Valor de INTELIGÊNCIA | inteiro |
+| `%nexusprism_mmo_stat_vitality%` | Valor de VITALIDADE | inteiro |
+| `%nexusprism_mmo_stat_endurance%` | Valor de RESISTÊNCIA | inteiro |
+| `%nexusprism_mmo_stat_luck%` | Valor de SORTE | inteiro |
+| `%nexusprism_mmo_skill_<treeid>%` | Nível na árvore de habilidades | ex: `mmo_skill_warrior` |
+| `%nexusprism_mmo_profession_<profid>%` | Nível na profissão | ex: `mmo_profession_mining` |
 
 ---
 
-## Events
+## Eventos
 
-`bloodmoon_*` resolve even without the Events module (returning `false` / `1.00`).
+`bloodmoon_*` funciona mesmo sem o módulo Events (retorna `false` / `1.00`).
 
-| Placeholder | Returns | Notes |
+| Placeholder | Retorna | Notas |
 | --- | --- | --- |
-| `%nexusprism_bloodmoon_active%` | `true` / `false` | server-wide |
-| `%nexusprism_bloodmoon_multiplier%` | Kill-pay multiplier | `1.00` when inactive |
-| `%nexusprism_sacrifice_streak%` | Survival streak | **Module required** |
-| `%nexusprism_in_sacrifice%` | `true` / `false` | **Module required** |
-| `%nexusprism_isekai_active%` | `true` / `false` | **Module required** |
+| `%nexusprism_bloodmoon_active%` | `true` / `false` | servidor inteiro |
+| `%nexusprism_bloodmoon_multiplier%` | Multiplicador de recompensa | `1.00` quando inativo |
+| `%nexusprism_sacrifice_streak%` | Sequência de sobrevivência | **Módulo obrigatório** |
+| `%nexusprism_in_sacrifice%` | `true` / `false` | **Módulo obrigatório** |
+| `%nexusprism_isekai_active%` | `true` / `false` | **Módulo obrigatório** |
 
 ---
 
 ## Traits & RNG
 
-**Module required** (`nexusprism-traits`).
+**Módulo obrigatório** (`nexusprism-traits`).
 
-| Placeholder | Returns | Notes |
+| Placeholder | Retorna | Notas |
 | --- | --- | --- |
-| `%nexusprism_traits_research%` | Research/gacha level | integer |
-| `%nexusprism_traits_count%` | Number of assigned trait cards | integer |
-| `%nexusprism_traits_cards%` | Comma-separated card names | `none` if empty |
+| `%nexusprism_traits_research%` | Nível de pesquisa/gacha | inteiro |
+| `%nexusprism_traits_count%` | Quantidade de cartas de trait atribuídas | inteiro |
+| `%nexusprism_traits_cards%` | Lista separada por vírgula das cartas | `none` se vazio |
 
 ---
 
-## Jobs
+## Profissões (Jobs)
 
-**Module required** (`nexusprism-economy`).
+**Módulo obrigatório** (`nexusprism-economy`).
 
-| Placeholder | Returns | Notes |
+| Placeholder | Retorna | Notas |
 | --- | --- | --- |
-| `%nexusprism_job%` | Active job ID | `none` if no job |
-| `%nexusprism_job_level%` | Level in active job | `0` if no job |
-| `%nexusprism_job_xp%` | XP in active job | `0` if no job |
+| `%nexusprism_job%` | ID do emprego ativo | `none` se sem emprego |
+| `%nexusprism_job_level%` | Nível no emprego ativo | `0` se sem emprego |
+| `%nexusprism_job_xp%` | XP no emprego ativo | `0` se sem emprego |
 
 ---
 
 ## Discord
 
-**Module required** (`nexusprism-discord`).
+**Módulo obrigatório** (`nexusprism-discord`).
 
-| Placeholder | Returns | Notes |
+| Placeholder | Retorna | Notas |
 | --- | --- | --- |
 | `%nexusprism_discord_linked%` | `true` / `false` | — |
-| `%nexusprism_discord_id%` | Discord snowflake ID | empty string if not linked |
+| `%nexusprism_discord_id%` | ID snowflake do Discord | string vazia se não vinculado |
 
 ---
 
-## Core / Misc
+## Core / Diversos
 
-| Placeholder | Description | Example |
+| Placeholder | Descrição | Exemplo |
 | --- | --- | --- |
-| `%nexusprism_version%` | Plugin version string | `2.0.0-BETA` |
-| `%nexusprism_player%` | Player username | `Steve` |
-| `%nexusprism_uuid%` | Player UUID | `069a79f4-...` |
+| `%nexusprism_version%` | String da versão do plugin | `2.0.0-BETA` |
+| `%nexusprism_player%` | Nome de usuário do jogador | `Steve` |
+| `%nexusprism_uuid%` | UUID do jogador | `069a79f4-...` |
 
 ---
 
-## Usage in Scoreboards / TAB
+## Uso em Scoreboards / TAB
 
 ```yaml
-# Example with TAB plugin
+# Exemplo com o plugin TAB
 header: "&bNexusPrism &7%nexusprism_version%"
 tablist-name: "%nexusprism_lp_prefix%%player_name%"
 scoreboard:
-  title: "&b&lYour Stats"
+  title: "&b&lSuas Estatísticas"
   lines:
-    - "&7Money: &a$%nexusprism_money%"
-    - "&7Votes: &e%nexusprism_votes_total% &7(streak: %nexusprism_vote_streak%)"
-    - "&7Clan: &f%nexusprism_clan_name%"
-    - "&7Playtime: &f%nexusprism_playtime%"
+    - "&7Dinheiro: &a$%nexusprism_money%"
+    - "&7Votos: &e%nexusprism_votes_total% &7(sequência: %nexusprism_vote_streak%)"
+    - "&7Clã: &f%nexusprism_clan_name%"
+    - "&7Tempo de Jogo: &f%nexusprism_playtime%"
 ```

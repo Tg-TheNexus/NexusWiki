@@ -1,100 +1,83 @@
-# Holograms Module
+# Módulo Holograms
 
-The Holograms module creates **floating text and item displays** in the world, backed by `TextDisplay` and `ItemDisplay` entities. All holograms are defined in `holograms.yml` and survive server restarts.
+O módulo Holograms cria **textos e displays de itens flutuantes** no mundo, usando entidades `TextDisplay` e `ItemDisplay`. Todos os hologramas são definidos em `holograms.yml` e sobrevivem a reinicializações do servidor.
 
 ---
 
-## Line Types
+## Tipos de Linha
 
-| Type | Description |
+| Tipo | Descrição |
 | --- | --- |
-| `TEXT` | Formatted text line. Supports `&` color codes and PlaceholderAPI. |
-| `ITEM` | Floating item icon (any `Material`). |
-| `HEAD` | Player skull (fetches skin asynchronously). |
+| `TEXT` | Linha de texto formatado. Suporta códigos de cor `&` e PlaceholderAPI. |
+| `ITEM` | Ícone de item flutuante (qualquer `Material`). |
+| `HEAD` | Cabeça de jogador (skin obtida de forma assíncrona). |
 
-Lines are stacked upward with 0.3-block spacing. Line `0` is the topmost line.
+As linhas são empilhadas para cima com espaçamento de 0,3 blocos. A linha `0` é a mais alta.
 
 ---
 
-## Commands
+## Comandos
 
-All subcommands require `nexusprism.holograms.admin`.
+Todos os subcomandos requerem `nexusprism.holograms.admin`.
 
-| Command | Description |
+| Comando | Descrição |
 | --- | --- |
-| `/holo create <id>` | Create a hologram at your location |
-| `/holo delete <id>` | Delete a hologram |
-| `/holo addline <id> text <text…>` | Append a text line |
-| `/holo addline <id> item <MATERIAL>` | Append an item display line |
-| `/holo addline <id> head <player>` | Append a player skull line |
-| `/holo setline <id> <line#> <text…>` | Replace a text line (0-based index) |
-| `/holo removeline <id> <line#>` | Remove a line (0-based index) |
-| `/holo move <id>` | Move hologram to your current location |
-| `/holo list` | List all hologram IDs |
-| `/holo info <id>` | Show world, coordinates, visibility, and lines |
-| `/holo show <id> <player>` | Force a player to see a `PLAYERS`-mode hologram |
-| `/holo hide <id> <player>` | Remove a player from the `PLAYERS` allowlist |
-| `/holo reload` | Reload all holograms from `holograms.yml` |
+| `/holo create <id>` | Criar um holograma na sua localização |
+| `/holo delete <id>` | Deletar um holograma |
+| `/holo addline <id> text <texto…>` | Adicionar uma linha de texto |
+| `/holo addline <id> item <MATERIAL>` | Adicionar uma linha de display de item |
+| `/holo addline <id> head <jogador>` | Adicionar uma linha de cabeça de jogador |
+| `/holo setline <id> <linha#> <texto…>` | Substituir uma linha de texto (índice base 0) |
+| `/holo removeline <id> <linha#>` | Remover uma linha (índice base 0) |
+| `/holo move <id>` | Mover o holograma para a sua localização atual |
+| `/holo list` | Listar todos os IDs de hologramas |
+| `/holo info <id>` | Mostrar mundo, coordenadas, visibilidade e linhas |
+| `/holo show <id> <jogador>` | Forçar um jogador a ver um holograma no modo `PLAYERS` |
+| `/holo hide <id> <jogador>` | Remover um jogador da lista de permissão `PLAYERS` |
+| `/holo reload` | Recarregar todos os hologramas de `holograms.yml` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.holograms.admin` | All hologram management commands | OP |
+| `nexusprism.holograms.admin` | Todos os comandos de gerenciamento de hologramas | OP |
 
 ---
 
-## Visibility Modes
+## Modos de Visibilidade
 
-| Mode | Behavior |
+| Modo | Comportamento |
 | --- | --- |
-| `GLOBAL` | Visible to all players |
-| `PERMISSION` | Visible only to players with the node set in `permission:` |
-| `PLAYERS` | Visible only to UUIDs listed in `allowed-players:` |
+| `GLOBAL` | Visível para todos os jogadores |
+| `PERMISSION` | Visível apenas para jogadores com o nó definido em `permission:` |
+| `PLAYERS` | Visível apenas para os UUIDs listados em `allowed-players:` |
 
 ---
 
-## Configuration (`holograms.yml`)
-
-All holograms are stored and managed in a single `holograms.yml` file. Use commands to edit; the file is saved automatically on every change.
+## Configuração (`holograms.yml`)
 
 ```yaml
-# Example hologram
 lobby-board:
   world: world
   x: 0.5
   y: 65.0
   z: 0.5
-  visibility: GLOBAL        # GLOBAL | PERMISSION | PLAYERS
-  permission: ""            # Required when visibility: PERMISSION
-  allowed-players:          # UUIDs; required when visibility: PLAYERS
+  visibility: GLOBAL
+  permission: ""
+  allowed-players:
     - "550e8400-e29b-41d4-a716-446655440000"
   lines:
     - type: TEXT
-      content: "&b&lTop Players"
+      content: "&b&lTop Jogadores"
     - type: HEAD
       player: "Notch"
     - type: TEXT
-      content: "&71. &fNotch &7— &a1,200pts"
+      content: "&71. &fNotch &7— &a1.200pts"
     - type: ITEM
       material: DIAMOND
 ```
 
-### Configuration Fields
-
-| Field | Description |
-| --- | --- |
-| `world` | World name where the hologram is spawned |
-| `x` / `y` / `z` | Position of the bottommost line |
-| `visibility` | `GLOBAL`, `PERMISSION`, or `PLAYERS` |
-| `permission` | Permission node (used when `visibility: PERMISSION`) |
-| `allowed-players` | List of UUID strings (used when `visibility: PLAYERS`) |
-| `lines[].type` | `TEXT`, `ITEM`, or `HEAD` |
-| `lines[].content` | Text content (for `TEXT` lines); supports `&` color codes |
-| `lines[].material` | Material name (for `ITEM` lines) |
-| `lines[].player` | Player name (for `HEAD` lines) |
-
 !!! tip
-    Holograms are re-spawned from scratch on `/holo reload` and on server start. They use display entities — no armor stands involved.
+    Os hologramas são recriados do zero ao usar `/holo reload` e ao iniciar o servidor. Eles usam entidades de display — sem armor stands.

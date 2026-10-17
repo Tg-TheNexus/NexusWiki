@@ -1,54 +1,57 @@
-# Structures Module
+# Módulo Structures
 
-NexusPrism owns the **hook**, not the loot content. It listens to Paper's
-`LootGenerateEvent` and dispatches to whatever addon has registered a
-[`StructureProvider`](#addon-api) — it ships no structure loot table of its own.
+O NexusPrism possui apenas o **hook**, não o conteúdo de loot. Ele escuta o
+`LootGenerateEvent` do Paper e repassa para qualquer addon que tenha registrado um
+[`StructureProvider`](#api-de-addon) — ele não fornece nenhuma tabela de loot de estruturas
+própria.
 
-> Previously this module had its own YAML-driven custom loot table system
-> (`structures/loot-tables.yml`). That was removed 2026-08-06 — the item-resolution part of
-> it was confirmed non-functional (always resolved to nothing), and any real loot content
-> now belongs to addon plugins via the `StructureProvider` API below. See
-> `NexusATS/docs/planning/PLAN-presplit-core-infra.md` for the design notes if you're
-> building a replacement loot-table system in NexusATS.
-
----
-
-## How It Works
-
-1. A structure chest generates loot (any vanilla structure, or a modded one).
-2. NexusPrism identifies the loot table key (e.g. `minecraft:chests/simple_dungeon`).
-3. Every registered `StructureProvider` is asked for extra items via `generateLoot(...)`.
-4. Whatever items the providers return are appended to the chest.
-
-No commands, no config file — loot injection is fully passive and entirely addon-driven.
+> Anteriormente este módulo tinha seu próprio sistema de tabelas de loot personalizadas em
+> YAML (`structures/loot-tables.yml`). Isso foi removido em 2026-08-06 — a parte de resolução
+> de itens foi confirmada como não-funcional (sempre resolvia para nada), e qualquer conteúdo
+> real de loot agora pertence aos plugins addon via a API `StructureProvider` abaixo. Veja
+> `NexusATS/docs/planning/PLAN-presplit-core-infra.md` para as notas de design se você
+> estiver construindo um sistema substituto de tabelas de loot no NexusATS.
 
 ---
 
-## Addon API
+## Como Funciona
 
-Addon plugins register a custom loot provider via `StructureRegistry`
+1. Um baú de estrutura gera loot (qualquer estrutura vanilla, ou uma modificada).
+2. O NexusPrism identifica a chave da tabela de loot (ex: `minecraft:chests/simple_dungeon`).
+3. Cada `StructureProvider` registrado é consultado por itens extras via `generateLoot(...)`.
+4. Os itens retornados pelos provedores são adicionados ao baú.
+
+Nenhum comando, nenhum arquivo de configuração — a injeção de loot é totalmente passiva e
+inteiramente controlada por addons.
+
+---
+
+## API de Addon
+
+Plugins addon registram um provedor de loot personalizado via `StructureRegistry`
 (`io.github.otiger.nexusprism.api.structures`):
 
 ```java
-public class MyStructureProvider implements StructureProvider {
+public class MeuStructureProvider implements StructureProvider {
     @Override
-    public String getProviderId() { return "my_addon"; }
+    public String getProviderId() { return "meu_addon"; }
 
     @Override
     public List<ItemStack> generateLoot(String lootTableKey, Inventory inventory, Random rng) {
         if (!handles(lootTableKey)) return List.of();
-        // ... roll your own loot table here ...
-        return List.of(myItem);
+        // ... calcule sua própria tabela de loot aqui ...
+        return List.of(meuItem);
     }
 }
 
 // onEnable():
-StructureRegistry.register(new MyStructureProvider());
+StructureRegistry.register(new MeuStructureProvider());
 
 // onDisable():
 StructureRegistry.unregister(provider);
 ```
 
-`generateLoot` receives the full loot table key, the chest inventory (read-only reference),
-and a seeded `Random` — everything needed to implement any custom loot table format
-independently, without NexusPrism needing to know about it.
+`generateLoot` recebe a chave completa da tabela de loot, o inventário do baú (referência
+somente-leitura), e um `Random` com seed — tudo o que é necessário para implementar qualquer
+formato de tabela de loot personalizado de forma independente, sem que o NexusPrism precise
+saber sobre isso.

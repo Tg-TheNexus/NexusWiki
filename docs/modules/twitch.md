@@ -1,62 +1,62 @@
-# Twitch Integration Module
+# Módulo de Integração Twitch
 
-The Twitch module connects your Minecraft server to Twitch. Players can **link their Twitch accounts**, staff are notified when linked players go live, the Twitch chat is relayed in-game, and admins can run **viewer giveaways**.
+O módulo Twitch conecta seu servidor Minecraft ao Twitch. Os jogadores podem **vincular suas contas do Twitch**, a equipe é notificada quando jogadores vinculados ficam ao vivo, o chat do Twitch é retransmitido no jogo e os admins podem realizar **sorteios para espectadores**.
 
 ---
 
-## Features
+## Funcionalidades
 
-| Feature | Description |
+| Funcionalidade | Descrição |
 | --- | --- |
-| **Account Linking** | Link Minecraft ↔ Twitch via an in-chat verification code |
-| **Live Tag** | Prefixes the chat with `[LIVE]` when a player is streaming |
-| **Go-Live Announcements** | Broadcasts when a linked player starts/stops streaming |
-| **Chat Relay** | Twitch chat messages appear in-game |
-| **Giveaways** | Draw a random eligible linked viewer and reward them |
-| **Viewer Rewards** | Automatic periodic raffle for viewers watching linked streamers |
+| **Vinculação de Contas** | Vincula Minecraft ↔ Twitch via código de verificação no chat |
+| **Tag [LIVE]** | Prefixia o chat com `[LIVE]` quando um jogador está transmitindo |
+| **Anúncios de Ao Vivo** | Transmite quando um jogador vinculado inicia/encerra uma transmissão |
+| **Retransmissão de Chat** | Mensagens do chat do Twitch aparecem no jogo |
+| **Sorteios** | Sorteia um espectador vinculado elegível aleatoriamente e o recompensa |
+| **Recompensas para Espectadores** | Sorteio periódico automático para espectadores assistindo a streamers vinculados |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/twitch link <username>` | Start linking your Twitch account | `nexusprism.twitch.use` |
-| `/twitch unlink` | Unlink your Twitch account | `nexusprism.twitch.use` |
-| `/twitch status` | Check your link status | `nexusprism.twitch.use` |
-| `/twitch approve <player>` | Approve a pending link | `nexusprism.twitch.staff` |
-| `/twitch reject <player>` | Reject a pending link | `nexusprism.twitch.staff` |
-| `/twitch pending` | List pending link requests | `nexusprism.twitch.staff` |
-| `/twitch giveaway <streamer>` | Draw a giveaway winner | `nexusprism.twitch.staff` |
-| `/twitch reload` | Reload Twitch config | `nexusprism.twitch.admin` |
+| `/twitch link <usuário>` | Iniciar vinculação da conta Twitch | `nexusprism.twitch.use` |
+| `/twitch unlink` | Desvincular conta Twitch | `nexusprism.twitch.use` |
+| `/twitch status` | Verificar status da vinculação | `nexusprism.twitch.use` |
+| `/twitch approve <jogador>` | Aprovar uma vinculação pendente | `nexusprism.twitch.staff` |
+| `/twitch reject <jogador>` | Rejeitar uma vinculação pendente | `nexusprism.twitch.staff` |
+| `/twitch pending` | Listar solicitações de vinculação pendentes | `nexusprism.twitch.staff` |
+| `/twitch giveaway <streamer>` | Sortear um vencedor | `nexusprism.twitch.staff` |
+| `/twitch reload` | Recarregar configuração do Twitch | `nexusprism.twitch.admin` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.twitch.use` | Basic Twitch commands | true |
-| `nexusprism.twitch.staff` | Approve links, run giveaways | OP |
-| `nexusprism.twitch.admin` | Reload config | OP |
+| `nexusprism.twitch.use` | Comandos básicos do Twitch | true |
+| `nexusprism.twitch.staff` | Aprovar vinculações, realizar sorteios | OP |
+| `nexusprism.twitch.admin` | Recarregar configuração | OP |
 
 ---
 
-## Setup
+## Configuração
 
-### 1. Create a Twitch Application
+### 1. Criar um Aplicativo Twitch
 
-1. Go to [dev.twitch.tv/console](https://dev.twitch.tv/console) and create an application
-2. Set the OAuth redirect to `http://localhost`
-3. Copy the **Client ID** and **Client Secret**
+1. Acesse [dev.twitch.tv/console](https://dev.twitch.tv/console) e crie um aplicativo
+2. Defina o redirecionamento OAuth como `http://localhost`
+3. Copie o **Client ID** e o **Client Secret**
 
-### 2. Create a Bot Account
+### 2. Criar uma Conta de Bot
 
-1. Create a Twitch account for the bot (or use your own)
-2. Go to [twitchapps.com/tmi/](https://twitchapps.com/tmi/) to get an OAuth token
-3. Add the bot as a moderator in your verification channel
+1. Crie uma conta Twitch para o bot (ou use a sua própria)
+2. Acesse [twitchapps.com/tmi/](https://twitchapps.com/tmi/) para obter um token OAuth
+3. Adicione o bot como moderador no seu canal de verificação
 
-### 3. Configure (`twitch/config.yml`)
+### 3. Configurar (`twitch/config.yml`)
 
 ```yaml
 bot:
@@ -68,21 +68,21 @@ bot:
   verification-channel: "your_server_twitch_channel"
 
 link:
-  require-staff-approval: true  # Staff must approve before link activates
+  require-staff-approval: true  # A equipe deve aprovar antes de a vinculação ser ativada
   code-expiry-seconds: 300
 
 stream-poll:
-  interval-seconds: 60          # Check if streamers are live every 60s
+  interval-seconds: 60          # Verificar se streamers estão ao vivo a cada 60s
 
 live-tag:
   enabled: true
-  format: "§c[LIVE] §r"         # Prepended to chat format when streaming
+  format: "§c[LIVE] §r"         # Prefixado ao formato de chat ao transmitir
 
 announcements:
   go-live:
     enabled: true
     message: "§6[Twitch] §e{player} §7is now live! §f{title} §7— §fttwitch.tv/{channel}"
-    discord-channel: "announcements"   # Discord channel key for cross-posting
+    discord-channel: "announcements"   # Chave de canal do Discord para postagem cruzada
   go-offline:
     enabled: false
     message: "§6[Twitch] §e{player} §7finished their stream."
@@ -106,49 +106,49 @@ viewer-reward:
 
 ---
 
-## Account Linking Flow
+## Fluxo de Vinculação de Conta
 
 ```cs
-Player runs /twitch link <username>
+Jogador executa /twitch link <usuário>
         │
         ▼
-Bot sends a 5-character code in the verification Twitch channel
+Bot envia um código de 5 caracteres no canal Twitch de verificação
         │
         ▼
-Player types !verify <code> in the Twitch chat
+Jogador digita !verify <código> no chat do Twitch
         │
         ▼
-[If require-staff-approval: true]
-Staff approves with /twitch approve <player>
+[Se require-staff-approval: true]
+Equipe aprova com /twitch approve <jogador>
         │
         ▼
-Link is active — live tag and announcements apply
+Vinculação ativa — tag ao vivo e anúncios se aplicam
 ```
 
 ---
 
-## Giveaway System
+## Sistema de Sorteio
 
-Staff can run `/twitch giveaway <streamer>` to:
+A equipe pode executar `/twitch giveaway <streamer>` para:
 
-1. Fetch all currently linked viewers watching that streamer's channel
-2. Filter to viewers who sent a message in the last `active-viewer-window-minutes`
-3. Randomly select one eligible viewer
-4. Execute the configured `command` (or give the `key-item`) to the winner
-5. Announce the winner in-game and in Twitch chat
+1. Buscar todos os espectadores vinculados assistindo ao canal daquele streamer
+2. Filtrar espectadores que enviaram uma mensagem nos últimos `active-viewer-window-minutes`
+3. Selecionar aleatoriamente um espectador elegível
+4. Executar o `command` configurado (ou dar o `key-item`) ao vencedor
+5. Anunciar o vencedor no jogo e no chat do Twitch
 
-!!! note "Bot Permissions Required"
-    For the viewer reward system to fetch the chatters list, the bot account must have the `moderator:read:chatters` OAuth scope and be a moderator in the streamer's channel.
+!!! note "Permissões de Bot Necessárias"
+    Para que o sistema de recompensas para espectadores busque a lista de chatters, a conta do bot deve ter o escopo OAuth `moderator:read:chatters` e ser moderador no canal do streamer.
 
 ---
 
-## Message Placeholders
+## Placeholders de Mensagens
 
-| Placeholder | Description |
+| Placeholder | Descrição |
 | --- | --- |
-| `{player}` | Minecraft username |
-| `{twitch_name}` | Twitch display name |
-| `{title}` | Stream title |
-| `{channel}` | Twitch channel name |
-| `{user}` | Twitch chatter display name |
-| `{message}` | Twitch chat message content |
+| `{player}` | Nome de usuário do Minecraft |
+| `{twitch_name}` | Nome de exibição do Twitch |
+| `{title}` | Título da transmissão |
+| `{channel}` | Nome do canal do Twitch |
+| `{user}` | Nome de exibição do espectador no Twitch |
+| `{message}` | Conteúdo da mensagem no chat do Twitch |

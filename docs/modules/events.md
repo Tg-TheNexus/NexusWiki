@@ -1,376 +1,298 @@
-# Events Module
+# Módulo Events
 
-*Last updated: 2026-03-22*
+*Última atualização: 2026-03-22*
 
-The Events module adds **world-scale dynamic events** that affect all players simultaneously — starting with the **Blood Moon**, which transforms nights into increasingly dangerous survival challenges tied to a per-player streak and a **Sacrifice Arc**.
+O módulo Events adiciona **eventos dinâmicos em escala mundial** que afetam todos os jogadores simultaneamente — começando com a **Lua de Sangue**, que transforma as noites em desafios de sobrevivência cada vez mais perigosos, vinculados a uma sequência por jogador e a um **Arco do Sacrifício**.
 
 ---
 
-## Blood Moon
+## Lua de Sangue
 
-The Blood Moon automatically activates each night when world time crosses **tick 13000** and deactivates at dawn (**tick 23000**). Server operators can also control it manually.
+A Lua de Sangue é ativada automaticamente toda noite quando o tempo do mundo ultrapassa o **tick 13000** e é desativada ao amanhecer (**tick 23000**). Operadores do servidor também podem controlá-la manualmente.
 
-### Effects While Active
+### Efeitos Enquanto Ativa
 
-| Effect | Detail |
+| Efeito | Detalhe |
 | --- | --- |
-| Mob level bonus | All Leveled Mob rolls receive **+2** |
-| Hunter job pay | Multiplied by the configured `kill-pay-multiplier` (default ×1.5) |
-| Particle rain | Red DUST particles spawn around every online player every 3 seconds |
-| Horde waves | A mob horde spawns every `horde-interval-ticks` (default 5 min) |
+| Bônus de nível de mob | Todas as rolagens de Mobs com Nível recebem **+2** |
+| Pagamento do emprego Caçador | Multiplicado pelo `kill-pay-multiplier` configurado (padrão ×1,5) |
+| Chuva de partículas | Partículas DUST vermelhas aparecem ao redor de cada jogador online a cada 3 segundos |
+| Ondas de horda | Uma horda de mobs aparece a cada `horde-interval-ticks` (padrão 5 min) |
 
-At **dawn** (deactivation), every online player who survived earns **+1** to their survival streak.
+Ao **amanhecer** (desativação), todo jogador online que sobreviveu ganha **+1** em sua sequência de sobrevivência.
 
-### Horde Waves
+### Ondas de Horda
 
-Each horde interval, a random online player is chosen as the target. **30 mobs** spawn in a ring 18 blocks around them from this pool: Zombie, Skeleton, Creeper, Spider, Witch, Husk, Drowned. All horde mobs are named `[Blood Moon]` in dark red.
+A cada intervalo de horda, um jogador online aleatório é escolhido como alvo. **30 mobs** aparecem em um anel de 18 blocos ao redor dele: Zumbi, Esqueleto, Creeper, Aranha, Bruxa, Husk, Afogado. Todos os mobs da horda são nomeados `[Blood Moon]` em vermelho escuro.
 
-### Commands
+### Comandos
 
-| Command | Description | Permission |
+| Comando | Descrição | Permissão |
 | --- | --- | --- |
-| `/bloodmoon` | Show current Blood Moon status | `nexusprism.events.bloodmoon.admin` |
-| `/bloodmoon start` | Force-activate the Blood Moon | `nexusprism.events.bloodmoon.admin` |
-| `/bloodmoon stop` | Force-deactivate the Blood Moon | `nexusprism.events.bloodmoon.admin` |
-| `/bloodmoon status` | Detailed status output | `nexusprism.events.bloodmoon.admin` |
+| `/bloodmoon` | Exibir status atual da Lua de Sangue | `nexusprism.events.bloodmoon.admin` |
+| `/bloodmoon start` | Ativar a Lua de Sangue manualmente | `nexusprism.events.bloodmoon.admin` |
+| `/bloodmoon stop` | Desativar a Lua de Sangue manualmente | `nexusprism.events.bloodmoon.admin` |
+| `/bloodmoon status` | Saída de status detalhada | `nexusprism.events.bloodmoon.admin` |
 
-### Configuration (`events/config.yml`)
+### Configuração (`events/config.yml`)
 
 ```yaml
 blood-moon:
   enabled: true
-  world: world                     # The world to watch for time changes
-  schedule: RANDOM                 # RANDOM (chance per night) or ALWAYS
-  random-chance-per-night: 15      # Chance (%) a Blood Moon occurs each night (RANDOM only)
-  kill-pay-multiplier: 1.5         # Hunter job pay multiplier during Blood Moon
-  particle-interval-ticks: 60     # How often (ticks) to spawn particles per player
-  horde-interval-ticks: 6000      # How often (ticks) to fire a horde wave (6000 = 5 min)
-  horde-size: 30                   # Number of mobs per horde wave
+  world: world                     # O mundo onde as mudanças de tempo são monitoradas
+  schedule: RANDOM                 # RANDOM (chance por noite) ou ALWAYS (sempre)
+  random-chance-per-night: 15      # Chance (%) de ocorrer uma Lua de Sangue por noite (apenas RANDOM)
+  kill-pay-multiplier: 1.5         # Multiplicador de pagamento do Caçador durante a Lua de Sangue
+  particle-interval-ticks: 60     # Com que frequência (ticks) gerar partículas por jogador
+  horde-interval-ticks: 6000      # Com que frequência (ticks) disparar uma onda de horda (6000 = 5 min)
+  horde-size: 30                   # Número de mobs por onda de horda
 ```
 
 ---
 
-## Survival Streak
+## Sequência de Sobrevivência
 
-Every player has a personal **Blood Moon survival streak** stored persistently in SQLite (`events/events.db`).
+Cada jogador tem uma **sequência de sobrevivência à Lua de Sangue** armazenada persistentemente em SQLite (`events/events.db`).
 
-| Event | Streak Change |
+| Evento | Mudança na Sequência |
 | --- | --- |
-| Survive a full Blood Moon night | **+1** (awarded at dawn) |
-| Die during a Blood Moon | **Reset to 0** |
+| Sobreviver a uma noite completa de Lua de Sangue | **+1** (concedido ao amanhecer) |
+| Morrer durante uma Lua de Sangue | **Resetar para 0** |
 
-When the streak reaches a **multiple of 7** (7, 14, 21, 28...), the player receives a **Sacrifice Invitation** the next time they sleep.
+Quando a sequência atinge um **múltiplo de 7** (7, 14, 21, 28...), o jogador recebe um **Convite de Sacrifício** na próxima vez que dormir.
 
-### Streak Difficulty Scaling
+### Escalonamento de Dificuldade por Sequência
 
-Higher streaks make every Blood Moon harder — more mob levels, more spawns, and additional mini-boss events.
+Sequências maiores tornam cada Lua de Sangue mais difícil — mais níveis de mob, mais spawns e eventos de mini-chefe adicionais.
 
-| Streak Range | Level Bonus | Spawn Rate Bonus | Elite Multiplier | Extra Events |
+| Faixa de Sequência | Bônus de Nível | Bônus de Taxa de Spawn | Multiplicador Elite | Eventos Extras |
 | --- | --- | --- | --- | --- |
 | 1–6 | Base | Base | Base | — |
 | 7–13 | +4 | +500% | ×3 | — |
-| 14–20 | +7 | +700% | ×5 | Mid-event boss spawn |
-| 21+ | +10 | +900% | Unlimited | Mini-bosses every 5 min |
+| 14–20 | +7 | +700% | ×5 | Spawn de chefe no meio do evento |
+| 21+ | +10 | +900% | Ilimitado | Mini-chefes a cada 5 min |
 
 ---
 
-## Sacrifice Arc
+## Arco do Sacrifício
 
-The Sacrifice Arc is a high-stakes optional challenge triggered by the survival streak. It hooks into the [Dreams module](dreams.md): when the streak qualifies, sleeping opens a **choice GUI** instead of a dream cutscene.
+O Arco do Sacrifício é um desafio opcional de alto risco acionado pela sequência de sobrevivência. Ele se integra ao [módulo Dreams](dreams.md): quando a sequência se qualifica, dormir abre uma **GUI de escolha** em vez de uma cutscene de sonho.
 
-### Choice GUI
+### GUI de Escolha
 
-A 3-row GUI with two options:
+Uma GUI de 3 linhas com duas opções:
 
-| Slot | Item | Action |
+| Slot | Item | Ação |
 | --- | --- | --- |
-| 11 | Green Wool — **Accept** | Teleport to arena, 90-second survival trial |
-| 15 | Red Wool — **Decline** | Reset streak, no other penalty |
+| 11 | Lã Verde — **Aceitar** | Teleportar para a arena, desafio contra o Chefe Isekai |
+| 15 | Lã Vermelha — **Recusar** | Resetar sequência, sem outra penalidade |
 
-Closing the GUI without clicking counts as **Decline**.
+Fechar a GUI sem clicar conta como **Recusa**.
 
-### Arena Trial
+### Julgamento na Arena
 
-1. The player is teleported to the configured arena (or stays in their current location if unconfigured)
-2. A random **Anime Boss** is summoned — selected from the pool eligible for the player's streak
-3. A **180-second countdown** begins with warnings at 60s, 30s, 10s, and 5s
+1. O jogador é teleportado para a arena configurada (ou permanece na localização atual se não configurada)
+2. Um **Chefe Isekai** aleatório é invocado — selecionado do pool elegível para a sequência do jogador
+3. Uma **contagem regressiva de 180 segundos** começa com avisos em 60s, 30s, 10s e 5s
 
-### Outcomes
+### Resultados
 
-| Outcome | Result |
+| Resultado | Consequência |
 | --- | --- |
-| **Survive** | Reward granted (default: 3 Diamond Blocks), server-wide broadcast, streak reset |
-| **Die** | Streak reset to 0 |
-| **Quit/disconnect** | Session cleaned up, treated as failure |
+| **Sobreviver** | Recompensa concedida por tier, transmissão para o servidor, sequência resetada |
+| **Morrer** | Sequência resetada para 0 |
+| **Sair/desconectar** | Sessão encerrada, tratada como falha |
 
-### Sacrifice Reward Tiers
+### Tiers de Recompensa do Sacrifício
 
-Rewards scale with how many Sacrifices you have completed (every 7 streak milestones).
+As recompensas escalam de acordo com quantos Sacrifícios você completou (a cada 7 marcos de sequência).
 
-| Streak Milestone | Rewards |
+| Marco de Sequência | Recompensas |
 | --- | --- |
-| **7** | Tier 1 MMO item + permanent **+5 Max HP** |
-| **14** | Tier 2 MMO item + permanent **+10 Max HP** + **1 stat point** |
-| **21** | Tier 3 MMO item + permanent **+2 stat points** + cosmetic effect |
-| **28** | Tier 4 MMO item + permanent **+3 stat points** + title + boss egg |
-| **35+** | Multiplying stat points + exclusive anime cosmetic per milestone |
+| **7** | Item MMO Tier 1 + **+5 HP Máx** permanente |
+| **14** | Item MMO Tier 2 + **+10 HP Máx** permanente + **1 ponto de atributo** |
+| **21** | Item MMO Tier 3 + **+2 pontos de atributo** permanentes + efeito cosmético |
+| **28** | Item MMO Tier 4 + **+3 pontos de atributo** + título + ovo de chefe |
+| **35+** | Pontos de atributo multiplicadores + cosmético anime exclusivo por marco |
 
-!!! warning "Streak Reset After Sacrifice"
-    Completing a Sacrifice — win or lose — resets your streak to 0. Your **best streak** is recorded separately and never resets.
+!!! warning "Sequência Resetada Após o Sacrifício"
+    Completar um Sacrifício — ganhar ou perder — reseta sua sequência para 0. Sua **melhor sequência** é registrada separadamente e nunca reseta.
 
-### Configuration (`events/config.yml`)
+### Configuração (`events/config.yml`)
 
 ```yaml
 sacrifice:
   arena:
-    world: ""    # Leave blank to use the player's current world
+    world: ""    # Deixe em branco para usar o mundo atual do jogador
     x: 0.0
     y: 64.0
     z: 0.0
 ```
 
-!!! tip "Setting Up the Arena"
-    Build a dedicated PvE arena and set its coordinates under `sacrifice.arena`. Leave `world` blank to fight in place — useful for testing.
+!!! tip "Configurando a Arena"
+    Construa uma arena PvE dedicada e defina suas coordenadas em `sacrifice.arena`. Deixe `world` em branco para lutar no lugar — útil para testes.
 
 ---
 
-## Anime Boss Codex
+## Codex de Chefes Isekai
 
-When a Sacrifice is accepted, a random **Anime Boss** is summoned in the arena. The boss pool available depends on the player's current streak. Each boss has multiple phases, unique mechanics, and a unique drop.
+Quando um Sacrifício é aceito, um **Chefe Isekai** aleatório é invocado na arena. O pool disponível depende da sequência atual do jogador. Cada chefe tem múltiplas fases, mecânicas únicas e uma drop única.
 
-Boss definitions live in `events/anime_bosses/*.yml`. Health and damage scale with streak:
+As definições de chefe ficam em `events/anime_bosses/*.yml`. HP e dano escalam com a sequência:
 
 ```
-finalStat = baseStat × (1 + (streak - 7) × 0.2)
+statFinal = statBase × (1 + (sequência - 7) × 0,2)
 ```
 
-### Boss Pool
+### Pool de Chefes
 
-| Boss | Min Streak | Base Entity | Spawn Weight |
+| Chefe | Sequência Mín. | Entidade Base | Peso de Spawn |
 | --- | --- | --- | --- |
-| Rimuru Tempest | 7 | Giant Slime | 10 |
-| Kazuma Satou | 7 | Villager | 9 |
-| Subaru Natsuki | 7 | Zombie | 8 |
-| Ainz Ooal Gown | 14 | Wither Skeleton | 7 |
-| Itadori Yuji | 14 | Piglin Brute | 6 |
-| Kirito | 14 | Zombie | 6 |
-| Gojo Satoru | 21 | Phantom / Vex | 5 |
+| Rimuru Tempest | 7 | Slime Gigante | 10 |
+| Kazuma Satou | 7 | Bruxa | 9 |
+| Subaru Natsuki | 7 | Zumbi | 8 |
+| Ainz Ooal Gown | 14 | Esqueleto Wither | 7 |
+| Itadori Yuji | 14 | Piglin Bruto | 6 |
+| Kirito | 14 | Zumbi | 6 |
+| Gojo Satoru | 21 | Phantom | 5 |
 | Levi Ackermann | 21 | Vindicator | 4 |
 
 ---
 
 === "Rimuru Tempest"
 
-    **Min Streak:** 7 · **Base Entity:** Giant Slime
+    **Sequência Mín.:** 7 · **Entidade Base:** Slime Gigante
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 60% | Predator Aura (absorbs projectiles), Slime Split (mini-slimes at 80%/70%) |
-    | 2 | 60% → 25% | Storm of Steel (12 arrows 360°), Predator Drain (heals on hit) — swaps to Guardian |
-    | 3 | 25% → 0% | Void Collapse (8-block pull AoE, 3 dmg/tick), Infinite Regen (2 HP/2 ticks) — immune to knockback |
+    | 1 | 100% → 60% | Aura Predatória (absorve projéteis), Divisão de Slime (mini-slimes em 80%/70%) |
+    | 2 | 60% → 25% | Tempestade de Aço (12 flechas em 360°), Dreno Predatório (cura ao acertar) — troca para Guardian |
+    | 3 | 25% → 0% | Colapso do Vazio (puxão em AoE de 8 blocos, 3 dmg/tick), Regeneração Infinita (2 HP/2 ticks) — imune a recuo |
 
-    **Transitions:** Blue nova + Wither sound (→ Phase 2). Black collapse + Dragon Death sound + 2s Blindness (→ Phase 3).
-
-    **Drop:** Slime-core fragment · Blue shimmer aura cosmetic
+    **Drop:** Fragmento de núcleo de slime · Aura brilho azul cosmética
 
 === "Kazuma Satou"
 
-    **Min Streak:** 7 · **Base Entity:** Villager
+    **Sequência Mín.:** 7 · **Entidade Base:** Bruxa
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 60% | Steal (removes random hotbar item every 12s), Lucky Trigger (15% crit for 5× dmg, no tell) |
-    | 2 | 60% → 25% | Drain Touch (drains XP levels), Party Command (2 "Aqua" + 1 "Darkness" entity), Megumin Explosion (one-time at phase transition) |
-    | 3 | 25% → 0% | Lucky Trigger rises to 35% but same damage reflects to Kazuma; Final Steal (attempts to steal weapon); Aqua Call (one-time full HP restore) |
+    | 1 | 100% → 60% | Roubo (remove item aleatório do hotbar a cada 12s), Gatilho Sortudo (15% crit × 5 dano) |
+    | 2 | 60% → 25% | Toque Drenante (drena níveis de XP), Comando de Grupo (2 "Aqua" + 1 "Darkness"), Explosão de Megumin (única na transição) |
+    | 3 | 25% → 0% | Gatilho Sortudo sobe para 35% com reflexo de dano; Roubo Final; Chamada de Aqua (restauração de HP única) |
 
-    **Drop:** Adventurer's card · "Adventurer" rank item · Stolen items returned doubled
+    **Drop:** Cartão de aventureiro · Itens roubados devolvidos em dobro
 
 === "Subaru Natsuki"
 
-    **Min Streak:** 7 · **Base Entity:** Zombie
+    **Sequência Mín.:** 7 · **Entidade Base:** Zumbi
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 50% | Ground Slam, Desperate Call (spawns "Rem" zombie at 60%) |
-    | **Return by Death** | At 0 HP (once) | Resets to 100% HP, player HP restored to pre-killing-blow, title: `⟳ RETURN BY DEATH` |
-    | Post-RBD | 100% → 0% | Witch Factor (Wither I + Hunger II every 20s), Last Stand (below 25%: +40% speed, +50% dmg) |
+    | 1 | 100% → 50% | Slam no Chão, Chamado Desesperado (invoca "Rem" em 60%) |
+    | **Retorno pela Morte** | Ao chegar a 0 HP (uma vez) | Reseta para 100% HP, HP do jogador restaurado, título: `⟳ RETURN BY DEATH` |
+    | Pós-RBD | 100% → 0% | Fator da Bruxa (Wither I + Fome II a cada 20s), Último Ato (abaixo de 25%: +velocidade, +dano) |
 
-    !!! danger "Return by Death"
-        Subaru cannot be killed the first time. The mechanic fires exactly **once per fight** — if you don't account for it, you'll lose your killing-blow window.
+    !!! danger "Retorno pela Morte"
+        Subaru não pode ser morto na primeira vez. A mecânica dispara exatamente **uma vez por luta**.
 
-    **Drop:** Silver coin cosmetic · "Witch's Scent" aura
+    **Drop:** Moeda de prata cosmética · Aura "Cheiro da Bruxa"
 
 === "Ainz Ooal Gown"
 
-    **Min Streak:** 14 · **Base Entity:** Wither Skeleton
+    **Sequência Mín.:** 14 · **Entidade Base:** Esqueleto Wither
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 70% | Summon Floor Guardians (3 zombies every 30s), Negative Burst (wither skull → Wither II + Weakness) |
-    | 2 | 70% → 30% | Grasp of Death (delayed 10 true dmg 4s after hit), Dark Wisdom (15s immunity to repeated damage type) |
-    | 3 | 30% → 0% | Touch of Ainz (3s standing still = instant kill), Soul Eater (heals 5 HP per killed entity) |
+    | 1 | 100% → 70% | Convocar Guardiões do Andar (3 zumbis a cada 30s), Explosão Negativa (crânio de wither → Wither II + Fraqueza) |
+    | 2 | 70% → 30% | Garra da Morte (10 de dano verdadeiro atrasado 4s), Sabedoria Sombria (15s de imunidade ao tipo de dano repetido) |
+    | 3 | 30% → 0% | Toque de Ainz (parado por 3s = morte instantânea), Devorador de Almas (cura 5 HP por entidade morta) |
 
-    !!! warning "Cannot be killed below 1 HP while summoned entities are alive."
+    !!! warning "Não pode ser morto abaixo de 1 HP enquanto entidades convocadas estiverem vivas."
 
-    **Drop:** Undead Crown cosmetic · "§8Overlord" title fragment
+    **Drop:** Coroa Morta-Viva cosmética · Fragmento de título `§8Overlord`
 
 === "Itadori Yuji"
 
-    **Min Streak:** 14 · **Base Entity:** Piglin Brute
+    **Sequência Mín.:** 14 · **Entidade Base:** Piglin Bruto
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 50% | Divergent Fist (8% Black Flash proc = 10× dmg), Rush Down (3-hit combo telegraphed by orange pulse) |
-    | 2 — **Sukuna Awakens** | 50% → 0% | Dismantle (3 shulker bullets in V + bleed), Cleave (5-block AoE melee), Malevolent Shrine (below 20%: 20 slashes in 3s), Black Flash rises to 15% |
+    | 1 | 100% → 50% | Punho Divergente (8% proc Flash Negro = 10× dano), Investida (combo de 3 golpes telegrafado) |
+    | 2 — **Sukuna Desperta** | 50% → 0% | Desmantelar (3 projéteis em V + sangramento), Golpe Amplo (AoE corpo a corpo de 5 blocos), Santuário Malevolente (abaixo de 20%: 20 cortes em 3s), Flash Negro sobe para 15% |
 
-    **Drop:** Curse energy crystal · "§4Cursed" title · Tattoo cosmetic
+    **Drop:** Cristal de energia amaldiçoada · Título `§4Amaldiçoado` · Cosmético de tatuagem
 
 === "Kirito"
 
-    **Min Streak:** 14 · **Base Entity:** Zombie
+    **Sequência Mínima:** 14 · **Entidade Base:** Zumbi
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 40% | Sword Skill Vorpal (straight-line 5-hit charge), Parry (20% negate incoming hit) |
-    | 2 — **???** | 40% → 0% | *Something awakens at 40% HP. Figure it out.* |
+    | 1 | 100% → 40% | Habilidade de Espada Vorpal (investida de 5 golpes em linha reta), Aparar (20% de chance de negar um golpe) |
+    | 2 — **???** | 40% → 0% | *Algo desperta a 40% de HP. Descubra você mesmo.* |
 
-    **Drop:** Black coat elytra cosmetic · "§7Solo Player" title · *something else*
+    **Drop:** Cosmético de élitra casaco preto · Título `§7Jogador Solo` · ???
 
     !!! quote "Lore"
-        *He who bests the Black Swordsman inherits more than a title.*
+        *Aquele que vence o Espadachim Negro herda mais do que um título.*
 
     !!! note ""
         `NjZhNzY2NjU3NTZlNzQ2YTZiNjM2YTZiNjM2YTZiNjM2YTZiNjM2YTZi`
 
 === "Gojo Satoru"
 
-    **Min Streak:** 21 · **Base Entity:** Phantom / Vex
+    **Sequência Mín.:** 21 · **Entidade Base:** Phantom
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 60% | Infinity (70% of all attacks deal 1 dmg), Phase Shift (invisible every 8s for 4s) |
-    | 2 | 60% → 25% | Blue Pull (yanks player), Purple Hollow (straight beam AoE — 1s warning, 15 dmg + Levitation) |
-    | 3 — **Domain Expansion** | 25% → 0% | Darkness every 2s, Total Information (confusion bursts), Domain Strike (instant directional hit +50%), Infinity FULLY active |
+    | 1 | 100% → 60% | Infinidade (70% dos ataques causam 1 dano), Mudança de Fase (invisível a cada 8s por 4s) |
+    | 2 | 60% → 25% | Puxão Azul (puxa o jogador), Vazio Roxo (feixe AoE em linha reta — 1s de aviso, 15 dano + Levitação) |
+    | 3 — **Expansão de Domínio** | 25% → 0% | Escuridão a cada 2s, Confusão em bursts, Golpe de Domínio (+50%), Infinidade TOTALMENTE ativa |
 
-    !!! tip "Mage abilities and fire damage bypass Infinity."
+    !!! tip "Habilidades de mago e dano de fogo ignoram a Infinidade."
 
-    **Drop:** Blindfold cosmetic · "§b∞ Limitless" title
+    **Drop:** Cosmético de venda · Título `§b∞ Limitless`
 
 === "Levi Ackermann"
 
-    **Min Streak:** 21 · **Base Entity:** Vindicator
+    **Sequência Mín.:** 21 · **Entidade Base:** Vindicator
 
-    | Phase | HP Range | Key Abilities |
+    | Fase | Faixa de HP | Habilidades Principais |
     | --- | --- | --- |
-    | 1 | 100% → 50% | ODM Charge (teleports to wall → instant dash to player), Clean Cut (bypasses 50% defense), Vertical Manoeuvre (SPEED IV circles for 3s) |
-    | 2 | 50% → 0% | Wall to Wall (4 chained charges, decreasing telegraph), Titan Killer Form (below 25%: 5s stance — one-hit-to-0.5-hearts on connection, white outline tell) |
+    | 1 | 100% → 50% | Carga ODM (teleporta para parede → arremessa para o jogador), Corte Limpo (ignora 50% da defesa), Manobra Vertical (VELOCIDADE IV em círculos por 3s) |
+    | 2 | 50% → 0% | Parede a Parede (4 cargas encadeadas com tempo de telegrafamento decrescente), Forma Matador de Titã (abaixo de 25%: postura de 5s — um golpe para 0,5 coração, contorno branco telegrafado) |
 
-    !!! danger "Cannot be stunned, knocked back, or slowed — ever."
+    !!! danger "Não pode ser atordoado, empurrado ou desacelerado — jamais."
 
-    **Drop:** ODM gear elytra cosmetic · "§8Survey Corps" title · Titan-slayer blade CMD
+    **Drop:** Cosmético de élitra ODM · Título `§8Survey Corps` · Espada mata-titã CMD
 
 ---
 
-=== "Goku"
+### Pool de Chefes Futuros (Sequência 28+)
 
-    **Min Streak:** 28 · **Base Entity:** Zombie
-
-    | Phase | HP Range | Key Abilities |
-    | --- | --- | --- |
-    | 1 | 100% → 70% | Ki Blast (long-range projectile), Kaio-Ken (SPEED III + STRENGTH II burst) |
-    | 2 | 70% → 40% | Super Saiyan (strength surge, speed surge, glowing aura), Ki Barrage (5 rapid projectiles) |
-    | 3 — **Ultra Instinct** | 40% → 0% | Ultra Instinct Dodge (dodge chance), Ultra Instinct Strike (teleport behind player + heavy hit) |
-
-    **Drop:** "§fSaiyan" title · Power Aura cosmetic
-
-=== "Naruto Uzumaki"
-
-    **Min Streak:** 28 · **Base Entity:** Zombie
-
-    | Phase | HP Range | Key Abilities |
-    | --- | --- | --- |
-    | 1 | 100% → 70% | Shadow Clone (2 decoy zombies summoned), Rasengan (direct melee burst + knockback) |
-    | 2 | 70% → 40% | Nine-Tails Cloak (SPEED II + STRENGTH I, orange aura), Rasenshuriken (wide AoE projectile) |
-    | 3 — **Baryon Mode** | 40% → 0% | Baryon Mode (STRENGTH III + SPEED III, each hit costs player XP) |
-
-    **Drop:** "§eKage" title · Sage eye cosmetic
-
-=== "Aizen Sosuke"
-
-    **Min Streak:** 28 · **Base Entity:** Wither Skeleton
-
-    | Phase | HP Range | Key Abilities |
-    | --- | --- | --- |
-    | 1 | 100% → 60% | Kyoka Suigetsu (random blindness on hit), Spiritual Pressure (Slowness + Weakness aura) |
-    | 2 | 60% → 30% | Transcendence (15s immunity shield), Illusion Step (teleport behind player with no tell) |
-    | 3 — **Hogyoku** | 30% → 0% | Hogyoku Ascension (all stats maxed), Reiatsu Burst (AoE wither + Darkness + 10 true dmg) |
-
-    !!! warning "Transcendence is immunity — not a dodge. All damage is absorbed for 15 seconds."
-
-    **Drop:** "§8Hogyoku" title · Soul Reaper cloak cosmetic
-
-=== "Natsu Dragneel"
-
-    **Min Streak:** 28 · **Base Entity:** Blaze
-
-    | Phase | HP Range | Key Abilities |
-    | --- | --- | --- |
-    | 1 | 100% → 70% | Fire Dragon Roar (fireball cone), Eat Fire (heals when hit by fire damage) |
-    | 2 | 70% → 40% | Fire Dragon Iron Fist (charged melee + FIRE II), Flame Cloak (contact damage) |
-    | 3 — **Dragon Force** | 40% → 0% | Dragon Force (STRENGTH II + RESISTANCE I — power doubles), Fire Nova (AoE explosion at feet) |
-
-    !!! tip "Fire damage heals Natsu — use physical attacks only."
-
-    **Drop:** "§cDragon Slayer" title · Fairy Tail guild cosmetic
-
-=== "Sung Jin-Woo"
-
-    **Min Streak:** 28 · **Base Entity:** Warden
-
-    | Phase | HP Range | Key Abilities |
-    | --- | --- | --- |
-    | 1 | 100% → 60% | Shadow Soldier (summons 2 zombie soldiers), Tenacity (50% chance to ignore stagger) |
-    | 2 | 60% → 30% | Ruler's Authority (pulls player toward boss), Stealth (brief vanish + ambush strike) |
-    | 3 — **Shadow Monarch** | 30% → 0% | Shadow Monarch Form (RESISTANCE I + SPEED II), Arise (killed player summons shadow soldier for 30s) |
-
-    !!! danger "Shadow soldiers persist until killed. Clear them before focusing the boss."
-
-    **Drop:** "§8Shadow Monarch" title · Monarch's aura cosmetic
-
-=== "Giorno Giovanna"
-
-    **Min Streak:** 28 · **Base Entity:** Zombie
-
-    | Phase | HP Range | Key Abilities |
-    | --- | --- | --- |
-    | 1 | 100% → 60% | Life Shot (projectile applies Poison + Wither), Golden Experience (converts player hits into nature damage) |
-    | 2 | 60% → 30% | Infinite Death Loop (SLOW IV + Weakness until dispelled by retreat), Restoration (heals 5 HP on melee kill) |
-    | 3 — **Requiem** | 30% → 0% | Requiem Loop (all player attacks heal Giorno for 5s), Gold Experience Requiem (resets hit to zero — one-time negation) |
-
-    !!! warning "During Requiem Loop, dealing damage heals the boss. Stop attacking and wait it out."
-
-    **Drop:** "§6Golden Wind" title · GER aura cosmetic
+Chefes planejados para lançamentos futuros: Goku, Naruto Uzumaki, Aizen Sosuke, Natsu Dragneel, Sung Jin-Woo, Giorno Giovanna.
 
 ---
 
-## Admin Commands
+## Comandos Administrativos
 
-| Command | Description | Permission |
+| Comando | Descrição | Permissão |
 | --- | --- | --- |
-| `/bloodmoon` | Show Blood Moon status | `nexusprism.events.bloodmoon.admin` |
-| `/bloodmoon start` | Force-activate Blood Moon | `nexusprism.events.bloodmoon.admin` |
-| `/bloodmoon stop` | Force-deactivate Blood Moon | `nexusprism.events.bloodmoon.admin` |
-| `/isekai` | Show active Isekai boss fights | `nexusprism.events.isekai.admin` |
-| `/isekai force <player>` | Force-start an Isekai boss fight for a player | `nexusprism.events.isekai.admin` |
-| `/isekai force <player> <bossId>` | Force-start with a specific boss | `nexusprism.events.isekai.admin` |
-| `/isekai stop <player>` | End an active boss fight | `nexusprism.events.isekai.admin` |
-| `/isekai list` | List all available boss IDs | `nexusprism.events.isekai.admin` |
+| `/bloodmoon` | Exibir status da Lua de Sangue | `nexusprism.events.bloodmoon.admin` |
+| `/bloodmoon start` | Forçar a ativação da Lua de Sangue | `nexusprism.events.bloodmoon.admin` |
+| `/bloodmoon stop` | Forçar a desativação da Lua de Sangue | `nexusprism.events.bloodmoon.admin` |
+| `/isekai` | Exibir lutas ativas do chefe Isekai | `nexusprism.events.isekai.admin` |
+| `/isekai force <jogador>` | Forçar o início de uma luta para um jogador | `nexusprism.events.isekai.admin` |
+| `/isekai force <jogador> <chefId>` | Forçar com um chefe específico | `nexusprism.events.isekai.admin` |
+| `/isekai stop <jogador>` | Encerrar uma luta ativa | `nexusprism.events.isekai.admin` |
+| `/isekai list` | Listar todos os IDs de chefes disponíveis | `nexusprism.events.isekai.admin` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.events.bloodmoon.admin` | Control Blood Moon manually | OP |
-| `nexusprism.events.isekai.admin` | Control Isekai boss fights manually | OP |
+| `nexusprism.events.bloodmoon.admin` | Controlar a Lua de Sangue manualmente | OP |
+| `nexusprism.events.isekai.admin` | Controlar lutas de chefes Isekai manualmente | OP |

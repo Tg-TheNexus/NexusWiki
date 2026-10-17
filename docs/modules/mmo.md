@@ -1,183 +1,183 @@
-# MMO Module
+# Módulo MMO
 
-The MMO module transforms NexusPrism into a light RPG experience. Players earn an **MMO level**, allocate **stat points**, level up **six skill trees**, unlock and use **abilities**, and progress through **eight professions** — each with a unique mastery passive.
-
----
-
-## MMO Level & Stat Points
-
-Players earn MMO XP from any in-game activity (combat, professions, skill trees). Leveling up grants **1 unspent stat point** to spend freely.
-
-### XP to Level Formula
-
-```
-xpToLevel(n) = 100 × 2^((n-1) / 10)
-```
-
-The XP requirement doubles every 10 levels.
-
-### Stats
-
-| Stat | Effect |
-| --- | --- |
-| `MAX_HEALTH` | Increases maximum hearts |
-| `STRENGTH` | +1.5% melee damage per point |
-| `DEFENSE` | -0.8% damage taken per point (max 80% reduction) |
-| `AGILITY` | +0.5% dodge chance per point (hit cancelled, "Dodged!" in actionbar) |
-| `INTELLIGENCE` | Increases magic ability power |
-| `WISDOM` | Affects healing effectiveness and mana-equivalent costs |
-| `LUCK` | Improves drop rates and random outcomes |
-| `CRIT_CHANCE` | +1% critical hit chance per point (max 95%) |
-| `CRIT_DAMAGE` | Crit multiplier = `1.5 + (critDamage × 0.01)` |
-| `MAGIC_POWER` | Amplifies magic ability damage |
-| `MINING_SPEED` | Increases block break speed |
-| `FISHING_LUCK` | Improves fishing treasure quality |
-
-**Final stat value** = base (player-allocated) + skill tree bonuses + future equipment bonuses.
-
-### Commands
-
-| Command | Description |
-| --- | --- |
-| `/stats` | View your stat sheet and unspent points |
-| `/stats add <stat>` | Spend 1 stat point (e.g. `/stats add strength`) |
+O módulo MMO transforma o NexusPrism em uma experiência leve de RPG. Os jogadores ganham um **nível MMO**, alocam **pontos de atributo**, sobem de nível em **seis árvores de habilidades**, desbloqueiam e usam **habilidades**, e progridem por **oito profissões** — cada uma com uma passiva de maestria única.
 
 ---
 
-## Skill Trees
+## Nível MMO e Pontos de Atributo
 
-Six independent skill trees, each leveled through specific activities. Leveling grants passive stat bonuses and unlocks abilities at milestones.
+Os jogadores ganham XP MMO de qualquer atividade no jogo (combate, profissões, árvores de habilidades). Subir de nível concede **1 ponto de atributo** não gasto para usar livremente.
 
-### Tree Overview
+### Fórmula de XP para Nível
 
-| Tree | Primary Stats | XP Source | Abilities |
+```
+xpParaNível(n) = 100 × 2^((n-1) / 10)
+```
+
+O requisito de XP dobra a cada 10 níveis.
+
+### Atributos
+
+| Atributo | Efeito |
+| --- | --- |
+| `MAX_HEALTH` | Aumenta os corações máximos |
+| `STRENGTH` | +1,5% de dano corpo a corpo por ponto |
+| `DEFENSE` | -0,8% de dano recebido por ponto (máx. 80% de redução) |
+| `AGILITY` | +0,5% de chance de esquiva por ponto (golpe cancelado, "Esquivou!" na actionbar) |
+| `INTELLIGENCE` | Aumenta o poder das habilidades mágicas |
+| `WISDOM` | Afeta a eficácia de cura e custos equivalentes a mana |
+| `LUCK` | Melhora as taxas de drop e resultados aleatórios |
+| `CRIT_CHANCE` | +1% de chance de acerto crítico por ponto (máx. 95%) |
+| `CRIT_DAMAGE` | Multiplicador de crítico = `1,5 + (critDano × 0,01)` |
+| `MAGIC_POWER` | Amplifica o dano das habilidades mágicas |
+| `MINING_SPEED` | Aumenta a velocidade de quebrar blocos |
+| `FISHING_LUCK` | Melhora a qualidade do tesouro da pesca |
+
+**Valor final do atributo** = base (alocado pelo jogador) + bônus da árvore de habilidades + bônus futuros de equipamentos.
+
+### Comandos
+
+| Comando | Descrição |
+| --- | --- |
+| `/stats` | Ver sua ficha de atributos e pontos não gastos |
+| `/stats add <atributo>` | Gastar 1 ponto de atributo (ex.: `/stats add strength`) |
+
+---
+
+## Árvores de Habilidades
+
+Seis árvores de habilidades independentes, cada uma aumentada de nível por atividades específicas. Subir de nível concede bônus passivos de atributos e desbloqueia habilidades em marcos.
+
+### Visão Geral das Árvores
+
+| Árvore | Atributos Principais | Fonte de XP | Habilidades |
 | --- | --- | --- | --- |
-| **Warrior** | Strength, Defense, Max Health | Melee kills | Shield Bash (10), Berserker Rage (25), Warlord Aura (50) |
-| **Rogue** | Agility, Crit Chance, Crit Damage | Kills | Shadow Step (10), Backstab (25), Phantom Form (50) |
-| **Mage** | Intelligence, Magic Power, Wisdom | Enchanting | Fireball (10), Arcane Shield (25), Nova Burst (50) |
-| **Archer** | Agility, Crit Chance, Luck | Kills | Rain of Arrows (10), Eagle Eye (25), Piercing Shot (50) |
-| **Healer** | Wisdom, Max Health, Defense | Healing | Holy Aura (10), Revive (25), Sanctuary (50) |
-| **Alchemist** | Luck, Intelligence, Wisdom | Brewing | Toxic Cloud (10), Elixir Surge (25), Philosopher's Touch (50) |
+| **Guerreiro** | Força, Defesa, Vida Máxima | Abates corpo a corpo | Golpe de Escudo (10), Fúria Berserker (25), Aura de Senhor da Guerra (50) |
+| **Ladino** | Agilidade, Chance Crítica, Dano Crítico | Abates | Passo Sombrio (10), Ataque nas Costas (25), Forma Fantasma (50) |
+| **Mago** | Inteligência, Poder Mágico, Sabedoria | Encantamentos | Bola de Fogo (10), Escudo Arcano (25), Explosão Nova (50) |
+| **Arqueiro** | Agilidade, Chance Crítica, Sorte | Abates | Chuva de Flechas (10), Olho de Águia (25), Tiro Perfurante (50) |
+| **Curandeiro** | Sabedoria, Vida Máxima, Defesa | Cura | Aura Sagrada (10), Ressuscitar (25), Santuário (50) |
+| **Alquimista** | Sorte, Inteligência, Sabedoria | Preparo de poções | Nuvem Tóxica (10), Surto de Elixir (25), Toque do Filósofo (50) |
 
-!!! warning "Hidden abilities"
-    Some abilities are not listed here. They exist — but their conditions, costs, and names are for you to discover.
+### Descrições das Habilidades
 
-### Ability Descriptions
+=== "Guerreiro"
 
-=== "Warrior"
-
-    | Level | Ability | Description |
+    | Nível | Habilidade | Descrição |
     | --- | --- | --- |
-    | 10 | **Shield Bash** | Deals cone damage and knockback in front of the player |
-    | 25 | **Berserker Rage** | Melee damage ×2 for 8 seconds |
-    | 50 | **Warlord Aura** | Passive +30% melee damage permanently |
+    | 10 | **Golpe de Escudo** | Causa dano em cone e empurrão à frente do jogador |
+    | 25 | **Fúria Berserker** | Dano corpo a corpo ×2 por 8 segundos |
+    | 50 | **Aura de Senhor da Guerra** | Passiva: +30% de dano corpo a corpo permanentemente |
 
-=== "Rogue"
+=== "Ladino"
 
-    | Level | Ability | Description |
+    | Nível | Habilidade | Descrição |
     | --- | --- | --- |
-    | 10 | **Shadow Step** | Blink 6 blocks in the direction you're looking |
-    | 25 | **Backstab** | Deal 4× damage when hitting a target from behind |
-    | 50 | **Phantom Form** | 5 seconds of invisibility + +200% damage |
+    | 10 | **Passo Sombrio** | Teleportar 6 blocos na direção em que está olhando |
+    | 25 | **Ataque nas Costas** | Causa 4× de dano ao acertar um alvo pelas costas |
+    | 50 | **Forma Fantasma** | 5 segundos de invisibilidade + +200% de dano |
 
-=== "Mage"
+=== "Mago"
 
-    | Level | Ability | Description |
+    | Nível | Habilidade | Descrição |
     | --- | --- | --- |
-    | 10 | **Fireball** | Launch an explosive projectile with a FLAME particle trail |
-    | 25 | **Arcane Shield** | 3 orbiting orbs, each absorbing 1 incoming hit |
-    | 50 | **Nova Burst** | AoE arcane explosion centred on the player |
+    | 10 | **Bola de Fogo** | Lança um projétil explosivo com rastro de partículas de chama |
+    | 25 | **Escudo Arcano** | 3 orbes orbitando, cada um absorvendo 1 golpe recebido |
+    | 50 | **Explosão Nova** | Explosão arcana em área centrada no jogador |
 
-=== "Archer"
+=== "Arqueiro"
 
-    | Level | Ability | Description |
+    | Nível | Habilidade | Descrição |
     | --- | --- | --- |
-    | 10 | **Rain of Arrows** | Fire 9 critical arrows in a radial arc |
-    | 25 | **Eagle Eye** | Fire a single piercing arrow that passes through mobs |
-    | 50 | **Piercing Shot** | 5× damage arrow that ignores all defense |
+    | 10 | **Chuva de Flechas** | Disparar 9 flechas críticas em arco radial |
+    | 25 | **Olho de Águia** | Disparar uma única flecha perfurante que passa pelos mobs |
+    | 50 | **Tiro Perfurante** | Flecha com 5× de dano que ignora toda defesa |
 
-=== "Healer"
+=== "Curandeiro"
 
-    | Level | Ability | Description |
+    | Nível | Habilidade | Descrição |
     | --- | --- | --- |
-    | 10 | **Holy Aura** | Restore 6 hearts to all nearby allies |
-    | 25 | **Revive** | Prevents the next fatal hit (one-time shield) |
-    | 50 | **Sanctuary** | Create a 10-block healing zone lasting 15 seconds |
+    | 10 | **Aura Sagrada** | Restaurar 6 corações em todos os aliados próximos |
+    | 25 | **Ressuscitar** | Previne o próximo golpe fatal (escudo único) |
+    | 50 | **Santuário** | Criar uma zona de cura de 10 blocos com duração de 15 segundos |
 
-=== "Alchemist"
+=== "Alquimista"
 
-    | Level | Ability | Description |
+    | Nível | Habilidade | Descrição |
     | --- | --- | --- |
-    | 10 | **Toxic Cloud** | Deploy a lingering poison area effect cloud |
-    | 25 | **Elixir Surge** | Share all your currently active potions with nearby allies |
-    | 50 | **Philosopher's Touch** | Passive chance to duplicate any potion you brew |
+    | 10 | **Nuvem Tóxica** | Implantar uma nuvem de veneno persistente |
+    | 25 | **Surto de Elixir** | Compartilhar todas as suas poções ativas com aliados próximos |
+    | 50 | **Toque do Filósofo** | Chance passiva de duplicar qualquer poção preparada |
 
-### Using Abilities
+!!! warning "Habilidades ocultas"
+    Algumas habilidades não estão listadas aqui. Elas existem — mas suas condições, custos e nomes são para você descobrir.
+
+### Usando Habilidades
 
 ```
-/skill use <abilityId>
+/skill use <idHabilidade>
 ```
 
-Or open `/skill`, click a tree, then click the ability icon. Cooldowns are tracked per player per ability.
+Ou abra `/skill`, clique em uma árvore e depois clique no ícone da habilidade. Os tempos de recarga são rastreados por jogador por habilidade.
 
-### Ability Key Bindings
+### Vinculação de Teclas de Habilidades
 
-Players can bind unlocked abilities to hotbar slots for quick activation without typing commands. Open `/skill keybind` to configure bindings via GUI — each slot shows the ability name, mana cost, and current cooldown. Pressing the bound hotbar key activates the ability instantly.
+Jogadores podem vincular habilidades desbloqueadas a slots da hotbar para ativação rápida sem digitar comandos. Abra `/skill keybind` para configurar os vínculos via GUI — cada slot mostra o nome da habilidade, o custo de mana e o cooldown atual. Pressionar a tecla da hotbar vinculada ativa a habilidade instantaneamente.
 
-### Commands
+### Comandos
 
-| Command | Description | Permission |
+| Comando | Descrição | Permissão |
 | --- | --- | --- |
-| `/skill` | Open Skill Tree Browser GUI | `nexusprism.mmo.use` |
-| `/skill use <id>` | Activate an unlocked ability | `nexusprism.mmo.use` |
-| `/skill keybind` | Open the key binding GUI | `nexusprism.mmo.use` |
+| `/skill` | Abrir o GUI do Navegador de Árvores de Habilidades | `nexusprism.mmo.use` |
+| `/skill use <id>` | Ativar uma habilidade desbloqueada | `nexusprism.mmo.use` |
+| `/skill keybind` | Abrir o GUI de vinculação de teclas | `nexusprism.mmo.use` |
 
 ---
 
 ## Mana
 
-Each player has a **mana pool** that abilities draw from. Mana regenerates passively based on the **Wisdom** stat.
+Cada jogador possui uma **reserva de mana** que as habilidades consomem. O mana regenera passivamente com base no atributo **Sabedoria**.
 
-| Mechanic | Detail |
+| Mecânica | Detalhe |
 | --- | --- |
-| Base pool | Scales with MMO level |
-| Regen | Wisdom-based, always active |
-| On insufficient mana | Action bar: `§cNot enough mana!` — ability is blocked |
-| Cost display | Shown on ability icons and in the key binding GUI |
+| Reserva base | Escala com o nível MMO |
+| Regeneração | Baseada em Sabedoria, sempre ativa |
+| Mana insuficiente | Barra de ação: `§cMana insuficiente!` — habilidade bloqueada |
+| Exibição do custo | Mostrado nos ícones de habilidade e no GUI de vinculação de teclas |
 
-The mana pool is also accessible from the [Addon API](../developer/api.md): `MmoRegistry.get()` → `getCurrentMana()`, `hasMana()`, `consumeMana()`.
+O pool de mana também está acessível pela [API de Addon](../developer/api.pt.md): `MmoRegistry.get()` → `getCurrentMana()`, `hasMana()`, `consumeMana()`.
 
 ---
 
-## Professions
+## Profissões
 
-Eight professions level independently from skill trees. Each has a **mastery passive** that grows stronger with profession level.
+Oito profissões sobem de nível independentemente das árvores de habilidades. Cada uma tem uma **passiva de maestria** que fica mais forte com o nível da profissão.
 
-### XP Formula
+### Fórmula de XP
 
 ```
-xpToLevel(n) = baseXp × 1.8^(level / 10)
+xpParaNível(n) = xpBase × 1,8^(nível / 10)
 ```
 
-### Profession Table
+### Tabela de Profissões
 
-| Profession | XP Source | Mastery Passive | Max Bonus |
+| Profissão | Fonte de XP | Passiva de Maestria | Bônus Máx. |
 | --- | --- | --- | --- |
-| **Mining** | Breaking ores | Vein Miner — double ore drop chance | 50% |
-| **Farming** | Breaking crops | Bountiful Harvest — double crop drop | 60% |
-| **Fishing** | Catching fish | Lucky Cast — extra treasure chance | 40% |
-| **Lumberjack** | Breaking logs | Wood Splitter — double log drop | 50% |
-| **Blacksmithing** | Crafting/smelting tools & armor | Master Craft — duplicate crafted tool/armor | 30% |
-| **Alchemy** | Brewing potions | Potion Duplication — duplicate brewed potions | 50% |
-| **Enchanting** | Enchanting items | Arcane Efficiency — save XP levels on enchant | 40% |
-| **Cooking** | Crafting/smelting food | Gourmet — duplicate cooked food | 70% |
+| **Mineração** | Quebrar minérios | Minerador de Veio — dobrar chance de drop de minério | 50% |
+| **Agricultura** | Quebrar plantações | Colheita Abundante — dobrar drop de colheita | 60% |
+| **Pesca** | Pescar | Lançamento Sortudo — chance extra de tesouro | 40% |
+| **Lenhador** | Quebrar troncos | Rachador de Madeira — dobrar drop de tronco | 50% |
+| **Ferraria** | Criar/fundir ferramentas e armaduras | Artesão Mestre — duplicar ferramenta/armadura criada | 30% |
+| **Alquimia** | Preparar poções | Duplicação de Poções — duplicar poções preparadas | 50% |
+| **Encantamento** | Encantar itens | Eficiência Arcana — economizar níveis de XP ao encantar | 40% |
+| **Culinária** | Criar/fundir alimentos | Gourmet — duplicar alimentos cozidos | 70% |
 
 ---
 
-## Storage & Permissions
+## Armazenamento e Permissões
 
-| Detail | Value |
+| Detalhe | Valor |
 | --- | --- |
-| Database | SQLite — `mmo/mmo.db` |
-| Tables | `player_mmo`, `player_skills`, `player_professions` |
-| Permission | `nexusprism.mmo.use` (default: **true**) |
+| Banco de dados | SQLite — `mmo/mmo.db` |
+| Tabelas | `player_mmo`, `player_skills`, `player_professions` |
+| Permissão | `nexusprism.mmo.use` (padrão: **true**) |

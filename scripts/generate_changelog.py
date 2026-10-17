@@ -599,12 +599,12 @@ def main() -> None:
         return
 
     # Ensure changelog files have proper headers
-    ensure_header(wiki_docs / 'changelog.md',    HEADER_EN)
-    ensure_header(wiki_docs / 'changelog.pt.md', HEADER_PT)
+    ensure_header(wiki_docs / 'changelog.en.md', HEADER_EN)
+    ensure_header(wiki_docs / 'changelog.md',    HEADER_PT)
     ensure_header(wiki_docs / 'changelog.es.md', HEADER_ES)
 
-    prepend_to_file(wiki_docs / 'changelog.md',    en_out)
-    prepend_to_file(wiki_docs / 'changelog.pt.md', pt_out)
+    prepend_to_file(wiki_docs / 'changelog.en.md', en_out)
+    prepend_to_file(wiki_docs / 'changelog.md',    pt_out)
     prepend_to_file(wiki_docs / 'changelog.es.md', es_out)
 
     write_sha_state(wiki_docs, latest_sha)

@@ -1,65 +1,63 @@
-# RNG Module
+# Módulo RNG
 
-The RNG module provides **daily spin rewards**, **lucky blocks**, **gacha pulls** via Research Parchments, and **automatic server events** — all driven by configurable reward pools.
+O módulo RNG oferece **giro diário de recompensas**, **blocos de sorte**, **pulls de gacha** via Pergaminhos de Pesquisa e **eventos automáticos de servidor** — tudo impulsionado por pools de recompensas configuráveis.
 
 ---
 
-## Features
+## Funcionalidades
 
-| Feature | Description |
+| Funcionalidade | Descrição |
 | --- | --- |
-| **Daily Spin** | Once-per-day reward wheel (`/spin`) |
-| **Lucky Blocks** | Placeable PDC-tagged blocks that execute a random reward on break |
-| **Gacha** | Right-click a Research Parchment to pull from a tier-gated reward pool |
-| **Server Events** | Automatic timed buffs (Double Drops, Double XP, Mining Rush, etc.) |
+| **Giro Diário** | Roleta de recompensas uma vez por dia (`/spin`) |
+| **Blocos de Sorte** | Blocos colocáveis com tag PDC que executam uma recompensa aleatória ao quebrar |
+| **Gacha** | Clique com botão direito em um Pergaminho de Pesquisa para fazer um pull do pool correspondente |
+| **Eventos de Servidor** | Buffs automáticos cronometrados (Drops Duplos, XP Duplo, Corrida de Mineração, etc.) |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Permission | Description |
+| Comando | Permissão | Descrição |
 | --- | --- | --- |
-| `/spin` | `nexusprism.rng.spin` | Open the daily spin GUI |
-| `/rng event start <id>` | `nexusprism.rng.admin` | Force-start a server event |
-| `/rng event stop` | `nexusprism.rng.admin` | Stop the active event |
-| `/rng event list` | `nexusprism.rng.admin` | List all defined events |
-| `/rng giveblock <player> [pool] [amount]` | `nexusprism.rng.admin` | Give lucky block items |
-| `/rng giveparchment <player> <BASIC\|ADVANCED\|INFINITY>` | `nexusprism.rng.admin` | Give a Research Parchment |
-| `/rng research get <player>` | `nexusprism.rng.admin` | Check a player's research level |
-| `/rng research set <player> <level>` | `nexusprism.rng.admin` | Set a player's research level |
-| `/rng reload` | `nexusprism.rng.admin` | Reload config, events, and reward pools |
+| `/spin` | `nexusprism.rng.spin` | Abrir o GUI de giro diário |
+| `/rng event start <id>` | `nexusprism.rng.admin` | Forçar início de um evento de servidor |
+| `/rng event stop` | `nexusprism.rng.admin` | Parar o evento ativo |
+| `/rng event list` | `nexusprism.rng.admin` | Listar todos os eventos definidos |
+| `/rng giveblock <jogador> [pool] [quantidade]` | `nexusprism.rng.admin` | Dar itens de bloco de sorte |
+| `/rng giveparchment <jogador> <BASIC\|ADVANCED\|INFINITY>` | `nexusprism.rng.admin` | Dar um Pergaminho de Pesquisa |
+| `/rng research get <jogador>` | `nexusprism.rng.admin` | Verificar o nível de pesquisa de um jogador |
+| `/rng research set <jogador> <nível>` | `nexusprism.rng.admin` | Definir o nível de pesquisa de um jogador |
+| `/rng reload` | `nexusprism.rng.admin` | Recarregar configuração, eventos e pools |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.rng.spin` | Use the daily spin | true |
-| `nexusprism.rng.admin` | All admin RNG commands | OP |
+| `nexusprism.rng.spin` | Usar o giro diário | true |
+| `nexusprism.rng.admin` | Todos os comandos administrativos de RNG | OP |
 
 ---
 
-## Configuration (`rng/config.yml`)
+## Configuração (`rng/config.yml`)
 
 ```yaml
 daily-spin:
-  cooldown-seconds: 86400    # 24 hours between spins
-  pool: daily                # Reward pool ID used for the spin
+  cooldown-seconds: 86400    # 24 horas entre giros
+  pool: daily                # ID do pool de recompensas usado para o giro
 
 server-events:
   enabled: true
-  interval-minutes: 90       # Random event fires every ~90 minutes
+  interval-minutes: 90       # Evento aleatório a cada ~90 minutos
 
 gacha:
-  xp-per-pull: 1             # Research XP gained per gacha pull
+  xp-per-pull: 1             # XP de pesquisa ganho por pull de gacha
 ```
 
 ---
 
-## Reward Pools (`rng/pools/*.yml`)
-
-All `.yml` files in the `pools/` folder are loaded automatically. Default pools: `daily` (for `/spin`) and `lucky` (for lucky blocks).
+## Pools de Recompensas (`rng/pools/*.yml`)
 
 ```yaml
 pool-id: daily
@@ -72,52 +70,33 @@ rewards:
     data: DIAMOND
     amount: 3
     weight: 5
-    display-name: "&b3x Diamond"
+    display-name: "&b3x Diamante"
   - type: COMMAND
     data: "give {player} minecraft:totem_of_undying 1"
     weight: 1
-    display-name: "&6Totem of Undying"
+    display-name: "&6Totem da Imortalidade"
 ```
-
-| Reward Type | `data` field | Notes |
-| --- | --- | --- |
-| `MONEY` | Amount as string (e.g. `"500"`) | Requires Economy module |
-| `ITEM` | `Material` name | `amount` field sets quantity |
-| `COMMAND` | Command string | `{player}` replaced with the player's name |
 
 ---
 
-## Server Events (`rng/events.yml`)
+## Eventos de Servidor (`rng/events.yml`)
 
-```yaml
-events:
-  double_drops:
-    display-name: "&a⚡ Double Drops!"
-    type: DOUBLE_DROPS
-    duration-seconds: 1800
-    weight: 20
-```
-
-| Event Type | Effect |
+| Tipo de Evento | Efeito |
 | --- | --- |
-| `DOUBLE_DROPS` | All block/mob drops are doubled |
-| `DOUBLE_XP` | All XP gains are doubled |
-| `MOB_RUSH` | Increased mob spawn rate server-wide |
-| `MINING_RUSH` | Bonus drops from mining ores |
-| `TRADING_BOOST` | Better villager trade prices |
-| `HAPPY_HOUR` | Combined bonus (drops + XP) |
-| `CUSTOM` | Triggers a custom command/broadcast only |
+| `DOUBLE_DROPS` | Todos os drops de blocos/mobs são dobrados |
+| `DOUBLE_XP` | Todo ganho de XP é dobrado |
+| `MOB_RUSH` | Taxa de spawn de mobs aumentada no servidor |
+| `MINING_RUSH` | Drops bônus ao minerar minérios |
+| `TRADING_BOOST` | Melhores preços de troca com aldeões |
+| `HAPPY_HOUR` | Bônus combinado (drops + XP) |
+| `CUSTOM` | Executa apenas um comando/transmissão personalizada |
 
 ---
 
-## Gacha (Research Parchments)
+## Gacha (Pergaminhos de Pesquisa)
 
-Research Parchments are items obtained from structure loot or given by admins. Right-clicking one triggers a gacha pull from a tier-gated pool.
-
-| Parchment Tier | Pool | Min Research Level |
+| Nível do Pergaminho | Pool | Nível de Pesquisa Mínimo |
 | --- | --- | --- |
 | `BASIC` | `gacha_basic` | 0 |
 | `ADVANCED` | `gacha_advanced` | 5 |
 | `INFINITY` | `gacha_infinity` | 10 |
-
-Each pull grants `gacha.xp-per-pull` Research XP. Reaching Research Level 5 and 10 unlocks higher-tier parchments. Gacha reward pools are defined in `rng/gacha.yml` under the `basic:`, `advanced:`, and `infinity:` sections (same format as reward pools above).

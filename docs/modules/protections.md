@@ -1,122 +1,111 @@
-# Protections Module
+# Módulo Protections
 
-The Protections module provides **WorldGuard-style cuboid region claiming**, 28 configurable protection flags, and a **1v1 duel system**.
-
-!!! info "This is not Towny"
-    `nexusprism-protections` is a cuboid region system similar to **WorldGuard or GriefPrevention** — players define a 3D area and set flags on it. It has **no cities, nations, taxes, or diplomacy**. If you want Towny-style chunk-based territory with clan governance, see the [Clans module](clans.md) instead.
+O módulo Protections fornece **reivindicação de regiões por jogadores**, flags de proteção configuráveis e um **sistema de duelo 1v1**.
 
 ---
 
-## Region Claiming
+## Reivindicação de Regiões
 
-Players select two corners of a cuboid region with the selection wand, then claim it as their protected area. Non-members cannot build, break, or interact within the region by default.
+Os jogadores selecionam dois cantos de uma região cúbica com a varinha de seleção e a reivindicam como sua área protegida. Não-membros não podem construir, quebrar ou interagir dentro da região por padrão.
 
-### How to Claim a Region
+### Como Reivindicar uma Região
 
-1. Hold a **Golden Axe** (default wand)
-2. Left-click one corner of your region → right-click the opposite corner
-3. Run `/region claim <name>` to claim the selection
+1. Segure um **Machado Dourado** (varinha padrão)
+2. Clique com o botão esquerdo em um canto da sua região → clique com o botão direito no canto oposto
+3. Execute `/region claim <nome>` para reivindicar a seleção
 
-### Commands
+### Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/region claim <name>` | Claim selected area | `nexusprism.region.use` |
-| `/region delete <name>` | Delete a region | `nexusprism.region.use` |
-| `/region list` | List your regions | `nexusprism.region.use` |
-| `/region info [name]` | View region details | `nexusprism.region.use` |
-| `/region addmember <region> <player>` | Add a member | `nexusprism.region.use` |
-| `/region removemember <region> <player>` | Remove a member | `nexusprism.region.use` |
-| `/region setflag <region> <flag> <value>` | Set a flag | `nexusprism.region.use` |
-| `/region flags <region>` | View all flags | `nexusprism.region.use` |
-| `/protect <name>` | Quick-protect current chunk | `nexusprism.region.use` |
-| `/region admin list [player]` | Admin: list all regions | `nexusprism.protect.admin` |
-| `/region admin delete <name>` | Admin: force-delete region | `nexusprism.protect.admin` |
-| `/region admin setowner <region> <player>` | Admin: change owner | `nexusprism.protect.admin` |
+| `/region claim <nome>` | Reivindicar área selecionada | `nexusprism.region.use` |
+| `/region delete <nome>` | Excluir uma região | `nexusprism.region.use` |
+| `/region list` | Listar suas regiões | `nexusprism.region.use` |
+| `/region info [nome]` | Ver detalhes da região | `nexusprism.region.use` |
+| `/region addmember <região> <jogador>` | Adicionar um membro | `nexusprism.region.use` |
+| `/region removemember <região> <jogador>` | Remover um membro | `nexusprism.region.use` |
+| `/region setflag <região> <flag> <valor>` | Definir uma flag | `nexusprism.region.use` |
+| `/region flags <região>` | Ver todas as flags | `nexusprism.region.use` |
+| `/protect <nome>` | Proteger rapidamente o chunk atual | `nexusprism.region.use` |
+| `/region admin list [jogador]` | Admin: listar todas as regiões | `nexusprism.protect.admin` |
+| `/region admin delete <nome>` | Admin: forçar exclusão de região | `nexusprism.protect.admin` |
+| `/region admin setowner <região> <jogador>` | Admin: alterar proprietário | `nexusprism.protect.admin` |
 
 ---
 
-## Region Flags
+## Flags de Região
 
-Flags control what is and isn't allowed within a region. Regions have two types: **PLAYER** (priority 0, created by players) and **ADMIN** (priority 100, created by staff — always overrides player regions).
+As flags controlam o que é e não é permitido dentro de uma região.
 
-| Flag | Values | Default | Description |
+| Flag | Valores | Padrão | Descrição |
 | --- | --- | --- | --- |
-| `pvp` | `true` / `false` | `false` | Allow PvP inside the region |
-| `build` | `true` / `false` | `false` | Allow non-members to build/break blocks |
-| `interact` | `true` / `false` | `false` | Allow non-members to interact (chests, buttons…) |
-| `mob-spawning` | `true` / `false` | `true` | Allow hostile mobs to spawn |
-| `animal-spawning` | `true` / `false` | `true` | Allow passive animals to spawn |
-| `monster-attack` | `true` / `false` | `true` | Allow mobs to attack players |
-| `explosions` | `true` / `false` | `false` | Allow TNT / creeper explosions |
-| `fire` | `true` / `false` | `false` | Allow fire spread |
-| `fly` | `true` / `false` | `false` | Allow flight inside the region |
-| `keep-inventory` | `true` / `false` | `false` | Keep inventory on death inside the region |
-| `keep-exp` | `true` / `false` | `false` | Keep experience on death |
-| `entry` | `true` / `false` | `true` | Allow non-members to enter the region |
-| `deny-sleep` | `true` / `false` | `false` | Prevent players from sleeping in beds |
-| `smart-door` | `true` / `false` | `false` | Doors auto-close after a short delay |
-| `greeting` | `<text>` | — | Message shown when entering the region |
-| `farewell` | `<text>` | — | Message shown when leaving the region |
+| `pvp` | `true` / `false` | `false` | Permitir PvP dentro da região |
+| `build` | `true` / `false` | `false` | Permitir que não-membros construam |
+| `interact` | `true` / `false` | `false` | Permitir que não-membros interajam (baús, botões…) |
+| `mob-spawning` | `true` / `false` | `true` | Permitir que mobs apareçam |
+| `explosions` | `true` / `false` | `false` | Permitir explosões de TNT / creeper |
+| `fire` | `true` / `false` | `false` | Permitir propagação de fogo |
+| `greeting` | `<texto>` | — | Mensagem exibida ao entrar na região |
+| `farewell` | `<texto>` | — | Mensagem exibida ao sair da região |
 
 ```bash
-# Example: enable PvP in an arena region
+# Exemplo: habilitar PvP em uma região de arena
 /region setflag my-arena pvp true
 /region setflag my-arena greeting "&cYou entered a PvP zone!"
 ```
 
 ---
 
-## Configuration (`protections/config.yml`)
+## Configuração (`protections/config.yml`)
 
 ```yaml
-selection-wand: GOLDEN_AXE     # Item used to select region corners
+selection-wand: GOLDEN_AXE     # Item usado para selecionar cantos de região
 
-max-regions-per-player: 5      # Max regions per player
-max-region-volume: 100000      # Max region size in blocks
+max-regions-per-player: 5      # Máximo de regiões por jogador
+max-region-volume: 100000      # Tamanho máximo da região em blocos
 
-pvp-in-wilderness: true        # Allow PvP outside any region
+pvp-in-wilderness: true        # Permitir PvP fora de qualquer região
 
 duel-request-timeout-seconds: 30
 
 economy:
-  enabled: false               # Charge players to claim regions
-  base-cost: 100.0             # Flat fee per claim
-  cost-per-block: 0.01         # Additional cost × region volume
-  refund-percent: 50           # % refunded when a region is deleted
+  enabled: false               # Cobrar jogadores para reivindicar regiões
+  base-cost: 100.0             # Taxa fixa por reivindicação
+  cost-per-block: 0.01         # Custo adicional × volume da região
+  refund-percent: 50           # % reembolsado ao excluir uma região
 ```
 
 ---
 
-## Duel System
+## Sistema de Duelo
 
-The duel system lets players challenge each other to a 1v1 fight in a safe duel arena. Deaths during duels do not drop items.
+O sistema de duelo permite que os jogadores se desafiem para uma luta 1v1 em uma arena de duelo segura. Mortes durante duelos não derrubam itens.
 
-### Duel Commands
+### Comandos de Duelo
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/duel <player>` | Challenge a player to a duel | `nexusprism.duel.use` |
-| `/duel accept` | Accept a duel challenge | `nexusprism.duel.use` |
-| `/duel deny` | Deny a duel challenge | `nexusprism.duel.use` |
-| `/duel spectate <player>` | Spectate a duel | `nexusprism.duel.use` |
-| `/duel stats` | View your duel stats | `nexusprism.duel.use` |
-| `/duel setarena` | Set duel arena at your location | `nexusprism.protect.admin` |
+| `/duel <jogador>` | Desafiar um jogador para um duelo | `nexusprism.duel.use` |
+| `/duel accept` | Aceitar um desafio de duelo | `nexusprism.duel.use` |
+| `/duel deny` | Recusar um desafio de duelo | `nexusprism.duel.use` |
+| `/duel spectate <jogador>` | Espectador de um duelo | `nexusprism.duel.use` |
+| `/duel stats` | Ver suas estatísticas de duelo | `nexusprism.duel.use` |
+| `/duel setarena` | Definir arena de duelo na sua localização | `nexusprism.protect.admin` |
 
-### Duel Rules
+### Regras de Duelo
 
-- Duel requests expire after `duel-request-timeout-seconds` (default: 30)
-- Items are saved and restored after the duel ends
-- The winner receives configurable rewards (set in the economy bridge)
-- Both players are teleported to the duel arena on accept
+- Solicitações de duelo expiram após `duel-request-timeout-seconds` (padrão: 30)
+- Os itens são salvos e restaurados após o término do duelo
+- O vencedor recebe recompensas configuráveis (definidas na ponte de economia)
+- Ambos os jogadores são teleportados para a arena de duelo ao aceitar
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.region.use` | Create and manage own regions | true |
-| `nexusprism.protect.admin` | Admin region management | OP |
-| `nexusprism.bypass.protection` | Bypass all region protections | OP |
-| `nexusprism.duel.use` | Challenge and accept duels | true |
+| `nexusprism.region.use` | Criar e gerenciar próprias regiões | true |
+| `nexusprism.protect.admin` | Gerenciamento administrativo de regiões | OP |
+| `nexusprism.bypass.protection` | Ignorar todas as proteções de região | OP |
+| `nexusprism.duel.use` | Desafiar e aceitar duelos | true |

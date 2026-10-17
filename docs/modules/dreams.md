@@ -1,64 +1,64 @@
-# Dreams Module
+# Módulo Dreams
 
-The Dreams module triggers a **cinematic sleep experience** when a player sleeps in a bed. With a configurable chance, players are transported to a dream or nightmare dimension cutscene before waking back up at their original location.
-
----
-
-## How It Works
-
-1. A player sleeps in a bed
-2. There is a configurable chance (`dream_trigger_chance`) that a cutscene triggers
-3. The player is teleported to the dream or nightmare world
-4. Potion effects, messages, and a timer create an atmospheric sequence
-5. After the duration, the player is returned to their original bed location
+O módulo Dreams aciona uma **experiência cinematográfica ao dormir** quando um jogador deita em uma cama. Com uma chance configurável, os jogadores são transportados para uma cutscene de sonho ou pesadelo antes de acordar no local original.
 
 ---
 
-## Dream vs Nightmare
+## Como Funciona
 
-| Type | Chance | Default Effects | Mood |
+1. Um jogador deita em uma cama
+2. Há uma chance configurável (`dream_trigger_chance`) de que uma cutscene seja acionada
+3. O jogador é teleportado para o mundo de sonho ou pesadelo
+4. Efeitos de poção, mensagens e um temporizador criam uma sequência atmosférica
+5. Após a duração, o jogador é retornado à sua localização original na cama
+
+---
+
+## Sonho vs. Pesadelo
+
+| Tipo | Chance | Efeitos Padrão | Clima |
 | --- | --- | --- | --- |
-| **Dream** | 40% (of trigger chance) | Night Vision, Slowness | Peaceful, ethereal |
-| **Nightmare** | 60% (of trigger chance) | Blindness, Nausea, Slowness | Dark, unsettling |
+| **Sonho** | 40% (da chance de ativação) | Visão Noturna, Lentidão | Pacífico, etéreo |
+| **Pesadelo** | 60% (da chance de ativação) | Cegueira, Náusea, Lentidão | Sombrio, perturbador |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/dreams reload` | Reload dreams configuration | `nexusprism.dreams.admin` |
-| `/dreams trigger <player>` | Force-trigger a dream for a player | `nexusprism.dreams.admin` |
-| `/dreams trigger <player> nightmare` | Force a nightmare | `nexusprism.dreams.admin` |
+| `/dreams reload` | Recarregar configuração dos sonhos | `nexusprism.dreams.admin` |
+| `/dreams trigger <player>` | Forçar um sonho para um jogador | `nexusprism.dreams.admin` |
+| `/dreams trigger <player> nightmare` | Forçar um pesadelo | `nexusprism.dreams.admin` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.dreams.admin` | Admin dream commands | OP |
+| `nexusprism.dreams.admin` | Comandos administrativos de sonhos | OP |
 
 ---
 
-## Configuration (`dreams/config.yml`)
+## Configuração (`dreams/config.yml`)
 
 ```yaml
-# Base chance (%) that sleeping triggers the cutscene
+# Chance base (%) de que dormir acione a cutscene
 dream_trigger_chance: 25
 
 dimension:
   enabled: true
 
   nightmare:
-    world: ""              # World name — leave empty to use main world
+    world: ""              # Nome do mundo — deixe vazio para usar o mundo principal
     x: 0.0
     y: 64.0
     z: 0.0
     yaw: 0.0
     pitch: 0.0
-    chance: 60             # Probability (%) of nightmare vs dream
-    duration: 300          # Duration in ticks (300 = 15 seconds)
+    chance: 60             # Probabilidade (%) de pesadelo em relação a sonho
+    duration: 300          # Duração em ticks (300 = 15 segundos)
     effects:
       - BLINDNESS:1
       - NAUSEA:1
@@ -88,40 +88,40 @@ messages:
     end:              "&7You wake up in a cold sweat."
 ```
 
-### Configuration Fields
+### Campos de Configuração
 
-| Field | Description |
+| Campo | Descrição |
 | --- | --- |
-| `dream_trigger_chance` | Percentage chance a sleep triggers the system. |
-| `dimension.enabled` | Enable the teleport cutscene. |
-| `nightmare.chance` | Of triggered cutscenes, what % are nightmares. |
-| `duration` | How long (ticks) the player stays in the dimension. 20 ticks = 1 second. |
-| `effects` | List of potion effects in `EFFECT:AMPLIFIER` format (amplifier 0 = level I). |
-| `messages.*` | Cinematic messages shown during the sequence. Supports `&` color codes. |
+| `dream_trigger_chance` | Porcentagem de chance de que um sono acione o sistema. |
+| `dimension.enabled` | Ativa a cutscene de teleporte. |
+| `nightmare.chance` | Das cutscenes acionadas, qual % são pesadelos. |
+| `duration` | Por quanto tempo (ticks) o jogador permanece na dimensão. 20 ticks = 1 segundo. |
+| `effects` | Lista de efeitos de poção no formato `EFEITO:AMPLIFICADOR` (amplificador 0 = nível I). |
+| `messages.*` | Mensagens cinematográficas exibidas durante a sequência. Suporta códigos de cor `&`. |
 
 ---
 
-## Setting Up Dream Worlds
+## Configurando Mundos de Sonho
 
-For the best experience, create dedicated flat or atmospheric worlds for dreams and nightmares:
+Para a melhor experiência, crie mundos planos ou atmosféricos dedicados para sonhos e pesadelos:
 
-1. Create the world (with a world manager plugin or Multiverse)
-2. Set the coordinates in `dreams/config.yml` under `dimension.dreams.world` and `dimension.nightmare.world`
-3. Build atmospheric scenery at those coordinates
-4. Reload with `/dreams reload`
+1. Crie o mundo (com um plugin de gerenciamento de mundos ou Multiverse)
+2. Defina as coordenadas em `dreams/config.yml` em `dimension.dreams.world` e `dimension.nightmare.world`
+3. Construa cenários atmosféricos nessas coordenadas
+4. Recarregue com `/dreams reload`
 
 !!! tip
-    Leave `world` empty to use the main overworld. Players will be teleported to the configured XYZ coordinates in the default world.
+    Deixe `world` vazio para usar o mundo principal. Os jogadores serão teleportados para as coordenadas XYZ configuradas no mundo padrão.
 
 ---
 
-## Sacrifice Arc Integration
+## Integração com o Arco do Sacrifício
 
-When the **Events** module is loaded, the **Sacrifice Arc** can suppress the normal dream cutscene entirely.
+Quando o módulo **Events** está ativo, o **Arco do Sacrifício** pode suprimir completamente a cutscene normal de sonho.
 
-If a player's Blood Moon survival streak has reached a multiple of 7 (7, 14, 21, 28...) and they enter a bed, the Sacrifice Arc intercepts the sleep event **before** any dream or nightmare is chosen. The player is shown a choice GUI instead of entering the cutscene.
+Se a sequência de sobrevivência à Lua de Sangue de um jogador atingir um múltiplo de 7 (7, 14, 21, 28...) e o jogador entrar em uma cama, o Arco do Sacrifício intercepta o evento de dormir **antes** de qualquer sonho ou pesadelo ser sorteado. Em vez disso, é exibida uma GUI de escolha.
 
 !!! info
-    This behaviour is controlled by `DreamsManager.SACRIFICE_HOOK` — a hook set by the Events module at load time and cleared on shutdown. If the Events module is disabled, dreams work exactly as described above with no changes.
+    Este comportamento é controlado pelo `DreamsManager.SACRIFICE_HOOK` — um hook definido pelo módulo Events no carregamento e removido no desligamento. Se o módulo Events estiver desativado, os sonhos funcionam exatamente como descrito acima, sem alterações.
 
-See the [Events module](events.md) for full details on the Sacrifice Arc.
+Veja o [módulo Events](events.md) para mais detalhes sobre o Arco do Sacrifício.

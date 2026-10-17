@@ -27,8 +27,8 @@ Docs live in `docs/`. Each page has three variants:
 
 | File | Language |
 |---|---|
-| `page.md` | English (default) |
-| `page.pt.md` | Português (BR) |
+| `page.md` | Português (BR), the default language |
+| `page.en.md` | English |
 | `page.es.md` | Español |
 
 Edit all three when adding or updating content. See [CONTRIBUTING](https://github.com/Tg-TheNexus/NexusPrism/blob/main/CONTRIBUTING.md) for guidelines.

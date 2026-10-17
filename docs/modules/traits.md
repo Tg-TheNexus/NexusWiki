@@ -1,68 +1,59 @@
-# Traits Module
+# Módulo Traits
 
-The Traits module gives each player a set of **3 Tarot Cards** that grant passive and reactive effects. Cards are drawn randomly on first join and can be rerolled at a money cost.
-
----
-
-## How It Works
-
-1. On **first join**, three unique cards are drawn from the weighted pool and assigned to the player
-2. Players open their trait menu with `/traits` to view active cards and reroll
-3. Each card applies its effects passively (tick task) or reactively (event listeners)
-4. Rerolling costs money and has a cooldown — **full reroll** replaces all 3, **single reroll** replaces one
+O módulo Traits atribui a cada jogador um conjunto de **3 Cartas de Tarô** que concedem efeitos passivos e reativos. As cartas são sorteadas aleatoriamente no primeiro acesso e podem ser reroladas com custo em dinheiro.
 
 ---
 
-## Tarot Cards
+## Como Funciona
 
-Cards are drawn from 22 Major Arcana across 4 rarity tiers. Higher-rarity cards are significantly rarer.
+1. No **primeiro acesso**, três cartas únicas são sorteadas do pool ponderado e atribuídas ao jogador
+2. O jogador abre o menu de traits com `/traits` para ver as cartas ativas e rerolar
+3. Cada carta aplica seus efeitos passivamente (tarefa de tick) ou de forma reativa (listeners de eventos)
+4. O reroll custa dinheiro e tem cooldown — **reroll completo** substitui as 3, **reroll único** substitui uma
 
-| Rarity | Weight | Examples |
+---
+
+## Cartas de Tarô
+
+As cartas são sorteadas dos 22 Arcanos Maiores em 4 níveis de raridade.
+
+| Raridade | Peso | Exemplos |
 | --- | --- | --- |
-| **Common** | 10 | The Fool, The Magician, The High Priestess, The Empress, The Chariot, Strength, The Hermit, Wheel of Fortune, Justice, The World |
-| **Uncommon** | 6 | The Emperor, The Hierophant, The Lovers, The Moon, The Sun, Temperance, The Star |
-| **Rare** | 3 | The Tower, The Devil, The Hermit King |
-| **Legendary** | 1 | Judgement, Death |
+| **Comum** | 10 | O Louco, O Mago, A Sacerdotisa, A Imperatriz, O Carro, A Força, O Eremita, A Roda da Fortuna, A Justiça, O Mundo |
+| **Incomum** | 6 | O Imperador, O Hierofante, Os Amantes, A Lua, O Sol, A Temperança, A Estrela |
+| **Raro** | 3 | A Torre, O Diabo, O Rei Eremita |
+| **Lendário** | 1 | O Julgamento, A Morte |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Permission | Description |
+| Comando | Permissão | Descrição |
 | --- | --- | --- |
-| `/traits` | *(all players)* | Open the Tarot Traits GUI |
-| `/traits info` | *(all players)* | List current cards in chat |
-| `/traits admin set <player> <slot 1-3> <CARD_NAME>` | `nexusprism.traits.admin` | Force-set a card (bypasses cost and cooldown) |
-| `/traits admin reload` | `nexusprism.traits.admin` | Reload `traits/config.yml` |
+| `/traits` | *(todos os jogadores)* | Abrir o GUI de Traits de Tarô |
+| `/traits info` | *(todos os jogadores)* | Listar as cartas atuais no chat |
+| `/traits admin set <jogador> <slot 1-3> <NOME_DA_CARTA>` | `nexusprism.traits.admin` | Forçar a definição de uma carta (ignora custo e cooldown) |
+| `/traits admin reload` | `nexusprism.traits.admin` | Recarregar `traits/config.yml` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.traits.admin` | Admin trait management commands | OP |
+| `nexusprism.traits.admin` | Comandos administrativos de traits | OP |
 
 ---
 
-## Configuration (`traits/config.yml`)
+## Configuração (`traits/config.yml`)
 
 ```yaml
 reroll:
-  full-cost: 5000.0                 # Money cost to reroll all 3 cards
-  single-cost: 2000.0               # Money cost to reroll a single card
-  full-cooldown-seconds: 604800     # 7 days between full rerolls
-  single-cooldown-seconds: 86400    # 24 hours between single rerolls
+  full-cost: 5000.0                 # Custo em dinheiro para rerolar as 3 cartas
+  single-cost: 2000.0               # Custo para rerolar uma única carta
+  full-cooldown-seconds: 604800     # 7 dias entre rerolls completos
+  single-cooldown-seconds: 86400    # 24 horas entre rerolls únicos
 ```
 
-### Configuration Fields
-
-| Field | Description |
-| --- | --- |
-| `reroll.full-cost` | Money deducted from the player's balance for a full 3-card reroll |
-| `reroll.single-cost` | Money deducted for replacing a single card |
-| `reroll.full-cooldown-seconds` | Minimum seconds between full rerolls (default: 7 days) |
-| `reroll.single-cooldown-seconds` | Minimum seconds between single rerolls (default: 24 hours) |
-
-!!! info "Single reroll exclusion"
-    When a player rerolls a single card, all currently held cards are excluded from the draw pool — the replacement will always be a different card.
+!!! info "Exclusão no reroll único"
+    Ao rerolar uma única carta, todas as cartas atualmente equipadas são excluídas do pool de sorteio — a substituição será sempre uma carta diferente.

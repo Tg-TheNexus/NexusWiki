@@ -1,161 +1,133 @@
-# Essentials Module
+# Módulo Essenciais
 
-The Essentials module provides **40+ quality-of-life commands** covering homes, warps, waypoints, teleportation, AFK detection, jail, and everyday utility commands.
+O módulo Essenciais fornece **+40 comandos de qualidade de vida** cobrindo homes, warps, waypoints, teleporte, detecção de AFK, prisão e comandos utilitários do dia a dia.
 
 ---
 
 ## Homes
 
-Players can set named homes and teleport back to them.
+Jogadores podem definir homes com nome e se teletransportar para elas.
 
-### Commands
+### Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/home [name]` | Teleport to a home | `nexusprism.essentials.home` |
-| `/home list` | List all homes | `nexusprism.essentials.home` |
-| `/sethome <name>` | Set a home at your location | `nexusprism.essentials.home` |
-| `/delhome <name>` | Delete a home | `nexusprism.essentials.home` |
+| `/home [nome]` | Teletransportar para uma home | `nexusprism.essentials.home` |
+| `/home list` | Listar todas as homes | `nexusprism.essentials.home` |
+| `/sethome <nome>` | Definir home na posição atual | `nexusprism.essentials.home` |
+| `/delhome <nome>` | Deletar uma home | `nexusprism.essentials.home` |
 
-### Home Slot Permissions
+### Permissões de Slots de Home
 
-| Permission | Slots |
+| Permissão | Slots |
 | --- | --- |
-| `nexusprism.essentials.homes.1` | 1 (default: true) |
+| `nexusprism.essentials.homes.1` | 1 (padrão) |
 | `nexusprism.essentials.homes.3` | 3 |
 | `nexusprism.essentials.homes.10` | 10 |
-| `nexusprism.essentials.homes.unlimited` | Unlimited (OP) |
+| `nexusprism.essentials.homes.unlimited` | Ilimitado (OP) |
 
 ---
 
 ## Warps
 
-Server-wide public teleport destinations managed by admins.
+Destinos de teletransporte públicos em todo o servidor gerenciados por admins.
 
-## Warps Commands
+### Comandos de Warps
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/warp <name>` | Teleport to a warp | `nexusprism.essentials.warp.use` |
-| `/warp list` | List all warps | `nexusprism.essentials.warp.use` |
-| `/setwarp <name>` | Create a warp | `nexusprism.essentials.warp.admin` |
-| `/delwarp <name>` | Delete a warp | `nexusprism.essentials.warp.admin` |
+| `/warp <nome>` | Teletransportar para um warp | `nexusprism.essentials.warp.use` |
+| `/warp list` | Listar todos os warps | `nexusprism.essentials.warp.use` |
+| `/setwarp <nome>` | Criar um warp (OP) | `nexusprism.essentials.warp.admin` |
+| `/delwarp <nome>` | Deletar um warp (OP) | `nexusprism.essentials.warp.admin` |
 
 ---
 
-## TPA (Teleport Requests)
+## TPA (Pedidos de Teletransporte)
 
-### TPA Commands
+### Comandos TPA
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/tpa <player>` | Send a teleport request | `nexusprism.essentials.tpa` |
-| `/tpaccept` | Accept a teleport request | `nexusprism.essentials.tpa` |
-| `/tpdeny` | Deny a teleport request | `nexusprism.essentials.tpa` |
-| `/tphere <player>` | Teleport a player to you | `nexusprism.essentials.tphere` |
-| `/tppos <x> <y> <z>` | Teleport to coordinates | `nexusprism.essentials.tppos` |
-| `/spawn` | Teleport to spawn | `nexusprism.essentials.spawn` |
-| `/setspawn` | Set the server spawn | `nexusprism.essentials.setspawn` |
-| `/back` | Return to previous location | `nexusprism.essentials.back` |
+| `/tpa <jogador>` | Enviar pedido de teletransporte | `nexusprism.essentials.tpa` |
+| `/tpaccept` | Aceitar pedido de teletransporte | `nexusprism.essentials.tpa` |
+| `/tpdeny` | Recusar pedido de teletransporte | `nexusprism.essentials.tpa` |
+| `/tphere <jogador>` | Teletransportar jogador até você (OP) | `nexusprism.essentials.tphere` |
+| `/tppos <x> <y> <z>` | Teletransportar para coordenadas (OP) | `nexusprism.essentials.tppos` |
+| `/spawn` | Teletransportar para o spawn | `nexusprism.essentials.spawn` |
+| `/setspawn` | Definir o spawn do servidor (OP) | `nexusprism.essentials.setspawn` |
+| `/back` | Voltar para localização anterior | `nexusprism.essentials.back` |
 
-### TPA Configuration (`essentials/config.yml`)
+### Configuração (`essentials/config.yml`)
 
 ```yaml
 tpa:
-  expiry-seconds: 60       # Request expires after this many seconds
+  expiry-seconds: 60       # Pedido expira após este tempo
 
 back:
-  save-on-death: true      # Save death location for /back
+  save-on-death: true      # Salvar localização de morte para /back
   save-on-any-teleport: false
 
 spawn:
-  respawn-at-spawn: false  # Force respawn at spawn (vs. bed)
+  respawn-at-spawn: false  # Forçar respawn no spawn (vs. cama)
 ```
 
 ---
 
-## AFK System
+## Sistema AFK
 
-### AFK Commands
+### Comandos AFK
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/afk` | Toggle AFK status | `nexusprism.essentials.afk` |
+| `/afk` | Alternar status AFK | `nexusprism.essentials.afk` |
 
-### AFK Configuration
+### Configuração AFK
 
 ```yaml
 afk:
-  idle-seconds: 300        # Auto-AFK after 5 minutes of inactivity
-  broadcast: true          # Announce when a player goes AFK
+  idle-seconds: 300        # AFK automático após 5 minutos inativo
+  broadcast: true          # Anunciar quando um jogador ficar AFK
 ```
 
 ---
 
-## Jail
+## Prisão
 
-Admins can send players to a predefined jail location.
+Admins podem enviar jogadores para uma localização de prisão predefinida.
 
-### Jail Commands
+### Comandos de Prisão
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/jail <player> [duration]` | Jail a player | `nexusprism.essentials.jail.admin` |
-| `/unjail <player>` | Release a player | `nexusprism.essentials.jail.admin` |
-| `/setjail` | Set the jail location | `nexusprism.essentials.jail.admin` |
+| `/jail <jogador> [duração]` | Prender um jogador (OP) | `nexusprism.essentials.jail.admin` |
+| `/unjail <jogador>` | Soltar um jogador (OP) | `nexusprism.essentials.jail.admin` |
+| `/setjail` | Definir localização da prisão (OP) | `nexusprism.essentials.jail.admin` |
 
 ---
 
-## Utility Commands
+## Comandos Utilitários
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/fly` | Toggle fly mode | `nexusprism.essentials.fly` |
-| `/fly <player>` | Toggle fly for another player | `nexusprism.essentials.fly.others` |
-| `/god` | Toggle god mode | `nexusprism.essentials.god` |
-| `/god <player>` | Toggle god for another player | `nexusprism.essentials.god.others` |
-| `/heal` | Heal yourself | `nexusprism.essentials.heal` |
-| `/heal <player>` | Heal another player | `nexusprism.essentials.heal.others` |
-| `/feed` | Feed yourself | `nexusprism.essentials.feed` |
-| `/feed <player>` | Feed another player | `nexusprism.essentials.feed.others` |
-| `/nick <name>` | Set your nickname | `nexusprism.essentials.nick` |
-| `/nick <player> <name>` | Set another player's nick | `nexusprism.essentials.nick.others` |
-| `/workbench` | Open a portable workbench | `nexusprism.essentials.workbench` |
-| `/trash` | Open a portable trash bin | `nexusprism.essentials.trash` |
-| `/anvil` | Open a portable anvil | `nexusprism.essentials.anvil` |
-| `/grindstone` | Open a portable grindstone | `nexusprism.essentials.grindstone` |
-| `/stonecutter` | Open a portable stonecutter | `nexusprism.essentials.stonecutter` |
-| `/speed <value>` | Set walk/fly speed | `nexusprism.essentials.speed` |
-| `/near` | List nearby players | `nexusprism.essentials.near` |
-| `/seen <player>` | Last seen info | `nexusprism.essentials.seen` |
-| `/clearinventory` | Clear your inventory | `nexusprism.essentials.clearinventory` |
-| `/clearinventory <player>` | Clear another's inventory | `nexusprism.essentials.clearinventory.others` |
-| `/getpos` | Show your coordinates | `nexusprism.essentials.getpos` |
-| `/playtime` | Check your playtime | `nexusprism.essentials.playtime` |
-| `/gamemode <mode>` | Change gamemode | `nexusprism.essentials.gamemode` |
-| `/enderchest` | Open your ender chest | `nexusprism.essentials.enderchest` |
-| `/enderchest <player>` | Open another's ender chest | `nexusprism.essentials.enderchest.others` |
-| `/repair` | Repair held item | `nexusprism.essentials.repair` |
-| `/ext` | Extinguish yourself | `nexusprism.essentials.ext` |
-| `/exp <amount>` | Give yourself XP | `nexusprism.essentials.exp` |
-| `/hat` | Wear held item as hat | `nexusprism.essentials.hat` |
-| `/skull <player>` | Get a player's head | `nexusprism.essentials.skull` |
-| `/rules` | Show server rules | `nexusprism.essentials.rules` |
-| `/worth [item]` | Check item sell value | `nexusprism.essentials.worth` |
-
-### Server Rules Configuration
-
-```yaml
-rules:
-  - "&7 1. Respect all players."
-  - "&7 2. No griefing or stealing."
-  - "&7 3. No hacking or exploiting."
-  - "&7 4. Have fun!"
-```
-
-### Fly Configuration
-
-```yaml
-fly:
-  deny-in-pvp-regions: true   # Disable /fly when entering PvP regions
-```
+| `/fly` | Alternar modo de voo | `nexusprism.essentials.fly` |
+| `/fly <jogador>` | Alternar voo para outro jogador (OP) | `nexusprism.essentials.fly.others` |
+| `/god` | Alternar modo deus | `nexusprism.essentials.god` |
+| `/heal` | Curar a si mesmo (OP) | `nexusprism.essentials.heal` |
+| `/feed` | Alimentar a si mesmo (OP) | `nexusprism.essentials.feed` |
+| `/nick <nome>` | Definir apelido | `nexusprism.essentials.nick` |
+| `/workbench` | Bancada portátil | `nexusprism.essentials.workbench` |
+| `/trash` | Lixeira portátil | `nexusprism.essentials.trash` |
+| `/anvil` | Bigorna portátil (OP) | `nexusprism.essentials.anvil` |
+| `/speed <valor>` | Definir velocidade de movimento (OP) | `nexusprism.essentials.speed` |
+| `/near` | Listar jogadores próximos | `nexusprism.essentials.near` |
+| `/seen <jogador>` | Última vez visto | `nexusprism.essentials.seen` |
+| `/getpos` | Mostrar suas coordenadas | `nexusprism.essentials.getpos` |
+| `/playtime` | Verificar tempo de jogo | `nexusprism.essentials.playtime` |
+| `/gamemode <modo>` | Alterar modo de jogo (OP) | `nexusprism.essentials.gamemode` |
+| `/enderchest` | Abrir seu baú de ender | `nexusprism.essentials.enderchest` |
+| `/repair` | Reparar item segurado (OP) | `nexusprism.essentials.repair` |
+| `/ext` | Apagar a si mesmo (OP) | `nexusprism.essentials.ext` |
+| `/hat` | Usar item como chapéu | `nexusprism.essentials.hat` |
+| `/rules` | Mostrar regras do servidor | `nexusprism.essentials.rules` |
+| `/worth [item]` | Verificar valor de venda | `nexusprism.essentials.worth` |

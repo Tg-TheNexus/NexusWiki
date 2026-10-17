@@ -1,11 +1,12 @@
-# Energy Module
+# Módulo Energy
 
-> ⚠️ **Removed 2026-08-06.** This page previously described a Joule-based power grid
-> (`EnergyManager`, `EnergyRegistry`, generators/capacitors/cables) that was confirmed to be
-> **dead code** — pre-dating the NexusPrism/NexusATS split, with zero real callers left in the
-> codebase. No such system currently ships in NexusPrism. If you're building an energy
-> network for an addon, see the reference design and rejected implementation notes in
-> `NexusATS/docs/planning/PLAN-presplit-core-infra.md`.
+> ⚠️ **Removido em 2026-08-06.** Esta página descrevia anteriormente uma rede de energia
+> baseada em Joules (`EnergyManager`, `EnergyRegistry`, geradores/capacitores/cabos) que foi
+> confirmada como **código morto** — anterior à separação NexusPrism/NexusATS, sem nenhum
+> chamador real restante no código. Nenhum sistema desses existe atualmente no NexusPrism. Se
+> você estiver construindo uma rede de energia para um addon, veja o design de referência e as
+> notas de implementação rejeitada em `NexusATS/docs/planning/PLAN-presplit-core-infra.md`.
 >
-> Machines and their energy needs (if any) now belong entirely to **NexusATS**. See that
-> plugin's own documentation for anything energy-related going forward.
+> Máquinas e suas necessidades de energia (se houver) agora pertencem inteiramente ao
+> **NexusATS**. Veja a documentação desse plugin para qualquer coisa relacionada a energia daqui
+> em diante.

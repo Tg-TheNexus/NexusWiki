@@ -1,42 +1,42 @@
-# Custom Mobs Module
+# Módulo Custom Mobs
 
-The Custom Mobs module lets server admins define **YAML-based bosses** with custom health, equipment, potion effects, AI combat forms, loot tables, and spawn eggs — all without writing Java code.
+O módulo Custom Mobs permite que administradores de servidores definam **bosses baseados em YAML** com saúde, equipamento, efeitos de poção, formas de IA, tabelas de loot e ovos de spawn personalizados — tudo sem escrever código Java.
 
 ---
 
-## Overview
+## Visão Geral
 
-| Feature | Description |
+| Funcionalidade | Descrição |
 | --- | --- |
-| **YAML definitions** | Each boss is a single `.yml` file in `custommobs/bosses/` |
-| **AI Forms** | Bosses switch between combat styles (SWORD, DAGGER, GLADIUS…) |
-| **Equipment** | Full armor and weapon loadout |
-| **Potion Effects** | Permanent effects applied to the boss |
-| **Loot Tables** | Guaranteed drops and chance-based drops |
-| **Spawn Eggs** | Custom spawn eggs crafted or given with `/bossegg` |
-| **Persistent** | Bosses survive server restarts |
+| **Definições em YAML** | Cada boss é um único arquivo `.yml` em `custommobs/bosses/` |
+| **Formas de IA** | Bosses alternam entre estilos de combate (SWORD, DAGGER, GLADIUS…) |
+| **Equipamento** | Conjunto completo de armadura e armas |
+| **Efeitos de Poção** | Efeitos permanentes aplicados ao boss |
+| **Tabelas de Loot** | Drops garantidos e drops por chance |
+| **Ovos de Spawn** | Ovos de spawn personalizados criados ou fornecidos com `/bossegg` |
+| **Persistente** | Bosses sobrevivem a reinicializações do servidor |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/boss spawn <id>` | Spawn a boss at your location | `nexusprism.boss.admin` |
-| `/boss spawn <id> <world> <x> <y> <z>` | Spawn at coordinates | `nexusprism.boss.admin` |
-| `/boss list` | List all registered bosses | `nexusprism.boss.admin` |
-| `/boss info <id>` | Show boss definition details | `nexusprism.boss.admin` |
-| `/boss kill <id>` | Kill all active instances of a boss | `nexusprism.boss.admin` |
-| `/bossegg give <player> <id>` | Give a boss spawn egg | `nexusprism.boss.admin` |
-| `/bossegg <id>` | Get your own boss spawn egg | `nexusprism.boss.admin` |
+| `/boss spawn <id>` | Invocar um boss na sua localização | `nexusprism.boss.admin` |
+| `/boss spawn <id> <mundo> <x> <y> <z>` | Invocar em coordenadas | `nexusprism.boss.admin` |
+| `/boss list` | Listar todos os bosses registrados | `nexusprism.boss.admin` |
+| `/boss info <id>` | Mostrar detalhes da definição do boss | `nexusprism.boss.admin` |
+| `/boss kill <id>` | Matar todas as instâncias ativas de um boss | `nexusprism.boss.admin` |
+| `/bossegg give <jogador> <id>` | Dar um ovo de spawn de boss | `nexusprism.boss.admin` |
+| `/bossegg <id>` | Obter seu próprio ovo de spawn de boss | `nexusprism.boss.admin` |
 
 ---
 
-## Boss YAML Format
+## Formato YAML de Boss
 
-Boss files are placed in `plugins/NexusPrism/custommobs/bosses/<id>.yml`.
+Os arquivos de boss são colocados em `plugins/NexusPrism/custommobs/bosses/<id>.yml`.
 
-### Full Example (`white_death.yml`)
+### Exemplo Completo (`white_death.yml`)
 
 ```yaml
 name: "§uEchoes §tof §sthe §bWhite §fDeath"
@@ -77,59 +77,59 @@ loot:
 form_switch_interval_ticks: 300
 ```
 
-### Field Reference
+### Referência de Campos
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 | --- | --- | --- |
-| `name` | String | Display name with `&`/`§` color codes |
-| `entity` | Bukkit EntityType | Base entity type (e.g. `WITHER_SKELETON`, `ZOMBIE`) |
-| `health` | Double | Max health in half-hearts |
-| `persistent` | Boolean | If `true`, boss persists through chunk unloads/restarts |
-| `equipment.*` | Material | Equipment slots: `helmet`, `chestplate`, `leggings`, `boots`, `main_hand`, `off_hand` |
-| `potion_effects` | List | Permanent effects in `EFFECT:AMPLIFIER` format |
-| `ai_forms` | List | Combat styles the boss alternates between |
-| `ai_forms[].type` | String | AI form ID (`SWORD`, `DAGGER`, `GLADIUS`, etc.) |
-| `ai_forms[].weight` | Integer | Relative weight for random selection |
-| `loot.always` | List | Guaranteed drops in `ITEM_ID:amount` format |
-| `loot.chance` | List | Chance-based drops with `item` and `chance` (0.0–1.0) |
-| `form_switch_interval_ticks` | Integer | Ticks between AI form switches (300 = 15 seconds) |
+| `name` | String | Nome de exibição com códigos de cor `&`/`§` |
+| `entity` | EntityType do Bukkit | Tipo de entidade base (ex: `WITHER_SKELETON`, `ZOMBIE`) |
+| `health` | Double | Saúde máxima em meias vidas |
+| `persistent` | Boolean | Se `true`, o boss persiste após descarregamento de chunks/reinicializações |
+| `equipment.*` | Material | Slots de equipamento: `helmet`, `chestplate`, `leggings`, `boots`, `main_hand`, `off_hand` |
+| `potion_effects` | Lista | Efeitos permanentes no formato `EFEITO:AMPLIFICADOR` |
+| `ai_forms` | Lista | Estilos de combate que o boss alterna |
+| `ai_forms[].type` | String | ID da forma de IA (`SWORD`, `DAGGER`, `GLADIUS`, etc.) |
+| `ai_forms[].weight` | Integer | Peso relativo para seleção aleatória |
+| `loot.always` | Lista | Drops garantidos no formato `ID_ITEM:quantidade` |
+| `loot.chance` | Lista | Drops por chance com `item` e `chance` (0.0–1.0) |
+| `form_switch_interval_ticks` | Integer | Ticks entre trocas de forma de IA (300 = 15 segundos) |
 
-### Loot Items
+### Itens de Loot
 
-Both Bukkit `Material` names and NexusPrism custom item IDs can be used in loot tables:
+Tanto nomes de `Material` do Bukkit quanto IDs de itens personalizados do NexusPrism podem ser usados nas tabelas de loot:
 
 ```yaml
 loot:
   always:
-    - DIAMOND:3           # Vanilla material
-    - NEXUS_SHARD:1       # Custom NexusPrism item ID
+    - DIAMOND:3           # Material vanilla
+    - NEXUS_SHARD:1       # ID de item personalizado do NexusPrism
   chance:
     - item: BOSS_TROPHY
-      chance: 0.05        # 5% drop chance
+      chance: 0.05        # 5% de chance de drop
 ```
 
 ---
 
-## AI Form Types
+## Tipos de Forma de IA
 
-| Form | Description |
+| Forma | Descrição |
 | --- | --- |
-| `SWORD` | Aggressive melee, charges toward target |
-| `DAGGER` | Fast hit-and-run attacks |
-| `GLADIUS` | Balanced attack with shield bashing |
+| `SWORD` | Corpo a corpo agressivo, avança em direção ao alvo |
+| `DAGGER` | Ataques rápidos de hit-and-run |
+| `GLADIUS` | Ataque equilibrado com ataques de escudo |
 
-Custom AI forms can be added by creating addon modules using the `nexusprism-api`.
+Formas de IA personalizadas podem ser adicionadas criando módulos addon usando a `nexusprism-api`.
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.boss.admin` | All boss and spawn egg commands | OP |
+| `nexusprism.boss.admin` | Todos os comandos de boss e ovo de spawn | OP |
 
 ---
 
-## Spawn Egg Usage
+## Uso do Ovo de Spawn
 
-Spawn eggs given with `/bossegg give <player> <id>` can be right-clicked in the world to spawn the boss. The egg item shows the boss name and a preview of its health in the lore.
+Ovos de spawn fornecidos com `/bossegg give <jogador> <id>` podem ser clicados com o botão direito no mundo para invocar o boss. O item de ovo mostra o nome do boss e uma prévia de sua saúde no lore.
