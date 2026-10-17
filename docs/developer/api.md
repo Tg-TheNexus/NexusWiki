@@ -1,26 +1,27 @@
-# NexusPrism Developer API
+# API para Desenvolvedores NexusPrism
 
-*Last updated: 2026-03-22*
+*Última atualização: 2026-03-22*
 
-> ⚠️ **Partially outdated (flagged 2026-08-06, not yet rewritten).** The `Backpacks`,
-> `Energy networks`, `Item registry`, and `ResearchManager` sections below describe an API
-> (`NexusPrismAPI.get().getService(...)`, `BackpackRegistry`, `EnergyRegistry`, `ItemRegistry`)
-> that was **confirmed to never actually exist in the codebase** — no such service is
-> registered via Bukkit's `ServicesManager` anywhere, and the underlying systems
-> (`BackpackManager`, energy, research) were dead code, since removed (see
-> `NexusATS/docs/planning/PLAN-presplit-core-infra.md`). That whole domain now belongs to
-> NexusATS — do not build against the sections below. The generic hooks that **do** exist
-> today are `NexusPrism.registerBlockClassifier()`, `registerAddonCommand()`/
-> `registerAddonTabCompleter()`, and `DataManager.setPlayerField()`/`getPlayerField()` — see
-> `ECOSYSTEM.md` at the root of the ecosystem repo for current, verified examples.
+> ⚠️ **Parcialmente desatualizado (sinalizado em 2026-08-06, ainda não reescrito por completo).**
+> As seções `Mochilas`, `Redes de Energia`, `Registro de itens` e `ResearchManager` abaixo
+> descrevem uma API (`NexusPrismAPI.get().getService(...)`, `BackpackRegistry`,
+> `EnergyRegistry`, `ItemRegistry`) que foi **confirmada como nunca ter existido de fato no
+> código** — nenhum serviço desses é registrado via `ServicesManager` do Bukkit em lugar
+> nenhum, e os sistemas subjacentes (`BackpackManager`, energia, pesquisa) eram código morto,
+> já removido (veja `NexusATS/docs/planning/PLAN-presplit-core-infra.md`). Todo esse domínio
+> agora pertence ao NexusATS — não construa integrações contra as seções abaixo. Os hooks
+> genéricos que **de fato existem** hoje são `NexusPrism.registerBlockClassifier()`,
+> `registerAddonCommand()`/`registerAddonTabCompleter()` e
+> `DataManager.setPlayerField()`/`getPlayerField()` — veja o `ECOSYSTEM.md` na raiz do
+> repositório do ecossistema para exemplos reais e atualizados.
 
-This guide walks through integrating with NexusPrism from an external Bukkit/Paper plugin or a native addon JAR. You only ever compile against `nexusprism-api` — never against concrete module JARs.
+Este guia mostra como integrar com o NexusPrism a partir de um plugin Bukkit/Paper externo ou de um addon nativo. Você compila apenas contra `nexusprism-api` — nunca contra os JARs concretos dos módulos.
 
 ---
 
-## Step 1 — Add the dependency
+## Passo 1 — Adicionar a dependência
 
-NexusPrism is published through **JitPack**. Add the repository and the API artifact to your `pom.xml`:
+O NexusPrism é publicado via **JitPack**. Adicione o repositório e o artefato da API ao seu `pom.xml`:
 
 ```xml
 <repositories>
@@ -34,15 +35,15 @@ NexusPrism is published through **JitPack**. Add the repository and the API arti
     <dependency>
         <groupId>com.github.Tg-TheNexus.NexusPrismModularizado</groupId>
         <artifactId>nexusprism-api</artifactId>
-        <version>master-SNAPSHOT</version> <!-- or a specific commit hash -->
+        <version>master-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
 ```
 
-> **`provided` scope is required.** NexusPrism ships the API at runtime — do not shade it into your JAR.
+> **O escopo `provided` é obrigatório.** O NexusPrism inclui a API em tempo de execução — não a inclua (shade) no seu JAR.
 
-For Gradle (Kotlin DSL):
+Para Gradle (Kotlin DSL):
 
 ```kotlin
 repositories {
@@ -56,14 +57,14 @@ dependencies {
 
 ---
 
-## Step 2 — Declare the dependency in `plugin.yml`
+## Passo 2 — Declarar a dependência no `plugin.yml`
 
-Because NexusPrism is optional for most integrations, use `softdepend`. Use `depend` only if your plugin cannot function at all without it.
+Como o NexusPrism é opcional para a maioria das integrações, use `softdepend`. Use `depend` somente se o seu plugin não funcionar de forma alguma sem ele.
 
 ```yaml
-name: MyPlugin
+name: MeuPlugin
 version: 1.0.0
-main: com.example.MyPlugin
+main: com.exemplo.MeuPlugin
 api-version: "1.21"
 
 softdepend:
@@ -72,14 +73,14 @@ softdepend:
 
 ---
 
-## Step 3 — Get the API instance
+## Passo 3 — Obter a instância da API
 
-Always obtain the API inside `onEnable()`, **after** the server is fully started (or listen for `ServerLoadEvent`). Never call it from a static initializer or constructor.
+Sempre obtenha a API dentro do `onEnable()`, **após** o servidor estar completamente iniciado. Nunca a chame de um inicializador estático ou construtor.
 
 ```java
 import io.github.otiger.nexusprism.api.NexusPrismAPI;
 
-public class MyPlugin extends JavaPlugin {
+public class MeuPlugin extends JavaPlugin {
 
     private NexusPrismAPI nexus;
 
@@ -88,74 +89,69 @@ public class MyPlugin extends JavaPlugin {
         nexus = NexusPrismAPI.get();
 
         if (nexus == null) {
-            getLogger().warning("NexusPrism not found — integration disabled.");
+            getLogger().warning("NexusPrism não encontrado — integração desativada.");
             return;
         }
 
         if (!nexus.isReady()) {
-            // NexusPrism loaded but hasn't finished startup yet
-            // Listen to ServerLoadEvent or use Bukkit.getScheduler().runTaskLater(...)
-            getLogger().warning("NexusPrism is still starting up.");
+            getLogger().warning("NexusPrism ainda está inicializando.");
             return;
         }
 
-        getLogger().info("Hooked into NexusPrism " + nexus.getVersion());
+        getLogger().info("Conectado ao NexusPrism " + nexus.getVersion());
     }
 }
 ```
 
 ---
 
-## Step 4 — Module providers
+## Passo 4 — Provedores de módulos
 
-Each optional NexusPrism module exposes a typed provider through a static registry. All providers return `Optional` — if the module is disabled or not installed, the Optional is empty. Always use `ifPresent` or `orElse` to handle this safely.
+Cada módulo opcional do NexusPrism expõe um provedor tipado através de um registro estático. Todos os provedores retornam `Optional` — se o módulo estiver desativado ou não instalado, o Optional estará vazio. Sempre use `ifPresent` ou `orElse` para lidar com isso com segurança.
 
-### Economy
+### Economia
 
 ```java
-import io.github.otiger.nexusprism.api.NexusPrismAPI;
-
 UUID uuid = player.getUniqueId();
 
-// Read balance
-double balance = NexusPrismAPI.economy()
+// Ler saldo
+double saldo = NexusPrismAPI.economy()
         .map(eco -> eco.getBalance(uuid))
         .orElse(0.0);
 
-// Add money
+// Adicionar dinheiro
 NexusPrismAPI.economy().ifPresent(eco -> eco.addMoney(uuid, 500.0));
 
-// Charge player (returns false if insufficient funds)
-boolean success = NexusPrismAPI.economy()
+// Cobrar jogador (retorna false se saldo insuficiente)
+boolean sucesso = NexusPrismAPI.economy()
         .map(eco -> eco.withdrawMoney(uuid, 100.0))
         .orElse(false);
 
-// Top balances
-NexusPrismAPI.economy().ifPresent(eco -> {
+// Top saldos
+NexusPrismAPI.economy().ifPresent(eco ->
     eco.getTopBalances(10).forEach(entry ->
-        System.out.println(entry.uuid() + " → " + entry.balance()));
-});
+        System.out.println(entry.uuid() + " → " + entry.balance())));
 ```
 
-### Authentication / Security
+### Autenticação / Segurança
 
 ```java
-// Check if a player is logged in (defaults to true when auth module absent)
-boolean loggedIn = NexusPrismAPI.auth()
+// Verificar se o jogador está logado (padrão true quando módulo ausente)
+boolean logado = NexusPrismAPI.auth()
         .map(auth -> auth.isAuthenticated(uuid))
         .orElse(true);
 ```
 
-### Clans
+### Clãs
 
 ```java
-// Get a player's clan tag
+// Obter tag do clã do jogador
 String tag = NexusPrismAPI.clans()
         .flatMap(c -> c.getClanTag(uuid))
         .orElse("");
 
-// Check clan membership
-boolean hasClan = NexusPrismAPI.clans()
+// Verificar se está em um clã
+boolean temCla = NexusPrismAPI.clans()
         .map(c -> c.isInClan(uuid))
         .orElse(false);
 ```
@@ -163,48 +159,48 @@ boolean hasClan = NexusPrismAPI.clans()
 ### Essentials
 
 ```java
-// Teleport a player to their home named "base"
+// Teleportar jogador para a home "base"
 NexusPrismAPI.essentials().ifPresent(ess ->
         ess.teleportHome(player, "base"));
 
-// Check AFK status
-boolean isAfk = NexusPrismAPI.essentials()
+// Verificar status AFK
+boolean estaAfk = NexusPrismAPI.essentials()
         .map(ess -> ess.isAfk(uuid))
         .orElse(false);
 ```
 
-### Votes
+### Votos
 
 ```java
-// Get a player's total vote count
-int votes = NexusPrismAPI.votes()
+// Total de votos do jogador
+int votos = NexusPrismAPI.votes()
         .map(v -> v.getTotalVotes(uuid))
         .orElse(0);
 
-// Get current vote streak
-int streak = NexusPrismAPI.votes()
+// Sequência atual de votos
+int sequencia = NexusPrismAPI.votes()
         .map(v -> v.getStreak(uuid))
         .orElse(0);
 ```
 
-### Custom Enchantments
+### Encantamentos Personalizados
 
 ```java
-// Check if a tool has a specific custom enchant applied
-boolean hasEnchant = NexusPrismAPI.enchants()
+// Verificar se um item tem um encantamento personalizado
+boolean temEnchant = NexusPrismAPI.enchants()
         .map(e -> e.hasEnchant(item, "SOUL_MENDER"))
         .orElse(false);
 
-// Get the level of a custom enchant on an item
-int level = NexusPrismAPI.enchants()
+// Obter o nível de um encantamento
+int nivel = NexusPrismAPI.enchants()
         .map(e -> e.getLevel(item, "SOUL_MENDER"))
         .orElse(0);
 ```
 
-### Crates
+### Caixas (Crates)
 
 ```java
-// Give a player a crate key
+// Dar uma chave de caixa ao jogador
 NexusPrismAPI.crates().ifPresent(c ->
         c.giveKey(player, "VOTE_CRATE", 1));
 ```
@@ -217,24 +213,23 @@ import io.github.otiger.nexusprism.api.mmo.MmoRegistry;
 UUID uuid = player.getUniqueId();
 
 MmoRegistry.get().ifPresent(mmo -> {
-    int level  = mmo.getLevel(uuid);
+    int nivel  = mmo.getLevel(uuid);
     int mana   = mmo.getCurrentMana(uuid);
     int maxMana = mmo.getMaxMana(uuid);
 
-    // Consume mana (returns false if not enough)
+    // Consome mana (retorna false se insuficiente)
     if (mmo.hasMana(uuid, 20) && mmo.consumeMana(uuid, 20)) {
-        // ability triggered
+        // habilidade ativada
     }
 
-    // Add XP to a skill tree
+    // Adiciona XP a uma árvore de habilidades
     mmo.addSkillXp(player, "warrior", 100L);
 
-    // Add XP to a profession
+    // Adiciona XP a uma profissão
     mmo.addProfessionXp(player, "mining", 50L);
 
-    // Stat access
-    int strength = mmo.getStat(uuid, "STRENGTH");
-    List<String> abilities = mmo.getUnlockedAbilityIds(uuid);
+    int forca = mmo.getStat(uuid, "STRENGTH");
+    List<String> habilidades = mmo.getUnlockedAbilityIds(uuid);
 });
 ```
 
@@ -244,113 +239,75 @@ MmoRegistry.get().ifPresent(mmo -> {
 import io.github.otiger.nexusprism.api.chat.ChatRegistry;
 
 ChatRegistry.get().ifPresent(chat -> {
-    // Mute checks
-    boolean muted = chat.isMuted(uuid);
-
-    // Mute for 10 minutes
+    boolean silenciado = chat.isMuted(uuid);
     chat.mute(uuid, 10 * 60 * 1000L, "Spam", "Console");
-
-    // Broadcast to a channel
-    chat.broadcastToChannel("global", "[MyAddon] Server announcement!");
-
-    // Get which channel a player is currently active in
-    String activeChannel = chat.getActiveChannel(uuid);
+    chat.broadcastToChannel("global", "[MeuAddon] Anúncio do servidor!");
+    String canalAtivo = chat.getActiveChannel(uuid);
 });
 ```
 
-### Protections
+### Proteções
 
 ```java
 import io.github.otiger.nexusprism.api.protections.ProtectionsRegistry;
 
 ProtectionsRegistry.get().ifPresent(prot -> {
-    // PvP check at a location
     boolean pvp = prot.isPvpAllowed(location);
-
-    // Duel state
-    boolean inDuel = prot.isInDuel(uuid);
-    prot.getDuelOpponent(uuid).ifPresent(opponentUuid -> { /* ... */ });
-
-    // Region info
-    List<String> regions = prot.getRegionNamesAt(location);
-    prot.getRegionOwnerAt(location).ifPresent(ownerUuid -> { /* ... */ });
-    int claimed = prot.getRegionCount(uuid);
+    boolean emDuelo = prot.isInDuel(uuid);
+    prot.getDuelOpponent(uuid).ifPresent(oponente -> { /* ... */ });
+    List<String> regioes = prot.getRegionNamesAt(location);
+    int reivindicadas = prot.getRegionCount(uuid);
 });
 ```
 
-### Events (Blood Moon, Sacrifice Arc, Anime Boss)
+### Eventos (Lua de Sangue, Arco do Sacrifício, Chefe Isekai)
 
 ```java
 import io.github.otiger.nexusprism.api.events.EventsRegistry;
 
 EventsRegistry.get().ifPresent(events -> {
-    boolean moonActive = events.isBloodMoonActive();
-    boolean inWorld    = events.isBloodMoonActive(player.getWorld());
-
-    int streak         = events.getSacrificeStreak(uuid);
-    boolean inSacrifice = events.isInSacrifice(uuid);
-    boolean hasBoss    = events.hasActiveBossFight(uuid);
-
-    // Check if player needs to sacrifice (streak milestone reached)
-    boolean mustSacrifice = events.needsSacrifice(uuid);
+    boolean luaAtiva   = events.isBloodMoonActive();
+    int sequencia      = events.getSacrificeStreak(uuid);
+    boolean emSacrificio = events.isInSacrifice(uuid);
+    boolean temChefe   = events.hasActiveBossFight(uuid);
 });
 ```
 
-### Holograms
+### Hologramas
 
 ```java
 import io.github.otiger.nexusprism.api.holograms.HologramRegistry;
 
 HologramRegistry.get().ifPresent(holo -> {
-    holo.create("my_holo", location);
-    holo.addLine("my_holo", "§aHello from my addon!");
-    holo.setLine("my_holo", 0, "§eUpdated line");
-    holo.removeLine("my_holo", 0);
-    holo.moveTo("my_holo", newLocation);
-
-    // Per-player visibility
-    holo.showToPlayer("my_holo", player);
-    holo.hideFromPlayer("my_holo", player);
-
-    // Cleanup
-    holo.delete("my_holo");
+    holo.create("meu_holo", location);
+    holo.addLine("meu_holo", "§aOlá do meu addon!");
+    holo.setLine("meu_holo", 0, "§eLinha atualizada");
+    holo.showToPlayer("meu_holo", player);
+    holo.delete("meu_holo");
 });
 ```
 
-### Backpacks
+### Mochilas
 
 ```java
 import io.github.otiger.nexusprism.api.backpack.BackpackRegistry;
 
 BackpackRegistry.get().ifPresent(bp -> {
-    int count   = bp.getBackpackCount(uuid);
-    int maxCount = bp.getMaxBackpacks(uuid);
-    boolean can = bp.canCreateBackpack(player);
-
-    List<UUID> ids = bp.getBackpackIds(uuid);
-
-    // Open GUIs
-    bp.openFirstBackpack(player);              // opens first backpack
-    bp.openBackpack(player, ids.get(0));       // opens specific one
+    int quantidade = bp.getBackpackCount(uuid);
+    bp.openFirstBackpack(player);
+    bp.openBackpack(player, ids.get(0));
 });
 ```
 
-### Traits (Tarot cards)
+### Traits (Cartas de Tarô)
 
 ```java
 import io.github.otiger.nexusprism.api.traits.TraitsRegistry;
 
 TraitsRegistry.get().ifPresent(traits -> {
-    List<String> cards = traits.getCards(uuid);     // card names the player holds
-    boolean hasCard    = traits.hasCard(uuid, "The Tower");
-    int researchLevel  = traits.getResearchLevel(uuid);
-    traits.setResearchLevel(uuid, 5);
-
-    // All available card names
-    List<String> allCards = traits.getCardNames();
-
-    // Cooldown info (ms remaining)
-    long rerollMs = traits.fullRerollCooldownRemainingMs(uuid);
+    List<String> cartas = traits.getCards(uuid);
+    boolean temCarta    = traits.hasCard(uuid, "The Tower");
+    int nivelPesquisa   = traits.getResearchLevel(uuid);
 });
 ```
 
@@ -360,92 +317,107 @@ TraitsRegistry.get().ifPresent(traits -> {
 import io.github.otiger.nexusprism.api.discord.DiscordRegistry;
 
 DiscordRegistry.get().ifPresent(discord -> {
-    // Link status
-    boolean linked = discord.isLinked(uuid);
-    discord.getDiscordId(uuid).ifPresent(discordId -> { /* ... */ });
-    discord.getMinecraftUuid("123456789").ifPresent(mcUuid -> { /* ... */ });
-
-    // Send a plain message to a configured channel
-    discord.sendMessage("server-log", "[MyAddon] Something happened!");
-
-    // Send a webhook-style message with custom display name and avatar
-    discord.sendWebhook("server-log", "MyAddon Bot", null, "Player did a thing.");
-
-    // Generate a link code for a player
-    String code = discord.generateLinkCode(uuid);
-    player.sendMessage("Your link code: " + code);
+    boolean vinculado = discord.isLinked(uuid);
+    discord.sendMessage("server-log", "[MeuAddon] Algo aconteceu!");
+    discord.sendWebhook("server-log", "Bot MeuAddon", null, "Jogador fez algo.");
 });
 ```
 
-### Jobs
+### Empregos
 
 ```java
 import io.github.otiger.nexusprism.api.economy.JobRegistry;
 
-JobRegistry.get().ifPresent(jobs -> {
-    Optional<String> jobId = jobs.getActiveJob(uuid);
-    boolean hasJob = jobs.hasJob(uuid);
-
-    if (hasJob) {
-        int level = jobs.getLevel(uuid, jobId.get());
-        long xp   = jobs.getXp(uuid, jobId.get());
+JobRegistry.get().ifPresent(empregos -> {
+    Optional<String> empregoId = empregos.getActiveJob(uuid);
+    boolean temEmprego = empregos.hasJob(uuid);
+    if (temEmprego) {
+        int nivel = empregos.getLevel(uuid, empregoId.get());
     }
-
-    List<String> allJobs = jobs.getAllJobIds(); // e.g. ["miner", "farmer", "hunter"]
-
-    // Force-join a job
-    jobs.joinJob(uuid, "miner");
-
-    // Leave current job
-    jobs.leaveJob(uuid);
+    empregos.joinJob(uuid, "miner");
+    empregos.leaveJob(uuid);
 });
 ```
 
-### Energy networks
+### Redes de Energia
 
 ```java
 import io.github.otiger.nexusprism.api.energy.EnergyRegistry;
 
-EnergyRegistry.get().ifPresent(energy -> {
-    energy.getNetworkAt(location).ifPresent(net -> {
-        long stored = net.getTotalStoredEnergy();
-        long cap    = net.getTotalCapacity();
-        int  netFlow = net.getNetFlow(); // positive = surplus
+EnergyRegistry.get().ifPresent(energia -> {
+    energia.getNetworkAt(location).ifPresent(rede -> {
+        long armazenado = rede.getTotalStoredEnergy();
+        long cap        = rede.getTotalCapacity();
+        int  fluxo      = rede.getNetFlow();
     });
-
-    // Register / unregister a custom EnergyComponent
-    energy.registerComponent(myComponent);    // call in onEnable / block-place listener
-    energy.unregisterComponent(myComponent);  // call in onDisable / block-break listener
+    energia.registerComponent(meuComponente);
+    energia.unregisterComponent(meuComponente);
 });
 ```
 
 ---
 
-## Step 5 — Custom items
+## Passo 10 — Carregamento de Conteúdo de Addons
 
-Use `NexusItemBuilder` to inspect any `ItemStack` and check whether it is a NexusPrism custom item.
+Addons nativos podem registrar **itens**, **máquinas**, **receitas de crafting** e **receitas de infinity** diretamente de arquivos YAML empacotados no JAR.
+
+```java
+ContentLoadResult result = content()
+        .items("items.yml")
+        .machines("machines.yml")
+        .recipes("recipes.yml")
+        .infinityRecipes("infinity_recipes")
+        .register();
+
+result.logTo(getLogger());
+```
+
+### Receitas de Processamento de Máquinas (programático)
+
+```java
+import io.github.otiger.nexusprism.api.machines.recipe.MachineProcessingRecipe;
+import io.github.otiger.nexusprism.api.machines.recipe.MachineProcessingRegistry;
+
+MachineProcessingRegistry.register(
+    MachineProcessingRecipe.builder("minha_receita", "EXAMPLE_FURNACE")
+            .input("DIAMOND", 1)
+            .output("EXAMPLE_INGOT", 3)
+            .time(120)
+            .source(getId())
+            .build()
+);
+
+// Em onDisable — sempre limpe:
+MachineProcessingRegistry.unregisterBySource(getId());
+```
+
+---
+
+## Passo 5 — Itens personalizados
+
+Use `NexusItemBuilder` para inspecionar qualquer `ItemStack` e verificar se é um item personalizado do NexusPrism.
 
 ```java
 import io.github.otiger.nexusprism.api.items.builder.NexusItemBuilder;
 
 ItemStack item = player.getInventory().getItemInMainHand();
 
-// Get the internal item ID (e.g. "COPPER_DUST", "CELESTIAL_SWORD")
-String id = NexusItemBuilder.getItemId(item); // null if not a NexusPrism item
+// Obter o ID interno do item (ex: "COPPER_DUST", "CELESTIAL_SWORD")
+String id = NexusItemBuilder.getItemId(item); // null se não for item NexusPrism
 
 if ("CELESTIAL_SWORD".equals(id)) {
-    player.sendMessage("You are holding the Celestial Sword!");
+    player.sendMessage("Você está segurando a Espada Celestial!");
 }
 ```
 
-You can also resolve a custom item from the registry via `getService`:
+Para criar um item do registro:
 
 ```java
 import io.github.otiger.nexusprism.api.registry.ItemRegistry;
 
-ItemRegistry registry = nexus.getService(ItemRegistry.class);
-if (registry != null) {
-    registry.getItem("COPPER_DUST").ifPresent(nexusItem -> {
+ItemRegistry registro = nexus.getService(ItemRegistry.class);
+if (registro != null) {
+    registro.getItem("COPPER_DUST").ifPresent(nexusItem -> {
         ItemStack stack = nexusItem.buildStack(1);
         player.getInventory().addItem(stack);
     });
@@ -454,91 +426,84 @@ if (registry != null) {
 
 ---
 
-## Step 6 — Territory API
+## Passo 6 — API de Território
 
-If you are building a land-claiming or region system and want it to integrate with NexusPrism's protection checks (machine placement, clan building rules, etc.), implement `TerritoryProvider` and register it.
+Se você estiver construindo um sistema de reivindicação de terrenos e quiser que ele se integre às verificações de proteção do NexusPrism, implemente `TerritoryProvider` e registre-o.
 
 ```java
 import io.github.otiger.nexusprism.api.territory.TerritoryProvider;
 import io.github.otiger.nexusprism.api.territory.TerritoryRegistry;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
-public class MyRegionProvider implements TerritoryProvider {
+public class MeuProvedorRegiao implements TerritoryProvider {
 
     @Override
     public boolean isClaimed(Location location) {
-        return MyRegionManager.isClaimed(location);
+        return MeuGerenciadorRegiao.isClaimed(location);
     }
 
     @Override
     public boolean canBuild(Player player, Location location) {
-        return MyRegionManager.canBuild(player, location);
+        return MeuGerenciadorRegiao.canBuild(player, location);
     }
 
     @Override
     public boolean canInteract(Player player, Location location) {
-        return MyRegionManager.canInteract(player, location);
+        return MeuGerenciadorRegiao.canInteract(player, location);
     }
 
     @Override
-    public java.util.Optional<String> getClaimName(Location location) {
-        return MyRegionManager.getRegionName(location);
+    public Optional<String> getClaimName(Location location) {
+        return MeuGerenciadorRegiao.getRegionName(location);
     }
 }
 ```
 
-Register and unregister in your plugin's lifecycle:
-
 ```java
-private final MyRegionProvider provider = new MyRegionProvider();
+private final MeuProvedorRegiao provedor = new MeuProvedorRegiao();
 
 @Override
 public void onEnable() {
-    TerritoryRegistry.register(provider);
+    TerritoryRegistry.register(provedor);
 }
 
 @Override
 public void onDisable() {
-    TerritoryRegistry.unregister(provider);
+    TerritoryRegistry.unregister(provedor);
 }
 ```
 
-> NexusPrism uses **deny-wins** aggregation: if any registered provider denies `canBuild`, the action is blocked.
+> O NexusPrism usa agregação **deny-wins**: se qualquer provedor negar `canBuild`, a ação é bloqueada.
 
 ---
 
-## Step 7 — Event flags
+## Passo 7 — Flags de eventos
 
-`EventFlags` exposes live server-state flags from the Events module. Read these to react to Blood Moon and economy multipliers.
+`EventFlags` expõe flags de estado em tempo real do módulo de eventos.
 
 ```java
 import io.github.otiger.nexusprism.api.events.EventFlags;
 
-// Is the Blood Moon currently active?
+// A Lua de Sangue está ativa?
 if (EventFlags.bloodMoonActive) {
-    // Double your boss spawn rates, apply particle effects, etc.
+    // Aplique efeitos especiais...
 }
 
-// Current economy kill-pay multiplier (1.0 = normal, 1.5 = +50% during Blood Moon)
-double multiplier = EventFlags.killPayMultiplier;
-double reward = baseReward * multiplier;
+// Multiplicador de recompensa por kill (1.0 = normal, 1.5 = +50% na Lua de Sangue)
+double multiplicador = EventFlags.killPayMultiplier;
+double recompensa = baseRecompensa * multiplicador;
 ```
 
 ---
 
-## Step 8 — Structure loot injection
+## Passo 8 — Injeção de loot em estruturas
 
-Register a `StructureProvider` to inject custom loot into vanilla structures when they are generated.
+Registre um `StructureProvider` para injetar loot personalizado em estruturas vanilla durante a geração.
 
 ```java
 import io.github.otiger.nexusprism.api.structures.StructureProvider;
 import io.github.otiger.nexusprism.api.structures.StructureRegistry;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
-import java.util.List;
 
-public class MyLootProvider implements StructureProvider {
+public class MeuLootProvider implements StructureProvider {
 
     @Override
     public NamespacedKey structure() {
@@ -547,251 +512,129 @@ public class MyLootProvider implements StructureProvider {
 
     @Override
     public List<ItemStack> loot() {
-        // Return items to inject into chests inside this structure
         return List.of(new ItemStack(Material.DIAMOND, 1));
     }
 }
-```
 
-```java
-// Register on enable, unregister on disable
-StructureRegistry.register(new MyLootProvider());
+// Registrar no onEnable:
+StructureRegistry.register(new MeuLootProvider());
 ```
 
 ---
 
-## Step 9 — Writing a native addon
+## Passo 9 — Escrevendo um addon nativo
 
-Native addons are JAR files dropped into `plugins/NexusPrism/addons/`. They are loaded by NexusPrism directly and do not need their own `plugin.yml`.
+Addons nativos são JARs colocados em `plugins/NexusPrism/addons/`. Eles são carregados diretamente pelo NexusPrism e não precisam de `plugin.yml` próprio.
 
-### 1. Create the addon class
+### 1. Criar a classe do addon
 
 ```java
 import io.github.otiger.nexusprism.api.addon.AbstractNexusAddon;
-import io.github.otiger.nexusprism.api.NexusPrismAPI;
 
-public class MyAddon extends AbstractNexusAddon {
+public class MeuAddon extends AbstractNexusAddon {
 
     @Override
     public void onEnable() {
-        // Load config (reads config.yml from JAR if not yet extracted)
         saveDefaultConfig();
-        String welcomeMsg = getConfig().getString("welcome-message", "Hello!");
-        getLogger().info(welcomeMsg);
-
-        // Use the API
-        NexusPrismAPI api = getAPI();
-        getLogger().info("Hooked — NexusPrism " + api.getVersion());
-
-        // Register a territory provider
-        TerritoryRegistry.register(new MyRegionProvider());
+        String msg = getConfig().getString("mensagem-boas-vindas", "Olá!");
+        getLogger().info(msg);
+        getLogger().info("Conectado — NexusPrism " + getAPI().getVersion());
     }
 
     @Override
     public void onDisable() {
-        TerritoryRegistry.unregister(myProvider);
-        getLogger().info(getName() + " disabled.");
+        getLogger().info(getName() + " desativado.");
     }
 }
 ```
 
-### 2. Create `addon.yml` inside the JAR
+### 2. Criar `addon.yml` dentro do JAR
 
 ```yaml
-id: my-addon
-name: My Addon
+id: meu-addon
+name: Meu Addon
 version: 1.0.0
-description: Demonstrates the NexusPrism addon API.
+description: Demonstra a API de addon do NexusPrism.
 authors:
-  - YourName
-main: com.example.MyAddon
+  - SeuNome
+main: com.exemplo.MeuAddon
 min-nexus-version: 1.0.0
-
-# Hard dependencies (must be present):
 dependencies: []
-
-# Optional dependencies (loaded first if present):
 soft-dependencies: []
 ```
 
-### 3. Build and install
+### 3. Compilar e instalar
 
 ```
 mvn package
-cp target/my-addon-1.0.0.jar plugins/NexusPrism/addons/
-```
-
-Restart the server. You should see:
-
-```
-[NexusPrism] [MyAddon] Hello!
-[NexusPrism] [MyAddon] Hooked — NexusPrism 1.0.0-DEV
-```
-
-!!! tip "Starter template"
-    A ready-to-clone Maven project is available at **[O-Tiger/NexusPrism-Addon-Example](https://github.com/Tg-TheNexus/NexusPrism-Addon-Example)**. It includes working examples of every API surface described in this guide.
-
----
-
-## Step 10 — Content loading from addons
-
-Native addons can register custom **items**, **machines**, **crafting recipes**, and **infinity recipes** directly from YAML files bundled in their JAR. NexusPrism merges this content into the server registry at load time.
-
-```java
-import io.github.otiger.nexusprism.api.content.ContentLoadResult;
-
-@Override
-public void onEnable() {
-    // content() returns a fluent builder scoped to this addon.
-    // Files are read from the addon's data folder first,
-    // then extracted from the JAR if not found on disk.
-    ContentLoadResult result = content()
-            .items("items.yml")               // custom item definitions
-            .machines("machines.yml")         // custom machine type definitions
-            .recipes("recipes.yml")           // standard crafting recipes
-            .infinityRecipes("infinity_recipes") // all *.yml in this directory
-            .register();
-
-    result.logTo(getLogger()); // prints counts & errors
-}
-```
-
-### Machine processing recipes (programmatic)
-
-If you want to add input→output rules to an **existing machine type** from code (rather than YAML), use `MachineProcessingRegistry`. The engine checks these alongside YAML-defined recipes.
-
-```java
-import io.github.otiger.nexusprism.api.machines.recipe.MachineProcessingRecipe;
-import io.github.otiger.nexusprism.api.machines.recipe.MachineProcessingRegistry;
-
-@Override
-public void onEnable() {
-    MachineProcessingRegistry.register(
-        MachineProcessingRecipe.builder("my_addon_recipe", "EXAMPLE_FURNACE")
-                .input("DIAMOND", 1)
-                .input("EXAMPLE_DUST", 4)
-                .output("EXAMPLE_INGOT", 3)
-                .time(120)          // ticks; 0 = machine default
-                .source(getId())    // used for cleanup on disable
-                .build()
-    );
-}
-
-@Override
-public void onDisable() {
-    // Always clean up — avoids stale entries after reload
-    MachineProcessingRegistry.unregisterBySource(getId());
-}
+cp target/meu-addon-1.0.0.jar plugins/NexusPrism/addons/
 ```
 
 ---
 
-## Step 11 — Integration providers (permissions, placeholders, language)
+## Passo 11 — Provedores de integração (permissões, placeholders, idioma)
 
-These three interfaces live in `nexusprism-api` and are used by NexusPrism internally. Addons can read from them via `getService()` or implement them to override / extend the default behaviour.
+Estas três interfaces ficam em `nexusprism-api` e são usadas pelo NexusPrism internamente. Addons podem lê-las via `getService()` ou implementá-las para substituir/estender o comportamento padrão.
 
 ### PermissionProvider
 
-NexusPrism uses `PermissionProvider` to abstract away the underlying permission plugin (LuckPerms, Vault, etc.). Obtain the active provider to query groups, prefix/suffix and meta values without a hard compile-time dependency on LuckPerms.
+Abstrai o sistema de permissões subjacente (LuckPerms, Vault, etc.). Obtenha o provedor ativo para consultar grupos, prefix/suffix e metadados sem dependência em tempo de compilação do LuckPerms.
 
 ```java
 import io.github.otiger.nexusprism.api.integration.PermissionProvider;
 
-NexusPrismAPI nexus = NexusPrismAPI.get();
-if (nexus == null) return;
-
-PermissionProvider perms = nexus.getService(PermissionProvider.class);
+PermissionProvider perms = NexusPrismAPI.get().getService(PermissionProvider.class);
 if (perms == null || !perms.isAvailable()) return;
 
-// Check a permission node
 boolean isAdmin = perms.hasPermission(player, "nexusprism.admin");
-
-// Get the LuckPerms group (or equivalent)
-String group = perms.getPrimaryGroup(player).orElse("default");
-
-// Get all groups
-List<String> groups = perms.getPlayerGroups(player);
-
-// Prefix and suffix (colorised, ready to prepend to chat)
-String prefix = perms.getPrefix(player).orElse("");
-String suffix = perms.getSuffix(player).orElse("");
-
-// Custom meta key
-String tier = perms.getMeta(player, "nexus-tier").orElse("0");
-
-// NexusPrism tier level derived from nexusprism.tier.* permissions (1–5, 0 = none)
-int tierLevel = perms.getNexusTierLevel(player);
+String grupo    = perms.getPrimaryGroup(player).orElse("default");
+String prefix   = perms.getPrefix(player).orElse("");
+int tier        = perms.getNexusTierLevel(player); // 1–5, 0 se nenhum
 ```
 
 ### PlaceholderProvider
 
-`PlaceholderProvider` is the SPI NexusPrism exposes to its PAPI bridge. Implement and register it to add new `%nexusprism_*%` placeholder identifiers from your addon.
+SPI que o NexusPrism expõe para a ponte PAPI. Implemente e registre para adicionar novos identificadores `%nexusprism_*%` a partir do seu addon.
 
 ```java
 import io.github.otiger.nexusprism.api.integration.PlaceholderProvider;
 
-public class MyAddonPlaceholders implements PlaceholderProvider {
-
-    @Override
-    public String getIdentifier() {
-        return "myaddon"; // resolves %myaddon_<params>%
-    }
+public class MeusPlaceholders implements PlaceholderProvider {
+    @Override public String getIdentifier() { return "meuaddon"; }
 
     @Override
     public String onPlaceholderRequest(Player player, String params) {
-        if ("score".equals(params)) {
-            return String.valueOf(MyAddon.getScore(player));
-        }
-        return null; // return null to indicate the placeholder wasn't handled
+        if ("pontos".equals(params)) return String.valueOf(MeuAddon.getPontos(player));
+        return null;
     }
-}
-```
-
-Register in `onEnable()`:
-
-```java
-NexusPrismAPI nexus = NexusPrismAPI.get();
-if (nexus != null) {
-    PlaceholderProvider existing = nexus.getService(PlaceholderProvider.class);
-    // Registration is done through the PAPI expansion — addons that depend
-    // on the NexusPrism PAPI expansion will have their providers bridged
-    // automatically when PlaceholderAPI is present on the server.
 }
 ```
 
 ### LangProvider
 
-`LangProvider` is implemented by NexusPrism's core `LanguageManager`. Obtain it to fetch translated, colourised messages for a specific player (respecting their chosen language).
+Implementado pelo `LanguageManager` do core. Obtenha-o para buscar mensagens traduzidas e coloridas para um jogador específico (respeitando o idioma escolhido).
 
 ```java
 import io.github.otiger.nexusprism.api.lang.LangProvider;
 
-NexusPrismAPI nexus = NexusPrismAPI.get();
-if (nexus == null) return;
-
-LangProvider lang = nexus.getService(LangProvider.class);
+LangProvider lang = NexusPrismAPI.get().getService(LangProvider.class);
 if (lang == null) return;
 
-// Fetch a message (returns the key itself if not found)
 String msg = lang.getMsg(player.getUniqueId(), "chat.channel-switched", "channel", "Global");
 player.sendMessage(msg);
 
-// Check and change a player's language preference
-String current = lang.getPlayerLanguage(player.getUniqueId()); // e.g. "en_US"
-lang.setPlayerLanguage(player.getUniqueId(), "pt_BR");         // returns false if file not found
-
-// List all available language files
-List<String> available = lang.getAvailableLanguages(); // ["en_US", "pt_BR", "es_ES"]
+lang.setPlayerLanguage(player.getUniqueId(), "pt_BR");
+List<String> disponiveis = lang.getAvailableLanguages(); // ["en_US", "pt_BR", ...]
 ```
 
 ---
 
-## Complete integration example
+## Exemplo completo de integração
 
-Below is a full minimal plugin that hooks into NexusPrism, rewards players with money on kill, and respects Blood Moon multipliers.
+Plugin que recompensa jogadores com dinheiro ao matar, respeitando o multiplicador da Lua de Sangue:
 
 ```java
-package com.example;
+package com.exemplo;
 
 import io.github.otiger.nexusprism.api.NexusPrismAPI;
 import io.github.otiger.nexusprism.api.events.EventFlags;
@@ -801,28 +644,27 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class KillRewardPlugin extends JavaPlugin implements Listener {
+public class RecompensaKillPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
         if (NexusPrismAPI.get() == null) {
-            getLogger().warning("NexusPrism not found — disabling kill rewards.");
+            getLogger().warning("NexusPrism não encontrado — recompensas desativadas.");
             return;
         }
         getServer().getPluginManager().registerEvents(this, this);
-        getLogger().info("Kill rewards enabled.");
     }
 
     @EventHandler
-    public void onPlayerKill(PlayerDeathEvent event) {
+    public void onMorteJogador(PlayerDeathEvent event) {
         if (!(event.getEntity().getKiller() instanceof Player killer)) return;
 
         double base = 25.0;
-        double reward = base * EventFlags.killPayMultiplier; // scales with Blood Moon
+        double recompensa = base * EventFlags.killPayMultiplier;
 
         NexusPrismAPI.economy().ifPresent(eco -> {
-            eco.addMoney(killer.getUniqueId(), reward);
-            killer.sendMessage("§a+$" + String.format("%.0f", reward) + " §7for the kill!");
+            eco.addMoney(killer.getUniqueId(), recompensa);
+            killer.sendMessage("§a+$" + String.format("%.0f", recompensa) + " §7pela kill!");
         });
     }
 }
@@ -830,81 +672,84 @@ public class KillRewardPlugin extends JavaPlugin implements Listener {
 
 ---
 
-## Quick-reference
+## Referência Rápida
 
-| API surface | Class / method |
+| Superfície da API | Classe / método |
 |---|---|
-| Get API instance | `NexusPrismAPI.get()` |
-| **Core providers** | |
-| Economy | `NexusPrismAPI.economy()` → `EconomyProvider` |
+| Obter instância da API | `NexusPrismAPI.get()` |
+| **Provedores principais** | |
+| Economia | `NexusPrismAPI.economy()` → `EconomyProvider` |
 | Auth | `NexusPrismAPI.auth()` → `AuthProvider` |
-| Clans | `NexusPrismAPI.clans()` → `ClanProvider` |
+| Clãs | `NexusPrismAPI.clans()` → `ClanProvider` |
 | Essentials | `NexusPrismAPI.essentials()` → `EssentialsProvider` |
-| Votes | `NexusPrismAPI.votes()` → `VoteProvider` |
-| Enchantments | `NexusPrismAPI.enchants()` → `CustomEnchantProvider` |
-| Crates | `NexusPrismAPI.crates()` → `CrateProvider` |
-| **Module providers** | |
-| MMO (level, stats, mana, skills, professions) | `MmoRegistry.get()` → `MmoProvider` |
-| Chat (mute, channels, broadcast) | `ChatRegistry.get()` → `ChatProvider` |
-| Protections (PvP, regions, duels) | `ProtectionsRegistry.get()` → `ProtectionsProvider` |
-| Events (Blood Moon, Sacrifice, Isekai) | `EventsRegistry.get()` → `EventsProvider` |
-| Holograms (create, update, show/hide) | `HologramRegistry.get()` → `HologramProvider` |
-| Backpacks (count, open GUI) | `BackpackRegistry.get()` → `BackpackProvider` |
-| Traits / Tarot cards | `TraitsRegistry.get()` → `TraitsProvider` |
-| Discord (link, send message/webhook) | `DiscordRegistry.get()` → `DiscordProvider` |
-| Jobs (active job, level, XP) | `JobRegistry.get()` → `JobProvider` |
-| Energy networks | `EnergyRegistry.get()` → `EnergyProvider` |
-| **Integration providers** | |
-| Permission backend (groups, prefix, meta) | `nexus.getService(PermissionProvider.class)` |
-| Placeholder expansion (PAPI bridge) | `nexus.getService(PlaceholderProvider.class)` |
-| Language / translation | `nexus.getService(LangProvider.class)` |
-| **Content & extensibility** | |
-| Addon content loading | `content().items().machines().recipes().register()` |
-| Machine processing recipes | `MachineProcessingRegistry.register(MachineProcessingRecipe)` |
-| Item ID lookup | `NexusItemBuilder.getItemId(ItemStack)` |
-| Item registry | `nexus.getService(ItemRegistry.class)` |
-| Territory | `TerritoryRegistry.register(TerritoryProvider)` |
-| Event state flags | `EventFlags.bloodMoonActive`, `EventFlags.killPayMultiplier` |
-| Structure loot | `StructureRegistry.register(StructureProvider)` |
-| Native addon base | `AbstractNexusAddon` + `addon.yml` |
-| Starter template | [O-Tiger/NexusPrism-Addon-Example](https://github.com/Tg-TheNexus/NexusPrism-Addon-Example) |
+| Votos | `NexusPrismAPI.votes()` → `VoteProvider` |
+| Encantamentos | `NexusPrismAPI.enchants()` → `CustomEnchantProvider` |
+| Caixas | `NexusPrismAPI.crates()` → `CrateProvider` |
+| **Provedores de módulos** | |
+| MMO (nível, stats, mana, skills, profissões) | `MmoRegistry.get()` → `MmoProvider` |
+| Chat (silêncio, canais, broadcast) | `ChatRegistry.get()` → `ChatProvider` |
+| Proteções (PvP, regiões, duelos) | `ProtectionsRegistry.get()` → `ProtectionsProvider` |
+| Eventos (Lua de Sangue, Sacrifício, Isekai) | `EventsRegistry.get()` → `EventsProvider` |
+| Hologramas (criar, atualizar, mostrar/ocultar) | `HologramRegistry.get()` → `HologramProvider` |
+| Mochilas (quantidade, abrir GUI) | `BackpackRegistry.get()` → `BackpackProvider` |
+| Traits / Cartas de Tarô | `TraitsRegistry.get()` → `TraitsProvider` |
+| Discord (vincular, enviar mensagem/webhook) | `DiscordRegistry.get()` → `DiscordProvider` |
+| Empregos (emprego ativo, nível, XP) | `JobRegistry.get()` → `JobProvider` |
+| Redes de energia | `EnergyRegistry.get()` → `EnergyProvider` |
+| **Provedores de integração** | |
+| Backend de permissões (grupos, prefix, meta) | `nexus.getService(PermissionProvider.class)` |
+| Expansão de placeholders (ponte PAPI) | `nexus.getService(PlaceholderProvider.class)` |
+| Idioma / tradução | `nexus.getService(LangProvider.class)` |
+| **Conteúdo e extensibilidade** | |
+| Carregamento de conteúdo de addon | `content().items().machines().recipes().register()` |
+| Receitas de processamento de máquinas | `MachineProcessingRegistry.register(MachineProcessingRecipe)` |
+| ID de item | `NexusItemBuilder.getItemId(ItemStack)` |
+| Registro de itens | `nexus.getService(ItemRegistry.class)` |
+| Território | `TerritoryRegistry.register(TerritoryProvider)` |
+| Estado de eventos | `EventFlags.bloodMoonActive`, `EventFlags.killPayMultiplier` |
+| Estruturas | `StructureRegistry.register(StructureProvider)` |
+| Base de addon nativo | `AbstractNexusAddon` + `addon.yml` |
+| Template inicial | [O-Tiger/NexusPrism-Addon-Example](https://github.com/Tg-TheNexus/NexusPrism-Addon-Example) |
 
 ---
 
 ## ResearchManager
 
-Access the research tree and player progress programmatically.
+Acesse a árvore de pesquisa e o progresso do jogador de forma programática.
 
 ```java
 ResearchManager research = NexusPrismAPI.get().getService(ResearchManager.class);
 ```
 
-> `ResearchManager` is a core system, not a module provider. It is not accessible via the provider/registry pattern — use `getService()` instead.
-
-### Checking research status
+> `ResearchManager` é um sistema central, não um provider de módulo. Não é acessível via o padrão provider/registry — use `getService()`.
 
 ```java
-// Via PlayerData (available through any player join event or your own listener)
+```
+
+### Verificando o status de pesquisa
+
+```java
+// Via PlayerData (disponível em qualquer evento de entrada de jogador ou em seu próprio listener)
 boolean hasUnlocked = playerData.hasCompletedResearch("copper_wire_research");
 Set<String> done = playerData.getCompletedResearches();
 ```
 
-### researches.yml entry format
+### Formato de entrada do researches.yml
 
 ```yaml
 copper_wire_research:
   name: "Copper Wire"
-  description: "Unlocks the crafting recipe for Copper Wire."
+  description: "Desbloqueia a receita de crafting para Copper Wire."
   tier: BASIC                    # BASIC | ADVANCED | INFINITY
-  parchment-cost: 1              # number of parchments consumed
-  dependencies: []               # list of entry IDs that must be completed first
+  parchment-cost: 1              # número de pergaminhos consumidos
+  dependencies: []               # lista de IDs de entradas que devem ser concluídas antes
   unlocks:
-    - COPPER_WIRE                # item IDs added to the player's unlockedItems
+    - COPPER_WIRE                # IDs de itens adicionados aos itens desbloqueados do jogador
 ```
 
-### Tiers and parchments
+### Tiers e pergaminhos
 
-| Tier | Parchment item |
+| Tier | Item de pergaminho |
 |---|---|
 | BASIC | `RESEARCH_PARCHMENT_BASIC` |
 | ADVANCED | `RESEARCH_PARCHMENT_ADVANCED` |
@@ -912,9 +757,9 @@ copper_wire_research:
 
 ---
 
-## Guide Category Icons (`gui_items.yml`)
+## Ícones de Categoria do Guia (`gui_items.yml`)
 
-Since v2.3.0, the material icon for each guide category and tier is defined in `gui_items.yml` instead of being hardcoded.
+Desde a v2.3.0, o ícone de material para cada categoria e tier do guia é definido em `gui_items.yml` em vez de estar codificado diretamente no Java.
 
 ```yaml
 # gui_items.yml
@@ -926,15 +771,15 @@ tiers:
     material: DRAGON_EGG
 ```
 
-The guide picks up entries automatically on reload. `guide.yml` overrides take higher priority than `gui_items.yml`. Entries in `gui_items.yml` not present in `guide.yml` use the value defined here.
+O guia reconhece as entradas automaticamente no reload. Substituições em `guide.yml` têm prioridade maior do que `gui_items.yml`. Entradas em `gui_items.yml` não presentes em `guide.yml` utilizam o valor definido aqui.
 
 ---
 
-## Best practices
+## Boas práticas
 
-- **Always null-check** `NexusPrismAPI.get()` before using any provider.
-- **Use `softdepend`** unless your plugin is literally an addon JAR — this lets your plugin load even if NexusPrism is absent.
-- **Never shade** `nexusprism-api` — use `provided`/`compileOnly` scope.
-- **Unregister providers** in `onDisable()` to avoid ghost listeners after reload.
-- **Use `Optional` chains** (`ifPresent`, `orElse`) — never call `.get()` on an empty Optional.
-- **Check `isReady()`** if you call the API immediately on enable; NexusPrism loads modules asynchronously.
+- **Sempre verifique null** em `NexusPrismAPI.get()` antes de usar qualquer provedor.
+- **Use `softdepend`** a menos que seu plugin seja literalmente um JAR de addon.
+- **Nunca faça shade** de `nexusprism-api` — use escopo `provided`/`compileOnly`.
+- **Cancele o registro de provedores** no `onDisable()` para evitar listeners fantasma após reload.
+- **Use cadeias de `Optional`** (`ifPresent`, `orElse`) — nunca chame `.get()` em um Optional vazio.
+- **Verifique `isReady()`** se você chamar a API imediatamente no enable.

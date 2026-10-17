@@ -1,47 +1,47 @@
-# Votifier Module
+# Módulo Votifier
 
-The Votifier module is a **standalone Votifier V1 and V2 server** built directly into NexusPrism. It handles incoming votes from server listing websites, distributes configurable rewards, and tracks player vote streaks on a leaderboard.
+O módulo Votifier é um **servidor Votifier V1 e V2 autônomo** embutido diretamente no NexusPrism. Ele processa votos recebidos de sites de listagem de servidores, distribui recompensas configuráveis e acompanha sequências de votos dos jogadores em um placar.
 
 ---
 
-## How It Works
+## Como Funciona
 
 ```flow
-Vote Site  ──► Votifier Server (port 8192)  ──► VoteManager  ──► Rewards + Streak
-                (V1 RSA / V2 token-based)
+Site de Votação  ──► Servidor Votifier (porta 8192)  ──► VoteManager  ──► Recompensas + Sequência
+                      (V1 RSA / V2 baseado em token)
 ```
 
-1. Register your server on voting sites (Minecraftservers.org, etc.)
-2. Point each site to your server IP and Votifier port (default `8192`)
-3. When a player votes, the site sends a payload to your Votifier server
-4. NexusPrism processes the vote, runs reward commands, and updates the streak
+1. Cadastre seu servidor em sites de votação (Minecraftservers.org, etc.)
+2. Aponte cada site para o IP do seu servidor e a porta do Votifier (padrão `8192`)
+3. Quando um jogador votar, o site envia um payload para o seu servidor Votifier
+4. O NexusPrism processa o voto, executa os comandos de recompensa e atualiza a sequência
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/vote` | Show voting links and your current streak | `nexusprism.vote` |
-| `/votetop` | Show the vote leaderboard | `nexusprism.vote.top` |
+| `/vote` | Exibir links de votação e sua sequência atual | `nexusprism.vote` |
+| `/votetop` | Exibir o placar de votos | `nexusprism.vote.top` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.vote` | Use `/vote` | true |
-| `nexusprism.vote.top` | Use `/votetop` | true |
+| `nexusprism.vote` | Usar `/vote` | true |
+| `nexusprism.vote.top` | Usar `/votetop` | true |
 
 ---
 
-## Configuration (`votifier/config.yml`)
+## Configuração (`votifier/config.yml`)
 
 ```yaml
-host: "0.0.0.0"       # Listen on all interfaces
-port: 8192             # Votifier port (open this in your firewall)
-token: "change-this-token"   # Shared secret for V2 authentication
+host: "0.0.0.0"       # Ouvir em todas as interfaces
+port: 8192             # Porta do Votifier (abra no firewall)
+token: "change-this-token"   # Segredo compartilhado para autenticação V2
 
 vote-links:
   - "https://minecraftservers.org/vote/YOUR_SERVER_ID"
@@ -57,66 +57,66 @@ rewards:
 
 streak:
   enabled: true
-  max-gap-hours: 36    # Votes more than 36h apart reset the streak
+  max-gap-hours: 36    # Votos com mais de 36h de intervalo reiniciam a sequência
   multipliers:
-    5:  1.5            # 5-vote streak = 1.5× rewards
-    10: 2.0            # 10-vote streak = 2× rewards
-    30: 3.0            # 30-vote streak = 3× rewards
+    5:  1.5            # Sequência de 5 votos = 1.5× recompensas
+    10: 2.0            # Sequência de 10 votos = 2× recompensas
+    30: 3.0            # Sequência de 30 votos = 3× recompensas
 ```
 
-### Configuration Fields
+### Campos de Configuração
 
-| Field | Description |
+| Campo | Descrição |
 | --- | --- |
-| `host` | IP to bind the vote server. Use `0.0.0.0` for all interfaces. |
-| `port` | TCP port. Must be open in your firewall and forwarded if behind NAT. |
-| `token` | Secret token for V2 authentication. Change this immediately. |
-| `vote-links` | List of URLs displayed by `/vote`. |
-| `rewards[].type` | `COMMAND` (runs a console command) or `MESSAGE` (sends player a message). |
-| `rewards[].value` | Command/message string. Use `{player}` for the voter's username. |
-| `streak.max-gap-hours` | How many hours can pass between votes before the streak resets. |
-| `streak.multipliers` | Map of streak length → reward multiplier. |
+| `host` | IP para vincular o servidor de votos. Use `0.0.0.0` para todas as interfaces. |
+| `port` | Porta TCP. Deve estar aberta no firewall e redirecionada se estiver atrás de NAT. |
+| `token` | Token secreto para autenticação V2. Altere imediatamente. |
+| `vote-links` | Lista de URLs exibidas pelo `/vote`. |
+| `rewards[].type` | `COMMAND` (executa um comando no console) ou `MESSAGE` (envia mensagem ao jogador). |
+| `rewards[].value` | String de comando/mensagem. Use `{player}` para o nome do votante. |
+| `streak.max-gap-hours` | Quantas horas podem passar entre votos antes de a sequência ser reiniciada. |
+| `streak.multipliers` | Mapa de tamanho da sequência → multiplicador de recompensas. |
 
 ---
 
-## Protocol Support
+## Suporte a Protocolos
 
-| Protocol | Description |
+| Protocolo | Descrição |
 | --- | --- |
-| **V1** | Legacy RSA-encrypted Votifier protocol. Compatible with most older vote sites. |
-| **V2** | Modern HMAC-SHA256 token-based protocol. Preferred — more secure and reliable. |
+| **V1** | Protocolo Votifier legado com criptografia RSA. Compatível com a maioria dos sites mais antigos. |
+| **V2** | Protocolo moderno baseado em token HMAC-SHA256. Preferido — mais seguro e confiável. |
 
-RSA keys for V1 are automatically generated on first start and stored as `votifier/rsa/public.key` and `votifier/rsa/private.key`.
+As chaves RSA para V1 são geradas automaticamente na primeira inicialização e armazenadas como `votifier/rsa/public.key` e `votifier/rsa/private.key`.
 
 ---
 
-## Registering on Vote Sites
+## Cadastro em Sites de Votação
 
-When registering on a vote site, you will need:
+Ao se cadastrar em um site de votação, você precisará de:
 
-- **Server IP** — your server's public IP address
-- **Votifier Port** — `8192` (or whatever you set in `config.yml`)
-- **Public Key** — copy from `plugins/NexusPrism/votifier/rsa/public.key` (V1 sites)
-- **Token** — the `token` value from `config.yml` (V2 sites)
+- **IP do Servidor** — o endereço IP público do seu servidor
+- **Porta do Votifier** — `8192` (ou o valor definido em `config.yml`)
+- **Chave Pública** — copie de `plugins/NexusPrism/votifier/rsa/public.key` (sites V1)
+- **Token** — o valor de `token` em `config.yml` (sites V2)
 
 ---
 
-## Streak System
+## Sistema de Sequência
 
-| Streak | Multiplier |
+| Sequência | Multiplicador |
 | --- | --- |
-| 1–4 votes | 1× (base) |
-| 5–9 votes | 1.5× |
-| 10–29 votes | 2× |
-| 30+ votes | 3× |
+| 1–4 votos | 1× (base) |
+| 5–9 votos | 1.5× |
+| 10–29 votos | 2× |
+| 30+ votos | 3× |
 
-When the multiplier is active, reward `COMMAND` values are executed multiple times equal to the multiplier (rounded to nearest integer), or you can implement custom multiplier logic using the `%nexusprism_vote_streak%` placeholder in external plugins.
+Quando o multiplicador está ativo, os valores `COMMAND` de recompensa são executados múltiplas vezes de acordo com o multiplicador (arredondado para o inteiro mais próximo). Você também pode implementar lógica de multiplicador personalizada usando o placeholder `%nexusprism_vote_streak%` em plugins externos.
 
 ---
 
 ## PlaceholderAPI
 
-| Placeholder | Description |
+| Placeholder | Descrição |
 | --- | --- |
-| `%nexusprism_votes_total%` | Total lifetime votes by the player |
-| `%nexusprism_vote_streak%` | Player's current vote streak |
+| `%nexusprism_votes_total%` | Total de votos acumulados do jogador |
+| `%nexusprism_vote_streak%` | Sequência de votos atual do jogador |

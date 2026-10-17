@@ -1,84 +1,74 @@
-# Store / Webstore
+# Loja / Webstore
 
-NexusPrism includes a built-in webstore bridge that delivers purchased packages to players automatically, even while they are offline.
+O NexusPrism inclui uma bridge de loja web integrada que entrega pacotes comprados aos jogadores automaticamente, mesmo quando estão offline.
 
-!!! warning "EULA Compliance"
-    All store packages must comply with the [Minecraft Commercial Usage Guidelines](https://www.minecraft.net/en-us/eula). Selling gameplay advantages that cannot be earned in-game through normal play is **not permitted** on servers accessible to the public. The features listed below follow EULA-compliant design principles.
+!!! warning "Conformidade com o EULA"
+    Todos os pacotes da loja devem estar em conformidade com as [Diretrizes de Uso Comercial do Minecraft](https://www.minecraft.net/en-us/eula). A venda de vantagens de jogo que não possam ser obtidas normalmente **não é permitida** em servidores acessíveis ao público.
 
 ---
 
-## EULA-Compliant Features
+## Funcionalidades Conformes ao EULA
 
-The following features are safely offered in a store under the Minecraft EULA:
-
-| Feature | Notes |
+| Funcionalidade | Observações |
 | --- | --- |
-| **Cosmetic nicknames** | `/nick` — visual only, no gameplay advantage |
-| **Cosmetic hats** | `/hat` — visual only |
-| **Additional homes** | Extra home slots (convenience, not power) |
-| **Fly in non-PvP zones** | Cosmetic convenience; disabled in PvP regions |
-| **Resource pack access** | Server resource pack (cosmetic) |
-| **Extra waypoint slots** | Convenience — see `nexusprism.essentials.waypoints.*` |
-| **VIP kit (cosmetic)** | Cosmetic items, vanity gear — no enchanted diamond armor |
-| **Crate keys** | As long as all crate rewards can also be earned in-game |
-| **Colored name tags** | Visual only |
-| **Discord role** | Access to a special Discord channel |
-| **Custom join messages** | Visual/cosmetic |
+| **Nicknames cosméticos** | `/nick` — apenas visual, sem vantagem |
+| **Chapéus cosméticos** | `/hat` — apenas visual |
+| **Homes adicionais** | Slots extras de home (conveniência) |
+| **Voar fora de zonas PvP** | Conveniência cosmética; desabilitado em regiões PvP |
+| **Acesso ao resource pack** | Resource pack do servidor (cosmético) |
+| **Slots extras de ponto de viagem** | Conveniência — veja `nexusprism.essentials.waypoints.*` |
+| **Kit VIP (cosmético)** | Itens cosméticos, equipamento de vaidade |
+| **Chaves de crate** | Desde que todas as recompensas também possam ser obtidas em jogo |
+| **Tags de nome coloridas** | Apenas visual |
+| **Cargo no Discord** | Acesso a um canal especial do Discord |
+| **Mensagens de entrada personalizadas** | Visual/cosmético |
 
 ---
 
-## Delivery System
+## Sistema de Entrega
 
-NexusPrism's webstore bridge (`nexusprism-web`) uses a delivery queue. When a player purchases a package:
+A bridge de webstore do NexusPrism usa uma fila de entrega. Quando um jogador compra um pacote:
 
-1. The webstore posts a delivery request to the plugin via the delivery bridge
-2. The delivery is queued in `delivery.yml` (persistent)
-3. On the player's next login, all pending deliveries are processed
-4. Commands are run on their behalf automatically
+1. A loja envia uma solicitação de entrega ao plugin via bridge
+2. A entrega é enfileirada em `delivery.yml` (persistente)
+3. No próximo login do jogador, todas as entregas pendentes são processadas
+4. Os comandos são executados automaticamente em seu nome
 
-This means **offline delivery** is supported — the player does not need to be online at the time of purchase.
+Isso significa que a **entrega offline é suportada** — o jogador não precisa estar online no momento da compra.
 
-### `delivery.yml` Configuration
+### Configuração (`delivery.yml`)
 
 ```yaml
-# Delivery bridge configuration
 enabled: true
 
-# HTTP endpoint the webstore POSTs delivery requests to
-# Leave empty to disable HTTP ingestion (use file-based delivery instead)
 endpoint:
   host: "0.0.0.0"
   port: 9090
-  token: "change-this-delivery-token"
+  token: "mude-este-token-de-entrega"
 
-# Fallback: read deliveries from this file (one JSON object per line)
 file-fallback: "pending_deliveries.jsonl"
 ```
 
 ---
 
-## VIP Kits (`kits.yml`)
-
-VIP kits are given to players on purchase or via `/kit <name>`. Configure them in `kits.yml`:
+## Kits VIP (`kits.yml`)
 
 ```yaml
 kits:
   vip:
-    display-name: "&6VIP Kit"
+    display-name: "&6Kit VIP"
     permission: "nexusprism.kit.vip"
     cooldown-hours: 24
     items:
       - material: GOLDEN_APPLE
         amount: 5
-      - material: FIREWORK_ROCKET
-        amount: 16
-      - nexusprism-id: SERVER_KEY    # Custom NexusPrism item
+      - nexusprism-id: SERVER_KEY
         amount: 1
     commands:
       - "eco give {player} 1000"
 
   mvp:
-    display-name: "&bMVP Kit"
+    display-name: "&bKit MVP"
     permission: "nexusprism.kit.mvp"
     cooldown-hours: 24
     items:
@@ -92,29 +82,8 @@ kits:
 
 ---
 
-## GDPR / Consent
+## Plataformas de Loja Recomendadas
 
-NexusPrism includes a GDPR consent system (`GDPRManager`) for servers operating in the EU. Players can be prompted to consent to data collection on first join.
-
-```yaml
-# web-config.yml
-gdpr:
-  enabled: false
-  consent-on-join: true
-  consent-types:
-    - ANALYTICS
-    - MARKETING
-```
-
----
-
-## Recommended Store Platforms
-
-NexusPrism's delivery system is compatible with any store platform that can make HTTP POST requests or write to a shared file. Commonly used platforms include:
-
-- **Tebex** (formerly Buycraft) — EULA-certified
-- **CraftingStore** — EULA-certified
-- **Custom panel** — Use the HTTP delivery endpoint
-
-!!! tip "Test your delivery"
-    Use `/nexusprism reload` after editing `delivery.yml`. Test a delivery manually by writing a delivery JSON to the file-fallback and relogging.
+- **Tebex** (antigo Buycraft) — certificado pelo EULA
+- **CraftingStore** — certificado pelo EULA
+- **Painel personalizado** — use o endpoint HTTP de entrega

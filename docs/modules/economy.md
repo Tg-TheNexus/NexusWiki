@@ -1,232 +1,212 @@
-# Economy Module
+# Módulo Economia
 
-The Economy module provides a **single-currency system** (money), sell commands, a wealth leaderboard, and per-item sell price configuration.
 
 ---
 
-## Overview
+## Visão Geral
 
-| Currency | Description |
+| Moeda | Descrição |
 | --- | --- |
-| **Money** (`$`) | In-game currency earned from selling items, voting, jobs, etc. |
+| **Dinheiro** (`$`) | Moeda padrão do jogo, ganha vendendo itens, votando, etc. |
+| **Créditos** | Moeda premium, normalmente obtida na webstore |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/money` | Check your balance | `nexusprism.economy.money` |
-| `/money <player>` | Check another player's balance | `nexusprism.economy.money` |
-| `/baltop` | Top 10 richest players | `nexusprism.economy.baltop` |
-| `/sell hand` | Sell item in hand | `nexusprism.economy.sell` |
-| `/sell all` | Sell all sellable items | `nexusprism.economy.sell` |
-| `/sell inventory` | Sell entire inventory | `nexusprism.economy.sell` |
-| `/worth [item]` | Check sell value of item | `nexusprism.essentials.worth` |
-| `/eco give <player> <amount>` | Give money (admin) | `nexusprism.economy.admin` |
-| `/eco take <player> <amount>` | Take money (admin) | `nexusprism.economy.admin` |
-| `/eco set <player> <amount>` | Set balance (admin) | `nexusprism.economy.admin` |
-| `/eco reset <player>` | Reset balance (admin) | `nexusprism.economy.admin` |
+| `/money` | Verificar seu saldo | `nexusprism.economy.money` |
+| `/money <jogador>` | Verificar saldo de outro jogador | `nexusprism.economy.money` |
+| `/baltop` | Top 10 jogadores mais ricos | `nexusprism.economy.baltop` |
+| `/sell hand` | Vender item na mão | `nexusprism.economy.sell` |
+| `/sell all` | Vender todos os itens vendáveis | `nexusprism.economy.sell` |
+| `/sell inventory` | Vender inventário completo | `nexusprism.economy.sell` |
+| `/worth [item]` | Verificar valor de venda do item | `nexusprism.essentials.worth` |
+| `/eco give <jogador> <quantia>` | Dar dinheiro (admin) | `nexusprism.economy.admin` |
+| `/eco take <jogador> <quantia>` | Remover dinheiro (admin) | `nexusprism.economy.admin` |
+| `/eco set <jogador> <quantia>` | Definir saldo (admin) | `nexusprism.economy.admin` |
+| `/eco reset <jogador>` | Resetar saldo (admin) | `nexusprism.economy.admin` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.economy.money` | Check balances | true |
-| `nexusprism.economy.baltop` | View leaderboard | true |
-| `nexusprism.economy.sell` | Use /sell commands | true |
-| `nexusprism.economy.admin` | Admin eco commands | OP |
+| `nexusprism.economy.money` | Ver saldos | true |
+| `nexusprism.economy.baltop` | Ver placar | true |
+| `nexusprism.economy.sell` | Usar /sell | true |
+| `nexusprism.economy.admin` | Comandos de admin eco | OP |
 
 ---
 
-## Sell Prices (`economy/sell-prices.yml`)
+## Preços de Venda (`economy/sell-prices.yml`)
 
-Configure per-material sell prices used by `/sell` and `/worth`.
+Configure os preços de venda por material usados pelo `/sell` e `/worth`.
 
 ```yaml
 prices:
-  # ── Stone & Earth ──────────────────────────────────────────────
+  # ── Pedra e Terra ─────────────────────────────────────────────
   COBBLESTONE:       2.0
   STONE:             3.0
   DIRT:              1.0
-  GRAVEL:            1.5
-  SAND:              2.0
 
-  # ── Wood & Plants ──────────────────────────────────────────────
+  # ── Madeira e Plantas ─────────────────────────────────────────
   OAK_LOG:           6.0
-  SPRUCE_LOG:        6.0
   WHEAT:             4.0
-  SUGAR_CANE:        3.0
 
-  # ── Ores & Metals ──────────────────────────────────────────────
+  # ── Minérios e Metais ─────────────────────────────────────────
   COAL:             10.0
-  RAW_IRON:         15.0
   IRON_INGOT:       25.0
-  RAW_GOLD:         30.0
   GOLD_INGOT:       50.0
   DIAMOND:         200.0
-  EMERALD:         100.0
   NETHERITE_INGOT: 1200.0
 
-  # ── Mob Drops ──────────────────────────────────────────────────
-  BONE:              5.0
-  ROTTEN_FLESH:      2.0
+  # ── Drops de Mob ──────────────────────────────────────────────
   BLAZE_ROD:        20.0
   ENDER_PEARL:      25.0
   SHULKER_SHELL:   150.0
-  HEART_OF_THE_SEA: 500.0
-
-  # Set to 0 or omit to make an item unsellable
-  BEDROCK:           0.0
 ```
 
 !!! tip
-    Use Material names (Bukkit uppercase). Items not listed in `sell-prices.yml` cannot be sold. Custom NexusPrism items can also be added by their item ID.
+    Use nomes de Material (maiúsculas Bukkit). Itens não listados em `sell-prices.yml` não podem ser vendidos.
 
 ---
 
 ## PlaceholderAPI
 
-| Placeholder | Description |
+| Placeholder | Descrição |
 | --- | --- |
-| `%nexusprism_money%` | Player's money balance |
-
-
-See the full [PlaceholderAPI reference](../reference/placeholders.md).
+| `%nexusprism_money%` | Saldo de dinheiro do jogador |
 
 ---
 
-## Jobs
+## Empregos
 
-Players choose a job and earn money and XP by performing related in-game activities.
+Os jogadores escolhem um emprego e ganham dinheiro e XP realizando atividades relacionadas no jogo.
 
-### Available Jobs
+### Empregos Disponíveis
 
-| Job | Primary Activities |
+| Emprego | Atividades Principais |
 | --- | --- |
-| **Miner** | Breaking ores and stone |
-| **Hunter** | Killing hostile mobs |
-| **Farmer** | Breaking crops |
-| **Fisher** | Catching fish |
-| **Smith** | Smelting ingots, crafting tools/armor |
-| **Enchanter** | Enchanting items |
-| **Alchemist** | Brewing potions |
-| **Lumberjack** | Chopping logs |
+| **Minerador** | Quebrar minérios e pedras |
+| **Caçador** | Matar mobs hostis |
+| **Fazendeiro** | Colher plantações |
+| **Pescador** | Pescar |
+| **Ferreiro** | Fundir lingotes, criar ferramentas/armaduras |
+| **Encantador** | Encantar itens |
+| **Alquimista** | Preparar poções |
+| **Lenhador** | Cortar troncos |
 
-Players can only hold **one job at a time**. Job configurations are YAML files under `economy/jobs/`.
+Jogadores só podem ter **um emprego de cada vez**. As configurações de emprego são arquivos YAML em `economy/jobs/`.
 
-### Pay & XP Formulas
+### Fórmulas de Pagamento e XP
 
-| Value | Formula |
+| Valor | Fórmula |
 | --- | --- |
-| **Pay per action** | `base × (1 + level × payScalePerLevel)` |
-| **XP to next level** | `baseXpToLevel × 2^((level-1)/10)` *(doubles every 10 levels)* |
+| **Pagamento por ação** | `base × (1 + nível × escalaPagePorNível)` |
+| **XP para o próximo nível** | `xpBaseParaNível × 2^((nível-1)/10)` *(dobra a cada 10 níveis)* |
 
-### Commands
+### Comandos
 
-| Command | Description | Permission |
+| Comando | Descrição | Permissão |
 | --- | --- | --- |
-| `/job` | Open Job Browser GUI | `nexusprism.economy.job.use` |
-| `/job join <id>` | Join a job | `nexusprism.economy.job.use` |
-| `/job leave` | Leave current job | `nexusprism.economy.job.use` |
-| `/job info [id]` | View job stats | `nexusprism.economy.job.use` |
-| `/job top` | Job leaderboard | `nexusprism.economy.job.use` |
+| `/job` | Abrir GUI de empregos | `nexusprism.economy.job.use` |
+| `/job join <id>` | Ingressar em um emprego | `nexusprism.economy.job.use` |
+| `/job leave` | Sair do emprego atual | `nexusprism.economy.job.use` |
+| `/job info [id]` | Ver estatísticas do emprego | `nexusprism.economy.job.use` |
+| `/job top` | Ranking de empregos | `nexusprism.economy.job.use` |
 
-!!! note "Blood Moon Bonus"
-    During a Blood Moon, the **Hunter** job's kill-pay is multiplied (default ×1.5). See the [Events module](events.md).
+!!! note "Bônus da Lua de Sangue"
+    Durante uma Lua de Sangue, o pagamento por morte do emprego **Caçador** é multiplicado (padrão ×1,5). Veja o [módulo Events](events.md).
 
 ---
 
-## Chest Shops
+## Lojas de Baú
 
-Players can create in-world shops by placing a sign on (or adjacent to) a chest.
+Os jogadores podem criar lojas no mundo colocando uma placa em (ou adjacente a) um baú.
 
-### Creating a Shop
+### Criando uma Loja
 
-1. Place a chest
-2. Place a sign on the front face, top face, or an adjacent block
-3. Write `[Shop]` on the **first line**
-4. Write `BUY <price>` on line 2 (optional)
-5. Write `SELL <price>` on line 3 (optional)
+1. Coloque um baú
+2. Coloque uma placa na frente, em cima ou em um bloco adjacente
+3. Escreva `[Shop]` na **primeira linha**
+4. Escreva `BUY <preço>` na linha 2 (opcional)
+5. Escreva `SELL <preço>` na linha 3 (opcional)
 
-The plugin auto-detects the chest below or wall-adjacent to the sign. Stock level is shown automatically on line 4.
+O plugin detecta automaticamente o baú abaixo ou adjacente à placa. O estoque é exibido automaticamente na linha 4.
 
-### Sign Format
+### Formato da Placa
 
 ```
 [Shop]
 BUY 50
 SELL 25
-[12 in stock]
+[12 no estoque]
 ```
 
-### Shop GUI
+### GUI da Loja
 
-A 3-row GUI opens when a player right-clicks the sign:
+Uma GUI de 3 linhas é aberta ao clicar com botão direito na placa:
 
-| Slot | Contents |
+| Slot | Conteúdo |
 | --- | --- |
-| Centre (slot 13) | Item preview |
-| Slots 19–21 | Buy ×1 / ×8 / ×64 |
-| Slots 23–25 | Sell ×1 / ×8 / ×64 |
+| Centro (slot 13) | Pré-visualização do item |
+| Slots 19–21 | Comprar ×1 / ×8 / ×64 |
+| Slots 23–25 | Vender ×1 / ×8 / ×64 |
 
-### Admin Shops
+### Permissões
 
-Admin shops have **unlimited stock** and are created by setting the owner UUID to `null` internally. Use `nexusprism.economy.shop.admin` to create them.
-
-### Permissions
-
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.economy.shop.create` | Create player chest shops | true |
-| `nexusprism.economy.shop.admin` | Create admin (unlimited stock) shops | OP |
+| `nexusprism.economy.shop.create` | Criar lojas de baú | true |
+| `nexusprism.economy.shop.admin` | Criar lojas admin (estoque ilimitado) | OP |
 
 ---
 
-## Player Warps
+## Warps de Jogador
 
-Players can set named warp points that any other player can visit.
+Os jogadores podem definir pontos de warp nomeados que qualquer outro jogador pode visitar.
 
-### Commands
+### Comandos
 
-| Command | Description |
+| Comando | Descrição |
 | --- | --- |
-| `/pw set <name>` | Create a warp at your current location |
-| `/pw delete <name>` | Remove one of your warps |
-| `/pw desc <name> <text>` | Set a description for the warp |
-| `/pw icon <name> <material>` | Set the icon shown in the GUI |
-| `/pw list` | Browse all player warps (paginated 6-row GUI) |
-| `/pw visit <player> <name>` | Teleport to another player's warp |
+| `/pw set <nome>` | Criar um warp na localização atual |
+| `/pw delete <nome>` | Remover um de seus warps |
+| `/pw desc <nome> <texto>` | Definir uma descrição para o warp |
+| `/pw icon <nome> <material>` | Definir o ícone exibido na GUI |
+| `/pw list` | Navegar por todos os warps de jogadores (GUI paginada de 6 linhas) |
+| `/pw visit <jogador> <nome>` | Teleportar para o warp de outro jogador |
 
-### Warp Limits
+### Limites de Warp
 
-| Permission | Max Warps |
+| Permissão | Máximo de Warps |
 | --- | --- |
-| `nexusprism.economy.playerwarp.unlimited` | Unlimited |
+| `nexusprism.economy.playerwarp.unlimited` | Ilimitado |
 | `nexusprism.economy.playerwarp.10` | 10 |
 | `nexusprism.economy.playerwarp.3` | 3 |
-| *(default)* | 1 |
+| *(padrão)* | 1 |
 
 ---
 
-## Auction House
+## Casa de Leilões
 
-A global listing board where players buy and sell items with each other.
+Um quadro de listagens global onde jogadores compram e vendem itens entre si.
 
-### How It Works
+### Como Funciona
 
-- List any item from your hand with `/ah sell <price>`
-- Listings expire after **7 days** if unsold
-- Expired or cancelled items are returned to the owner (hourly cleanup)
-- Each player can have up to **10 active listings** at once
+- Liste qualquer item da mão com `/ah sell <preço>`
+- As listagens expiram após **7 dias** se não vendidas
+- Itens expirados ou cancelados são devolvidos ao dono (limpeza a cada hora)
+- Cada jogador pode ter até **10 listagens ativas** de cada vez
 
-### Commands
+### Comandos
 
-| Command | Description | Permission |
+| Comando | Descrição | Permissão |
 | --- | --- | --- |
-| `/ah` | Browse active listings (6-row paginated GUI) | `nexusprism.economy.ah.use` |
-| `/ah sell <price>` | List held item at a price | `nexusprism.economy.ah.use` |
-| `/ah own` | View your listings; cancel active or reclaim expired | `nexusprism.economy.ah.use` |
-| `/ah cancel <id>` | Cancel a listing by its ID | `nexusprism.economy.ah.use` |
+| `/ah` | Navegar pelas listagens ativas (GUI paginada de 6 linhas) | `nexusprism.economy.ah.use` |
+| `/ah sell <preço>` | Listar item na mão por um preço | `nexusprism.economy.ah.use` |
+| `/ah own` | Ver suas listagens; cancelar ativas ou recuperar expiradas | `nexusprism.economy.ah.use` |
+| `/ah cancel <id>` | Cancelar listagem pelo ID | `nexusprism.economy.ah.use` |

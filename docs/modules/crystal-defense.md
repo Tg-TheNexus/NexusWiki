@@ -1,75 +1,75 @@
-# Crystal Defense Module
+# Módulo Crystal Defense
 
-Crystal Defense is a **wave-based cooperative minigame** where players defend Ender Crystals against increasingly difficult mob waves. Players earn points per kill and spend them on arena upgrades.
-
----
-
-## How to Play
-
-1. An admin creates an arena with `/crystal create <name>`
-2. Players join the arena with `/crystal join <name>`
-3. The game starts automatically when enough players are ready (or manually via `/crystal start`)
-4. Mobs spawn in waves — kill them before they destroy the crystal
-5. Spend kill-earned points on upgrades between waves
-6. The game ends when the crystal's HP reaches zero
+Crystal Defense é um **minigame cooperativo em ondas** onde os jogadores defendem Ender Crystals contra hordas de mobs cada vez mais difíceis. Os jogadores ganham pontos por morte e os gastam em melhorias da arena.
 
 ---
 
-## Commands
+## Como Jogar
 
-| Command | Usage | Permission |
+1. Um administrador cria uma arena com `/crystal create <nome>`
+2. Os jogadores entram na arena com `/crystal join <nome>`
+3. O jogo começa automaticamente quando houver jogadores suficientes prontos (ou manualmente com `/crystal start`)
+4. Mobs surgem em ondas — elimine-os antes que destruam o cristal
+5. Gaste os pontos de abate em melhorias entre as ondas
+6. O jogo termina quando o HP do cristal chega a zero
+
+---
+
+## Comandos
+
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/crystal join <arena>` | Join an arena | `nexusprism.crystaldefense.use` |
-| `/crystal leave` | Leave the current arena | `nexusprism.crystaldefense.use` |
-| `/crystal list` | List available arenas | `nexusprism.crystaldefense.use` |
-| `/crystal status` | Show current wave and crystal HP | `nexusprism.crystaldefense.use` |
-| `/crystal create <name>` | Create a new arena | `nexusprism.crystaldefense.admin` |
-| `/crystal delete <name>` | Delete an arena | `nexusprism.crystaldefense.admin` |
-| `/crystal setcrystal <arena>` | Set crystal location | `nexusprism.crystaldefense.admin` |
-| `/crystal setspawn <arena>` | Set player spawn for arena | `nexusprism.crystaldefense.admin` |
-| `/crystal start [arena]` | Force-start a game | `nexusprism.crystaldefense.admin` |
-| `/crystal stop [arena]` | Stop a game | `nexusprism.crystaldefense.admin` |
-| `/crystal reload` | Reload arena configs | `nexusprism.crystaldefense.admin` |
+| `/crystal join <arena>` | Entrar em uma arena | `nexusprism.crystaldefense.use` |
+| `/crystal leave` | Sair da arena atual | `nexusprism.crystaldefense.use` |
+| `/crystal list` | Listar arenas disponíveis | `nexusprism.crystaldefense.use` |
+| `/crystal status` | Exibir onda atual e HP do cristal | `nexusprism.crystaldefense.use` |
+| `/crystal create <nome>` | Criar uma nova arena | `nexusprism.crystaldefense.admin` |
+| `/crystal delete <nome>` | Excluir uma arena | `nexusprism.crystaldefense.admin` |
+| `/crystal setcrystal <arena>` | Definir localização do cristal | `nexusprism.crystaldefense.admin` |
+| `/crystal setspawn <arena>` | Definir ponto de spawn dos jogadores | `nexusprism.crystaldefense.admin` |
+| `/crystal start [arena]` | Forçar início de um jogo | `nexusprism.crystaldefense.admin` |
+| `/crystal stop [arena]` | Parar um jogo | `nexusprism.crystaldefense.admin` |
+| `/crystal reload` | Recarregar configurações das arenas | `nexusprism.crystaldefense.admin` |
 
 ---
 
-## Arena Setup
+## Configuração da Arena
 
-1. Build your arena in the world
-2. Run `/crystal create <name>`
-3. Stand at the Ender Crystal position → `/crystal setcrystal <name>`
-4. Stand at the player spawn → `/crystal setspawn <name>`
-5. (Optional) Edit `crystaldefense/config.yml` to configure waves and upgrade costs
+1. Construa sua arena no mundo
+2. Execute `/crystal create <nome>`
+3. Fique na posição do Ender Crystal → `/crystal setcrystal <nome>`
+4. Fique no ponto de spawn dos jogadores → `/crystal setspawn <nome>`
+5. (Opcional) Edite `crystaldefense/config.yml` para configurar ondas e custos de melhorias
 
 ---
 
-## Main Configuration (`crystaldefense/config.yml`)
+## Configuração Principal (`crystaldefense/config.yml`)
 
 ```yaml
 arena:
-  crystal-max-health: 1000.0    # Default crystal HP for new arenas
+  crystal-max-health: 1000.0    # HP padrão do cristal para novas arenas
 
 points:
-  per-kill: 5                   # Points earned per mob kill
+  per-kill: 5                   # Pontos ganhos por abate de mob
 
 upgrades:
   crystal_health:
     base_cost: 20
-    step_percent: 20            # Crystal max-HP increases by 20% per purchase
+    step_percent: 20            # HP máximo do cristal aumenta 20% por compra
 
   crystal_defense:
     base_cost: 25
-    duration_seconds: 30        # RESISTANCE II duration applied to all players
+    duration_seconds: 30        # Duração de RESISTANCE II aplicada a todos os jogadores
 
   player_attack_buff:
     base_cost: 30
-    damage_percent: 20          # % increase to player base attack damage
+    damage_percent: 20          # % de aumento no dano base de ataque do jogador
     duration_seconds: 60
 ```
 
 ---
 
-## Wave Definitions (`crystaldefense/waves.yml`)
+## Definição de Ondas (`crystaldefense/waves.yml`)
 
 ```yaml
 waves:
@@ -112,30 +112,30 @@ waves:
 
 ---
 
-## Upgrades
+## Melhorias
 
-| Upgrade | Effect | Base Cost |
+| Melhoria | Efeito | Custo Base |
 | --- | --- | --- |
-| **Crystal Health** | Increases crystal max HP by 20% per level | 20 points |
-| **Crystal Defense** | Applies RESISTANCE II to all players for 30s | 25 points |
-| **Player Attack Buff** | +20% damage for 60s | 30 points |
+| **Crystal Health** | Aumenta o HP máximo do cristal em 20% por nível | 20 pontos |
+| **Crystal Defense** | Aplica RESISTANCE II a todos os jogadores por 30s | 25 pontos |
+| **Player Attack Buff** | +20% de dano por 60s | 30 pontos |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.crystaldefense.use` | Join arenas and play | true |
-| `nexusprism.crystaldefense.admin` | Create/manage arenas | OP |
+| `nexusprism.crystaldefense.use` | Entrar em arenas e jogar | true |
+| `nexusprism.crystaldefense.admin` | Criar/gerenciar arenas | OP |
 
 ---
 
 ## PlaceholderAPI
 
-| Placeholder | Description |
+| Placeholder | Descrição |
 | --- | --- |
-| `%nexusprism_crystal_wave%` | Current wave number |
-| `%nexusprism_crystal_health%` | Crystal HP remaining |
-| `%nexusprism_crystal_points%` | Player's points in current game |
-| `%nexusprism_crystal_arena%` | Arena the player is in |
+| `%nexusprism_crystal_wave%` | Número da onda atual |
+| `%nexusprism_crystal_health%` | HP restante do cristal |
+| `%nexusprism_crystal_points%` | Pontos do jogador no jogo atual |
+| `%nexusprism_crystal_arena%` | Arena em que o jogador está |

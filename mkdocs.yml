@@ -47,92 +47,92 @@ plugins:
   - i18n:
       docs_structure: suffix
       languages:
-        - locale: en
-          default: true
-          name: English
-          build: true
         - locale: pt
+          default: true
           name: Português (BR)
           build: true
+        - locale: en
+          name: English
+          build: true
           nav_translations:
-            Home: Início
-            Getting Started: Primeiros Passos
-            Modules: Módulos
+            Início: Home
+            Primeiros Passos: Getting Started
+            Módulos: Modules
             Core: Core
-            Essentials: Essenciais
-            Economy: Economia
-            Clans: Clãs
-            Security: Segurança
+            Essenciais: Essentials
+            Economia: Economy
+            Clãs: Clans
+            Segurança: Security
             Discord: Discord
             Crystal Defense: Crystal Defense
             Votifier: Votifier
-            Dreams: Sonhos
+            Sonhos: Dreams
             Events: Events
             MMO: MMO
-            Protections: Proteções
-            Custom Mobs: Mobs Personalizados
-            Infinity Crafting: Crafting Infinito
-            Twitch Integration: Integração Twitch
+            Proteções: Protections
+            Mobs Personalizados: Custom Mobs
+            Crafting Infinito: Infinity Crafting
+            Integração Twitch: Twitch Integration
             TAB: TAB
             Chat: Chat
-            Holograms: Hologramas
+            Hologramas: Holograms
             Traits: Traits
             RNG: RNG
-            Crates: Caixas
-            Enchantments: Encantamentos
-            ME Storage: Armazenamento ME
-            Energy: Energia
-            Structures: Estruturas
-            Web & GDPR: Web & LGPD
-            Reference: Referência
+            Caixas: Crates
+            Encantamentos: Enchantments
+            Armazenamento ME: ME Storage
+            Energia: Energy
+            Estruturas: Structures
+            Web & LGPD: Web & GDPR
+            Referência: Reference
             PlaceholderAPI: PlaceholderAPI
-            Permissions: Permissões
-            Commands: Comandos
-            Developer: Desenvolvedor
-            API Guide: Guia da API
-            Store: Loja
-            Changelog: Histórico
+            Permissões: Permissions
+            Comandos: Commands
+            Desenvolvedor: Developer
+            Guia da API: API Guide
+            Loja: Store
+            Histórico: Changelog
         - locale: es
           name: Español
           build: true
           nav_translations:
-            Home: Inicio
-            Getting Started: Primeros Pasos
-            Modules: Módulos
+            Início: Inicio
+            Primeiros Passos: Primeros Pasos
+            Módulos: Módulos
             Core: Core
-            Essentials: Esenciales
-            Economy: Economía
-            Clans: Clanes
-            Security: Seguridad
+            Essenciais: Esenciales
+            Economia: Economía
+            Clãs: Clanes
+            Segurança: Seguridad
             Discord: Discord
             Crystal Defense: Crystal Defense
             Votifier: Votifier
-            Dreams: Sueños
+            Sonhos: Sueños
             Events: Events
             MMO: MMO
-            Protections: Protecciones
-            Custom Mobs: Mobs Personalizados
-            Infinity Crafting: Crafteo Infinito
-            Twitch Integration: Integración Twitch
+            Proteções: Protecciones
+            Mobs Personalizados: Mobs Personalizados
+            Crafting Infinito: Crafteo Infinito
+            Integração Twitch: Integración Twitch
             TAB: TAB
             Chat: Chat
-            Holograms: Hologramas
+            Hologramas: Hologramas
             Traits: Traits
             RNG: RNG
-            Crates: Cofres
-            Enchantments: Encantamientos
-            ME Storage: Almacenamiento ME
-            Energy: Energía
-            Structures: Estructuras
-            Web & GDPR: Web & RGPD
-            Reference: Referencia
+            Caixas: Cofres
+            Encantamentos: Encantamientos
+            Armazenamento ME: Almacenamiento ME
+            Energia: Energía
+            Estruturas: Estructuras
+            Web & LGPD: Web & RGPD
+            Referência: Referencia
             PlaceholderAPI: PlaceholderAPI
-            Permissions: Permisos
-            Commands: Comandos
-            Developer: Desarrollador
-            API Guide: Guía de la API
-            Store: Tienda
-            Changelog: Historial
+            Permissões: Permisos
+            Comandos: Comandos
+            Desenvolvedor: Desarrollador
+            Guia da API: Guía de la API
+            Loja: Tienda
+            Histórico: Historial
 
 markdown_extensions:
   - admonition
@@ -158,44 +158,44 @@ extra:
       link: https://discord.gg/invite/WgmfqwPcnS
 
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Modules:
+  - Início: index.md
+  - Primeiros Passos: getting-started.md
+  - Módulos:
       - modules/index.md
       - Core: modules/core.md
-      - Essentials: modules/essentials.md
-      - Economy: modules/economy.md
-      - Clans: modules/clans.md
-      - Security: modules/security.md
+      - Essenciais: modules/essentials.md
+      - Economia: modules/economy.md
+      - Clãs: modules/clans.md
+      - Segurança: modules/security.md
       - Discord: modules/discord.md
       - Crystal Defense: modules/crystal-defense.md
       - Votifier: modules/votifier.md
-      - Dreams: modules/dreams.md
+      - Sonhos: modules/dreams.md
       - Events: modules/events.md
       - MMO: modules/mmo.md
-      - Protections: modules/protections.md
-      - Custom Mobs: modules/custom-mobs.md
-      - Infinity Crafting: modules/infinity-crafting.md
-      - Twitch Integration: modules/twitch.md
+      - Proteções: modules/protections.md
+      - Mobs Personalizados: modules/custom-mobs.md
+      - Crafting Infinito: modules/infinity-crafting.md
+      - Integração Twitch: modules/twitch.md
       - TAB: modules/tab.md
       - Chat: modules/chat.md
-      - Holograms: modules/holograms.md
+      - Hologramas: modules/holograms.md
       - Traits: modules/traits.md
       - RNG: modules/rng.md
-      - Crates: modules/crates.md
-      - Enchantments: modules/enchantments.md
-      - ME Storage: modules/ae.md
-      - Energy: modules/energy.md
-      - Structures: modules/structures.md
-      - Web & GDPR: modules/web.md
-  - Reference:
+      - Caixas: modules/crates.md
+      - Encantamentos: modules/enchantments.md
+      - Armazenamento ME: modules/ae.md
+      - Energia: modules/energy.md
+      - Estruturas: modules/structures.md
+      - Web & LGPD: modules/web.md
+  - Referência:
       - PlaceholderAPI: reference/placeholders.md
-      - Permissions: reference/permissions.md
-      - Commands: reference/commands.md
-  - Developer:
-      - API Guide: developer/api.md
-  - Store: store.md
-  - Changelog: changelog.md
+      - Permissões: reference/permissions.md
+      - Comandos: reference/commands.md
+  - Desenvolvedor:
+      - Guia da API: developer/api.md
+  - Loja: store.md
+  - Histórico: changelog.md
 
 extra_css:
   - stylesheets/nexus-tokens.css

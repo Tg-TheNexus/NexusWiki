@@ -1,130 +1,82 @@
-# Enchantments Module
+# Módulo Enchantments
 
-The Enchantments module adds **175 custom enchantments** across 6 rarity tiers and 10 trigger types. All enchants are defined in `enchants/config.yml` — no Java code required to add new ones.
+O módulo Enchantments adiciona **175 encantamentos personalizados** em 6 níveis de raridade e 10 tipos de gatilho. Todos os encantamentos são definidos em `enchants/config.yml` — nenhum código Java é necessário para adicionar novos.
 
 ---
 
-## Rarities
+## Raridades
 
-| Rarity | Color | XP Cost | Weight |
+| Raridade | Cor | Custo em XP | Peso |
 | --- | --- | --- | --- |
-| **Common** | White `§f` | 3 XP | 100 |
-| **Uncommon** | Green `§a` | 8 XP | 50 |
-| **Rare** | Blue `§9` | 15 XP | 20 |
-| **Epic** | Purple `§5` | 25 XP | 8 |
-| **Legendary** | Gold `§6` | 40 XP | 3 |
-| **Mythic** | Red `§c` | 60 XP | 1 |
+| **Comum** | Branco `§f` | 3 XP | 100 |
+| **Incomum** | Verde `§a` | 8 XP | 50 |
+| **Raro** | Azul `§9` | 15 XP | 20 |
+| **Épico** | Roxo `§5` | 25 XP | 8 |
+| **Lendário** | Dourado `§6` | 40 XP | 3 |
+| **Mítico** | Vermelho `§c` | 60 XP | 1 |
 
 ---
 
-## Trigger Types
+## Tipos de Gatilho
 
-| Trigger | When it fires |
+| Gatilho | Quando dispara |
 | --- | --- |
-| `ON_HIT` | When the player deals melee damage |
-| `ON_KILL` | When the player kills an entity |
-| `ON_MINE` | When the player breaks a block |
-| `ON_BREAK` | When the player's item is about to break |
-| `ON_DEATH` | When the player dies |
-| `ON_DAMAGE_TAKEN` | When the player takes damage |
-| `PASSIVE` | Runs continuously on a tick task |
-| `ON_JUMP` | When the player jumps |
-| `ON_SHOOT` | When the player fires a projectile |
-| `VOID` | Fires when the player falls below Y=0 |
+| `ON_HIT` | Quando o jogador causa dano corpo a corpo |
+| `ON_KILL` | Quando o jogador mata uma entidade |
+| `ON_MINE` | Quando o jogador quebra um bloco |
+| `ON_BREAK` | Quando o item do jogador está prestes a quebrar |
+| `ON_DEATH` | Quando o jogador morre |
+| `ON_DAMAGE_TAKEN` | Quando o jogador recebe dano |
+| `PASSIVE` | Executado continuamente em uma tarefa de tick |
+| `ON_JUMP` | Quando o jogador pula |
+| `ON_SHOOT` | Quando o jogador dispara um projétil |
+| `VOID` | Quando o jogador cai abaixo de Y=0 |
 
 ---
 
-## Applicable Item Groups
+## Comandos
 
-Enchants specify which item types they can be applied to via `applicable-items:`.
+Todos os comandos requerem `nexusprism.enchantments.admin`.
 
-`ANY`, `SWORD`, `AXE`, `PICKAXE`, `SHOVEL`, `HOE`, `BOW`, `CROSSBOW`, `TRIDENT`, `FISHING_ROD`, `HELMET`, `CHESTPLATE`, `LEGGINGS`, `BOOTS`, `ARMOR`, `ELYTRA`
-
----
-
-## Commands
-
-All commands require `nexusprism.enchantments.admin`.
-
-| Command | Description |
+| Comando | Descrição |
 | --- | --- |
-| `/enchant list` | List all enchants with ID, rarity, and status |
-| `/enchant info <id>` | Show details: max level, item groups, conflicts |
-| `/enchant give <player> <id> [level]` | Give an enchant book to a player |
-| `/enchant apply <id> [level]` | Apply an enchant directly to the held item |
-| `/enchant remove <id>` | Remove an enchant from the held item |
-| `/enchant reload` | Reload `enchants/config.yml` |
+| `/enchant list` | Listar todos os encantamentos com ID, raridade e status |
+| `/enchant info <id>` | Mostrar detalhes: nível máximo, grupos de itens, conflitos |
+| `/enchant give <jogador> <id> [nível]` | Dar um livro de encantamento a um jogador |
+| `/enchant apply <id> [nível]` | Aplicar um encantamento diretamente no item na mão |
+| `/enchant remove <id>` | Remover um encantamento do item na mão |
+| `/enchant reload` | Recarregar `enchants/config.yml` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.enchantments.admin` | All enchantment management commands | OP |
+| `nexusprism.enchantments.admin` | Todos os comandos de gerenciamento de encantamentos | OP |
 
 ---
 
-## Configuration (`enchants/config.yml`)
-
-### Rarity Groups
-
-```yaml
-groups:
-  COMMON:
-    color: "§f"
-    display: "Common"
-    buy-price-xp: 3
-    weight: 100
-  UNCOMMON:
-    color: "§a"
-    display: "Uncommon"
-    buy-price-xp: 8
-    weight: 50
-  # RARE, EPIC, LEGENDARY, MYTHIC follow the same format
-```
-
-### Obtain Settings
-
-```yaml
-obtain-defaults:
-  enchanting-table: true    # Can appear in the enchanting table
-  random-loot: true         # Can appear in chest loot
-  villager-trading: false
-  mob-equipment: false
-```
-
-### Enchant Definition
+## Configuração (`enchants/config.yml`)
 
 ```yaml
 enchants:
   lifesteal:
     enabled: true
-    display-name: "&cLifesteal"
+    display-name: "&cRoubo de Vida"
     rarity: UNCOMMON
     trigger: ON_HIT
     max-level: 3
     applicable-items: [SWORD, AXE]
-    conflicts: []              # Other custom enchant IDs that conflict
-    vanilla-conflicts: []      # Vanilla enchantment names that conflict
-    heal-percent-per-level: 0.10   # Custom effect parameter (10% HP per level)
+    conflicts: []
+    vanilla-conflicts: []
+    heal-percent-per-level: 0.10
 ```
-
-| Field | Description |
-| --- | --- |
-| `enabled` | Set to `false` to disable without removing the entry |
-| `rarity` | One of the 6 rarity tiers |
-| `trigger` | When the enchant effect fires |
-| `max-level` | Highest level the enchant can reach |
-| `applicable-items` | List of item group IDs this enchant can be applied to |
-| `conflicts` | Custom enchant IDs that cannot coexist with this one |
-| `vanilla-conflicts` | Vanilla enchantment names that conflict |
 
 ---
 
-## How Enchant Books Work
+## Como Funcionam os Livros de Encantamento
 
-- Right-clicking an enchant book applies it to the item in the **offhand slot**
-- Enchants are stored via **PDC** (Persistent Data Container) with key `enchant_<id>`
-- Applied enchants appear in the item lore as `<Color><Name> <Roman numeral> §8[Enchant]`
-- The enchanting table can offer custom enchants when `obtain-defaults.enchanting-table: true`
+- Clicar com botão direito em um livro aplica o encantamento ao item na **mão secundária**
+- Encantamentos são armazenados via **PDC** com a chave `enchant_<id>`
+- Encantamentos aplicados aparecem no lore do item como `<Cor><Nome> <Algarismo Romano> §8[Enchant]`

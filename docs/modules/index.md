@@ -1,34 +1,34 @@
-# Modules
+# Módulos
 
-NexusPrism is organized into **feature modules**, each handling a distinct gameplay system. All modules are bundled in the final JAR and enabled by default.
+O NexusPrism é organizado em **módulos de funcionalidades**, cada um gerenciando um sistema de jogo distinto. Todos os módulos estão incluídos no JAR final e habilitados por padrão.
 
 ---
 
-| Module | Description |
+| Módulo | Descrição |
 | --- | --- |
-| [Core](core.md) | i18n, GUI framework, per-player data storage, addon extension hooks, waypoints |
-| [Essentials](essentials.md) | Homes, warps, TPA, AFK, jail, 40+ QoL commands |
-| [Economy](economy.md) | Money, /sell, /worth, /baltop |
-| [Clans](clans.md) | Clan creation, territory, upgrades, clan chest, clan chat |
-| [Security](security.md) | BCrypt auth, anti-bot CAPTCHA, mod detection, anti-lag, anti-dupe |
-| [Discord](discord.md) | JDA bot, account linking, role sync, live announcements |
-| [Crystal Defense](crystal-defense.md) | Wave-based Ender Crystal defense minigame |
-| [Votifier](votifier.md) | Standalone V1/V2 vote server, vote streaks, leaderboard |
-| [Dreams](dreams.md) | Sleep cutscene system with dream and nightmare variants |
-| [Events](events.md) | Blood Moon, horde waves, survival streak, Sacrifice Arc, Anime Bosses |
-| [MMO](mmo.md) | Stat points, 6 skill trees, 18 active abilities, 8 professions with mastery passives |
-| [Protections](protections.md) | WorldGuard-style region claims, 28 protection flags, duel system |
-| [Custom Mobs](custom-mobs.md) | YAML-defined bosses with loot tables, AI forms, and spawn eggs |
-| [Infinity Crafting](infinity-crafting.md) | Removed — dead system, never fully shipped |
-| [Twitch Integration](twitch.md) | Account linking, live alerts, chat relay, viewer giveaways |
-| [TAB](tab.md) | TAB list header/footer, rank prefix, ping display, scoreboards, MOTD |
-| [Chat](chat.md) | 4-channel chat system (local, global, staff, report) with LuckPerms prefix |
-| [Holograms](holograms.md) | YAML-driven floating text, item, and player head displays |
-| [Traits](traits.md) | Tarot card trait system — 3 cards per player, weighted random, rerollable |
-| [RNG](rng.md) | Daily spin, lucky blocks, gacha via Research Parchments, server events |
-| [Crates](crates.md) | Key-based loot crates with animated openings and per-crate reward tables |
-| [Enchantments](enchantments.md) | 175 custom enchants, 6 rarities, 10 trigger types, YAML-defined |
-| [ME Storage](ae.md) | Removed — dead code, never wired up |
-| [Energy](energy.md) | Removed — dead code, pre-dates the NexusATS split |
-| [Structures](structures.md) | Addon-driven structure loot hook — no loot content of its own |
-| [Web & GDPR](web.md) | Webstore integration, VIP kit delivery, payment webhooks, GDPR compliance |
+| [Core](core.md) | i18n, framework de GUI, armazenamento de dados por jogador, hooks de extensão para addons, waypoints |
+| [Essenciais](essentials.md) | Homes, warps, TPA, AFK, prisão, +40 comandos QoL |
+| [Economia](economy.md) | Dinheiro, créditos, /sell, /worth, /baltop |
+| [Clãs](clans.md) | Criação de clã, território, melhorias, baú de clã, chat de clã |
+| [Segurança](security.md) | Auth BCrypt, anti-bot CAPTCHA, detecção de mods, anti-lag, anti-dupe |
+| [Discord](discord.md) | Bot JDA, vinculação de conta, sincronização de cargos, avisos ao vivo |
+| [Crystal Defense](crystal-defense.md) | Minijogo cooperativo de defesa de Cristais Ender por ondas |
+| [Votifier](votifier.md) | Servidor Votifier V1/V2 independente, sequências de votos, placar |
+| [Sonhos](dreams.md) | Sistema de cutscene de sono com variantes de sonho e pesadelo |
+| [Events](events.md) | Lua de Sangue, ondas de hordas, sequência de sobrevivência, Arco do Sacrifício, Chefes Isekai |
+| [MMO](mmo.md) | Pontos de atributo, 6 árvores de habilidade, 18 habilidades ativas, 8 profissões com passivas |
+| [Proteções](protections.md) | Reivindicação de regiões estilo WorldGuard, 28 flags de proteção, duelo |
+| [Mobs Personalizados](custom-mobs.md) | Chefes definidos em YAML com tabelas de loot, formas de IA e ovos de spawn |
+| [Crafting Infinito](infinity-crafting.md) | Removido — sistema morto, nunca finalizado |
+| [Integração Twitch](twitch.md) | Vinculação de conta, alertas ao vivo, relay de chat, sorteios para espectadores |
+| [TAB](tab.md) | Cabeçalho/rodapé da lista TAB, prefixo de rank, ping, placar, MOTD |
+| [Chat](chat.md) | Sistema de 4 canais (local, global, staff, report) com prefixo do LuckPerms |
+| [Hologramas](holograms.md) | Displays flutuantes de texto, itens e cabeças de jogador via YAML |
+| [Traits](traits.md) | Sistema de Cartas de Tarô — 3 cartas por jogador, aleatório ponderado, rerolável |
+| [RNG](rng.md) | Giro diário, blocos de sorte, gacha via Pergaminhos de Pesquisa, eventos de servidor |
+| [Caixas](crates.md) | Caixas de loot com chaves, animações de abertura e tabelas de recompensas por caixa |
+| [Encantamentos](enchantments.md) | 175 encantamentos personalizados, 6 raridades, 10 tipos de gatilho, definidos em YAML |
+| [Armazenamento ME](ae.md) | Removido — código morto, nunca conectado |
+| [Energia](energy.md) | Removido — código morto, anterior à separação do NexusATS |
+| [Estruturas](structures.md) | Hook de loot de estruturas controlado por addons — sem loot próprio |
+| [Web & LGPD](web.md) | Integração com loja virtual, entrega de kits VIP, webhooks de pagamento, conformidade LGPD |

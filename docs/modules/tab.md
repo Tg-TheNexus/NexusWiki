@@ -1,45 +1,45 @@
-# TAB Module
+# Módulo TAB
 
-The TAB module customizes the **player list** (TAB overlay) with formatted headers, footers, ping display, LuckPerms rank prefixes, animated scoreboards, and MOTD customization.
+O módulo TAB personaliza a **lista de jogadores** (overlay TAB) com cabeçalhos e rodapés formatados, prefixo de rank do LuckPerms, indicador de ping colorido, placar animado e personalização do MOTD.
 
 ---
 
-## Features
+## Funcionalidades
 
-| Feature | Description |
+| Funcionalidade | Descrição |
 | --- | --- |
-| **Header / Footer** | Animated multi-line header and footer with PlaceholderAPI support |
-| **Name Formatting** | Player names in the TAB list show their LuckPerms rank prefix and suffix |
-| **Ping Display** | Colored ping indicator next to each player's name |
-| **Scoreboards** | Per-player sidebar scoreboard with configurable lines and PAPI placeholders |
-| **MOTD Customization** | Server list MOTD configurable per-world or globally |
+| **Cabeçalho / Rodapé** | Cabeçalho e rodapé animados com suporte a PlaceholderAPI |
+| **Formatação de Nome** | Nomes na lista TAB exibem o prefixo e sufixo do rank do LuckPerms |
+| **Indicador de Ping** | Ping colorido ao lado do nome de cada jogador |
+| **Placar** | Placar lateral por jogador com linhas configuráveis e placeholders PAPI |
+| **Personalização do MOTD** | Descrição do servidor configurável globalmente |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Usage | Permission |
+| Comando | Uso | Permissão |
 | --- | --- | --- |
-| `/ntab reload` | Reload TAB configuration | `nexusprism.tab.admin` |
+| `/ntab reload` | Recarregar configuração do TAB | `nexusprism.tab.admin` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.tab.admin` | Reload TAB configuration | OP |
+| `nexusprism.tab.admin` | Recarregar configuração do TAB | OP |
 
 ---
 
-## Configuration (`tab/config.yml`)
+## Configuração (`tab/config.yml`)
 
 ```yaml
 tab:
   enabled: true
 
-  # Header and footer shown in the player list overlay
-  # Supports & color codes and PlaceholderAPI placeholders
+  # Cabeçalho e rodapé exibidos na lista de jogadores
+  # Suporta códigos de cor & e placeholders PlaceholderAPI
   header:
     - ""
     - "&b&lNexusPrism &8— &7Skyblock"
@@ -50,27 +50,27 @@ tab:
     - "&7Ping: &f%player_ping%ms"
     - ""
 
-  # Name format for each player entry in the list
-  # {prefix} = LuckPerms rank prefix, {name} = player name, {suffix} = rank suffix
+  # Formato do nome de cada jogador na lista
+  # {prefix} = prefixo LuckPerms, {name} = nome, {suffix} = sufixo
   name-format: "{prefix}&f{name}{suffix}"
 
-  # Show ping as colored text next to the player's name
+  # Exibir ping como texto colorido ao lado do nome
   ping-display:
     enabled: true
     format: "&8[{ping}ms]"
     thresholds:
-      good: 80        # Below this = green
-      medium: 150     # Below this = yellow; above = red
+      good: 80        # Abaixo disso = verde
+      medium: 150     # Abaixo disso = amarelo; acima = vermelho
 
 scoreboard:
   enabled: true
   title: "&b&lNexusPrism"
-  update-ticks: 20   # Refresh rate (20 ticks = 1 second)
+  update-ticks: 20   # Taxa de atualização (20 ticks = 1 segundo)
   lines:
     - ""
-    - "&7Player: &f%player_name%"
-    - "&7Money: &a$%nexusprism_money%"
-    - "&7Clan: &b%nexusprism_clan_name%"
+    - "&7Jogador: &f%player_name%"
+    - "&7Dinheiro: &a$%nexusprism_money%"
+    - "&7Clã: &b%nexusprism_clan_name%"
     - ""
     - "&enexusprism.blazebr.com"
     - ""
@@ -79,23 +79,23 @@ motd:
   enabled: false
   lines:
     - "&b&lNexusPrism &r&7— Skyblock MMO"
-    - "&7Join and explore!"
+    - "&7Entre e explore!"
 ```
 
-### Configuration Fields
+### Campos de Configuração
 
-| Field | Description |
+| Campo | Descrição |
 | --- | --- |
-| `tab.header` / `tab.footer` | Lines displayed above/below the player list. Supports `&` color codes and PlaceholderAPI. |
-| `tab.name-format` | Format for each player's name in the list. Use `{prefix}`, `{name}`, `{suffix}`. |
-| `ping-display.thresholds` | Ping values (ms) used to switch between green/yellow/red coloring. |
-| `scoreboard.title` | Title text shown at the top of the sidebar scoreboard. |
-| `scoreboard.lines` | List of scoreboard lines (top to bottom). Supports PlaceholderAPI. |
-| `scoreboard.update-ticks` | How often the scoreboard refreshes. 20 ticks = 1 second. |
-| `motd.lines` | Two-line server list description. Supports `&` color codes. |
+| `tab.header` / `tab.footer` | Linhas exibidas acima/abaixo da lista. Suporta `&` e PlaceholderAPI. |
+| `tab.name-format` | Formato do nome de cada jogador. Use `{prefix}`, `{name}`, `{suffix}`. |
+| `ping-display.thresholds` | Valores de ping (ms) para alternar entre verde/amarelo/vermelho. |
+| `scoreboard.title` | Texto no topo do placar lateral. |
+| `scoreboard.lines` | Linhas do placar (de cima para baixo). Suporta PlaceholderAPI. |
+| `scoreboard.update-ticks` | Frequência de atualização. 20 ticks = 1 segundo. |
+| `motd.lines` | Duas linhas de descrição na lista de servidores. Suporta `&`. |
 
 ---
 
 ## PlaceholderAPI
 
-The TAB module works with any PlaceholderAPI placeholder in header, footer, and scoreboard lines. See the [PlaceholderAPI reference](../reference/placeholders.md) for all available `%nexusprism_*%` placeholders.
+O módulo TAB funciona com qualquer placeholder do PlaceholderAPI em cabeçalho, rodapé e linhas do placar. Veja a [referência de PlaceholderAPI](../reference/placeholders.md) para todos os placeholders `%nexusprism_*%` disponíveis.

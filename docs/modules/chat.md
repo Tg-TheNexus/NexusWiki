@@ -1,77 +1,75 @@
-# Chat Module
+# Módulo Chat
 
-The Chat module replaces the default Minecraft chat with a **4-channel system** — local, global, staff, and report — each with configurable radius, format, and LuckPerms rank prefix integration.
+O módulo Chat substitui o chat padrão do Minecraft por um **sistema de 4 canais** — local, global, staff e report — cada um com raio, formato e integração de prefixo do LuckPerms configuráveis.
 
 ---
 
-## Channels
+## Canais
 
-| Channel | Trigger | Audience | Description |
+| Canal | Ativação | Audiência | Descrição |
 | --- | --- | --- | --- |
-| **Local** | Default (no prefix) | Players within radius | Standard proximity-based chat |
-| **Global** | `!<message>` or `/g` | All online players | Server-wide broadcast |
-| **Staff** | `/staffchat` or `/sc` | Staff only | Private staff communication channel |
-| **Report** | `/report <player> <reason>` | Staff only | Player-submitted reports, delivered to staff |
+| **Local** | Padrão (sem prefixo) | Jogadores dentro do raio | Chat por proximidade |
+| **Global** | `!<mensagem>` ou `/g` | Todos os jogadores online | Transmissão para o servidor inteiro |
+| **Staff** | `/staffchat` ou `/sc` | Apenas staff | Canal privado de comunicação da equipe |
+| **Report** | `/report <jogador> <motivo>` | Apenas staff | Denúncias enviadas por jogadores, entregues à staff |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Aliases | Usage | Permission |
+| Comando | Aliases | Uso | Permissão |
 | --- | --- | --- | --- |
-| `/globalchat <message>` | `/g`, `/gc` | Send a message to all players | `nexusprism.chat.global` |
-| `/staffchat <message>` | `/sc` | Send a message to staff | `nexusprism.chat.staff` |
-| `/report <player> <reason>` | — | Report a player to staff | `nexusprism.chat.report` |
-| `/chat reload` | — | Reload chat configuration | `nexusprism.chat.admin` |
+| `/globalchat <mensagem>` | `/g`, `/gc` | Enviar mensagem para todos | `nexusprism.chat.global` |
+| `/staffchat <mensagem>` | `/sc` | Enviar mensagem para a staff | `nexusprism.chat.staff` |
+| `/report <jogador> <motivo>` | — | Denunciar um jogador | `nexusprism.chat.report` |
+| `/chat reload` | — | Recarregar configuração do chat | `nexusprism.chat.admin` |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.chat.global` | Use global chat channel | true |
-| `nexusprism.chat.staff` | Access staff chat channel | OP |
-| `nexusprism.chat.report` | Submit player reports | true |
-| `nexusprism.chat.admin` | Reload chat configuration | OP |
+| `nexusprism.chat.global` | Usar o canal de chat global | true |
+| `nexusprism.chat.staff` | Acessar o canal de staff | OP |
+| `nexusprism.chat.report` | Enviar denúncias de jogadores | true |
+| `nexusprism.chat.admin` | Recarregar configuração do chat | OP |
 
 ---
 
-## Configuration (`chat/config.yml`)
+## Configuração (`chat/config.yml`)
 
 ```yaml
 chat:
   local:
-    radius: 100          # Blocks — 0 for global local chat (same as global)
+    radius: 100          # Blocos — 0 para chat local global (igual ao global)
     format: "{prefix}&f{name}&7: &f{message}"
 
   global:
     format: "&8[&bGlobal&8] {prefix}&f{name}&7: &f{message}"
-    trigger-prefix: "!"  # Start a message with ! to send globally
+    trigger-prefix: "!"  # Inicie a mensagem com ! para enviar globalmente
 
   staff:
     format: "&8[&cStaff&8] &7{name}&7: &c{message}"
 
   report:
-    format: "&8[&6Report&8] &e{reporter}&7 reported &c{target}&7: &f{reason}"
+    format: "&8[&6Report&8] &e{reporter}&7 denunciou &c{target}&7: &f{reason}"
 
-  # Integrate LuckPerms rank prefixes into chat format
   luckperms-prefix:
     enabled: true
-    # {prefix} in format strings is replaced with the player's LuckPerms prefix
 ```
 
-### Configuration Fields
+### Campos de Configuração
 
-| Field | Description |
+| Campo | Descrição |
 | --- | --- |
-| `local.radius` | Maximum distance (blocks) for local chat. Set to `0` to make local reach all players. |
-| `local.format` | Chat format for local messages. Supports `{prefix}`, `{name}`, `{message}`. |
-| `global.trigger-prefix` | Character(s) that switch a local message to global (e.g. `!hello` → global). |
-| `luckperms-prefix.enabled` | When `true`, `{prefix}` in format strings is replaced with the LuckPerms rank prefix. |
+| `local.radius` | Distância máxima (blocos) para o chat local. `0` para alcançar todos. |
+| `local.format` | Formato do chat local. Suporta `{prefix}`, `{name}`, `{message}`. |
+| `global.trigger-prefix` | Caractere(s) que transformam uma mensagem local em global (ex: `!oi`). |
+| `luckperms-prefix.enabled` | Quando `true`, `{prefix}` é substituído pelo prefixo de rank do LuckPerms. |
 
 ---
 
-## LuckPerms Integration
+## Integração com LuckPerms
 
-When LuckPerms is installed and `luckperms-prefix.enabled: true`, each player's rank prefix is automatically injected into the `{prefix}` placeholder in chat format strings. No extra configuration is needed — the module reads the prefix from LuckPerms at chat time.
+Com o LuckPerms instalado e `luckperms-prefix.enabled: true`, o prefixo do rank de cada jogador é automaticamente inserido no placeholder `{prefix}` nos formatos de chat. Nenhuma configuração adicional é necessária.

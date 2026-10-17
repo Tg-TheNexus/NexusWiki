@@ -1,74 +1,70 @@
-# Crates Module
+# Módulo Crates
 
-The Crates module provides **key-based loot crates** with animated openings, idle particle effects, and per-crate configurable reward tables.
-
----
-
-## How It Works
-
-1. An admin places a block and registers it as a crate with `/crate setblock <id>`
-2. A player receives crate keys (virtual or physical) via `/crate give`
-3. The player right-clicks the crate block — the key is consumed and the opening animation plays
-4. A random reward is selected and delivered
+O módulo Crates oferece **caixas de loot baseadas em chaves** com animações de abertura, efeitos de partículas em idle e tabelas de recompensas configuráveis por caixa.
 
 ---
 
-## Key Modes
+## Como Funciona
 
-Configured globally in `crates/config.yml`:
+1. Um admin coloca um bloco e o registra como caixa com `/crate setblock <id>`
+2. O jogador recebe chaves (virtuais ou físicas) via `/crate give`
+3. O jogador clica com botão direito no bloco da caixa — a chave é consumida e a animação de abertura começa
+4. Uma recompensa aleatória é selecionada e entregue
 
-| Mode | Description |
+---
+
+## Modos de Chave
+
+| Modo | Descrição |
 | --- | --- |
-| `VIRTUAL` *(default)* | Keys stored in the database — dupe-proof, no inventory item |
-| `PHYSICAL` | Keys are `TRIPWIRE_HOOK` items with a PDC tag matching the crate ID |
+| `VIRTUAL` *(padrão)* | Chaves armazenadas no banco de dados — sem risco de duplicação, sem item no inventário |
+| `PHYSICAL` | Chaves são itens `TRIPWIRE_HOOK` com tag PDC correspondendo ao ID da caixa |
 
 ---
 
-## Commands
+## Comandos
 
-| Command | Permission | Description |
+| Comando | Permissão | Descrição |
 | --- | --- | --- |
-| `/crate give <player> <crate> [amount]` | `nexusprism.crates.admin` | Give crate keys to a player |
-| `/crate keys [player]` | `nexusprism.crates.use` | View virtual key balance |
-| `/crate setblock <crate>` | `nexusprism.crates.admin` | Register the targeted block as a crate |
-| `/crate removeblock` | `nexusprism.crates.admin` | Unregister the targeted block |
-| `/crate preview <crate>` | *(all players)* | Preview possible rewards |
-| `/crate list` | *(all players)* | List all crate types |
-| `/crate reload` | `nexusprism.crates.admin` | Reload all crate definitions |
+| `/crate give <jogador> <caixa> [quantidade]` | `nexusprism.crates.admin` | Dar chaves de caixa a um jogador |
+| `/crate keys [jogador]` | `nexusprism.crates.use` | Ver saldo de chaves virtuais |
+| `/crate setblock <caixa>` | `nexusprism.crates.admin` | Registrar o bloco mirado como uma caixa |
+| `/crate removeblock` | `nexusprism.crates.admin` | Desregistrar o bloco mirado |
+| `/crate preview <caixa>` | *(todos os jogadores)* | Visualizar possíveis recompensas |
+| `/crate list` | *(todos os jogadores)* | Listar todos os tipos de caixa |
+| `/crate reload` | `nexusprism.crates.admin` | Recarregar todas as definições de caixas |
 
 ---
 
-## Permissions
+## Permissões
 
-| Permission | Description | Default |
+| Permissão | Descrição | Padrão |
 | --- | --- | --- |
-| `nexusprism.crates.admin` | Create, remove, and give crates | OP |
-| `nexusprism.crates.use` | Check key balance | true |
+| `nexusprism.crates.admin` | Criar, remover e dar caixas | OP |
+| `nexusprism.crates.use` | Verificar saldo de chaves | true |
 
 ---
 
-## Configuration
+## Configuração
 
-### Global Config (`crates/config.yml`)
+### Config Global (`crates/config.yml`)
 
 ```yaml
 key-mode: VIRTUAL        # VIRTUAL | PHYSICAL
 ```
 
-### Crate Definition (`crates/<id>.yml`)
-
-Each crate has its own YAML file. Default crates bundled: `common.yml`, `rare.yml`, `legendary.yml`.
+### Definição de Caixa (`crates/<id>.yml`)
 
 ```yaml
-display-name: "&aCommon Crate"
-block-material: WHITE_SHULKER_BOX   # Visual block type for the placed crate
+display-name: "&aCaixa Comum"
+block-material: WHITE_SHULKER_BOX
 
-broadcast-wins: false               # Announce rare wins server-wide
-preview: true                       # Allow /crate preview
+broadcast-wins: false
+preview: true
 
 opening:
-  mode: SPIN                        # SPIN (animated reel) | INSTANT
-  firework: false                   # Launch a firework on win
+  mode: SPIN          # SPIN | INSTANT
+  firework: false
 
 particles:
   idle:
@@ -83,7 +79,7 @@ rewards:
     data: IRON_INGOT
     amount: 8
     weight: 30
-    display-name: "&78x Iron Ingot"
+    display-name: "&78x Lingote de Ferro"
   - type: MONEY
     data: "500"
     weight: 25
@@ -91,16 +87,5 @@ rewards:
   - type: COMMAND
     data: "give {player} minecraft:diamond 1"
     weight: 5
-    display-name: "&bBonus Diamond"
+    display-name: "&bDiamante Bônus"
 ```
-
-### Reward Types
-
-| Type | `data` field | Notes |
-| --- | --- | --- |
-| `ITEM` | `Material` name | `amount` sets quantity |
-| `MONEY` | Amount as string | Requires Economy module |
-| `COMMAND` | Command string | `{player}` replaced with player name |
-
-!!! info "Placed crate locations"
-    Crate block positions are saved in SQLite. They survive server restarts — you only need to run `/crate setblock` once per block.

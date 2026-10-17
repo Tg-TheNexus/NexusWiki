@@ -1,84 +1,83 @@
 # NexusPrism
 
-> **A comprehensive reimplementation and evolution of Slimefun4** — next-generation tech, magic, and quality-of-life systems for Minecraft servers.
+> **Uma reimplementação abrangente e evolução do Slimefun4** — sistemas de tecnologia, magia e qualidade de vida de próxima geração para servidores Minecraft.
 
-NexusPrism is a modular Spigot plugin built on a +25-module Maven architecture.
-It brings custom items, machines, energy networks, clans, economy, minigames, and deep integrations all under a single, lightweight plugin JAR.
+NexusPrism é um plugin Spigot modular construído sobre uma arquitetura Maven de +25 módulos. Ele traz itens personalizados, máquinas, redes de energia, clãs, economia, minijogos e integrações profundas em um único JAR leve.
 
 ---
 
-## Key Features
+## Funcionalidades Principais
 
-| Category | Highlights |
+| Categoria | Destaques |
 | --- | --- |
-| **Custom Items** | 2,700+ data-driven items defined in YAML |
-| **Machines** | Multiblock crafting, energy networks, ME storage |
-| **Economy** | Single currency (money), /sell, /baltop |
-| **Clans** | Territory claiming, upgrades, clan chest, clan chat |
-| **Essentials** | 40+ QoL commands — homes, warps, TPA, AFK, jail |
-| **Security** | BCrypt auth, CAPTCHA anti-bot, anti-dupe, anti-lag |
-| **Discord** | Bot integration, account linking, role sync |
-| **Crystal Defense** | Wave-based minigame protecting Ender Crystals |
-| **Custom Mobs** | YAML-defined bosses with loot tables and AI forms |
-| **Votifier** | Standalone V1/V2 vote server, streaks, leaderboards |
-| **Dreams** | Sleep cutscene system with nightmare variants |
-| **Protections** | Region claims, flags, duel arena system |
-| **Twitch** | Account linking, live alerts, chat relay, giveaways |
-| **PlaceholderAPI** | 30+ placeholders across all modules |
+| **Itens Personalizados** | +500+ itens definidos em YAML |
+| **Máquinas** | Crafting multibloco, redes de energia, armazenamento ME |
+| **Economia** | Moeda dupla (dinheiro + créditos), /sell, /baltop |
+| **Clãs** | Conquista de território, melhorias, baú de clã, chat de clã |
+| **Essenciais** | +40 comandos QoL — homes, warps, TPA, AFK, prisão |
+| **Segurança** | Auth BCrypt, anti-bot CAPTCHA, anti-dupe, anti-lag |
+| **Discord** | Integração com bot, vinculação de conta, sincronização de cargos |
+| **Crystal Defense** | Minijogo de defesa de Cristais Ender por ondas |
+| **Mobs Personalizados** | Chefes definidos em YAML com tabelas de loot e formas de IA |
+| **Votifier** | Servidor Votifier V1/V2 independente, sequências, placares |
+| **Sonhos** | Sistema de cutscene de sono com variantes de pesadelo |
+| **Proteções** | Reivindicação de regiões, flags, sistema de duelo |
+| **Twitch** | Vinculação de conta, alertas ao vivo, relay de chat, sorteios |
+| **PlaceholderAPI** | +30 placeholders em todos os módulos |
 
 ---
 
-## Module Overview
+## Visão Geral dos Módulos
 
 ```text
 NexusPrism
-├── nexusprism-api          Public API for addon developers
-├── nexusprism-core         Core managers, PDC registry, language
-├── nexusprism-items        Custom item storage (2,700+ items)
-├── nexusprism-machines     Machine definitions, processing engine
-├── nexusprism-systems      Energy network implementation
+├── nexusprism-api          API pública para desenvolvedores de addons
+├── nexusprism-core         Gerenciadores principais, registro PDC, idioma
+├── nexusprism-items        Armazenamento de itens personalizados (+500+ itens)
+├── nexusprism-machines     Definições de máquinas, motor de processamento
+├── nexusprism-systems      Implementação de redes de energia
 ├── nexusprism-integrations PlaceholderAPI, LuckPerms, SkinsRestorer
-├── nexusprism-storage      SQLite / PostgreSQL persistence
-├── nexusprism-gui          GUI framework
-├── nexusprism-utils        Utility helpers
-├── nexusprism-web          Webstore delivery, VIP kits, payments
-├── nexusprism-plugin       Main entry point (Spigot)
-├── nexusprism-discord      JDA bot, webhooks, account linking
-├── nexusprism-chat         4-channel chat system
-├── nexusprism-ae           ME (Applied Energistics-style) storage
-├── nexusprism-energy       Energy generation and cable networks
-├── nexusprism-waila        WAILA/HUD integration
+├── nexusprism-storage      Persistência SQLite / PostgreSQL
+├── nexusprism-gui          Framework de GUI
+├── nexusprism-utils        Utilitários auxiliares
+├── nexusprism-web          Bridge da loja web, kits VIP, pagamentos
+├── nexusprism-plugin       Ponto de entrada principal (Spigot)
+├── nexusprism-discord      Bot JDA, webhooks, vinculação de conta
+├── nexusprism-chat         Sistema de chat com 4 canais
+├── nexusprism-ae           Armazenamento em rede estilo ME
+├── nexusprism-energy       Geração de energia e redes de cabos
+├── nexusprism-waila        Integração WAILA/HUD
 ├── nexusprism-security     Auth, anti-bot, anti-lag, anti-dupe
-├── nexusprism-clans        Clans, territory, upgrades
-├── nexusprism-economy      Money, sell prices
-├── nexusprism-essentials   40+ QoL commands
-├── nexusprism-crystaldefense Wave-based Crystal Defense minigame
-├── nexusprism-custommobs   YAML-defined bosses
-├── nexusprism-dreams       Sleep cutscene system
-├── nexusprism-protections  Region protection, duel system
-├── nexusprism-ss           Silk Spawner support
-├── nexusprism-votifier     Standalone Votifier V1/V2 server
-└── nexusprism-twitch       Twitch integration
+├── nexusprism-clans        Clãs, território, melhorias
+├── nexusprism-economy      Dinheiro, créditos, preços de venda
+├── nexusprism-essentials   +40 comandos QoL
+├── nexusprism-crystaldefense Minijogo Crystal Defense por ondas
+├── nexusprism-custommobs   Chefes definidos em YAML
+├── nexusprism-dreams       Sistema de cutscene de sono
+├── nexusprism-protections  Proteção de regiões, sistema de duelo
+├── nexusprism-ss           Suporte a Silk Spawner
+├── nexusprism-votifier     Servidor Votifier V1/V2 independente
+└── nexusprism-twitch       Integração Twitch
 ```
 
 ---
 
-## Quick Navigation
+## Navegação Rápida
 
 | | |
 | --- | --- |
-| **[Getting Started](getting-started.md)** | Installation, requirements, and first steps |
-| **[Core Module](modules/core.md)** | Items, PDC system, custom item registry |
-| **[All Modules](modules/index.md)** | Browse all 13 feature modules |
-| **[Commands Reference](reference/commands.md)** | All 40+ commands with usage and permissions |
-| **[Permissions Reference](reference/permissions.md)** | Complete permission node list |
-| **[PlaceholderAPI](reference/placeholders.md)** | All `%nexusprism_*%` placeholders |
+| **[Primeiros Passos](getting-started.md)** | Instalação, requisitos e primeiros passos |
+| **[Módulo Core](modules/core.md)** | Itens, sistema PDC, registro de itens |
+| **[Todos os Módulos](modules/index.md)** | Navegue pelos 13 módulos de funcionalidades |
+| **[Referência de Comandos](reference/commands.md)** | Todos os +40 comandos com uso e permissões |
+| **[Referência de Permissões](reference/permissions.md)** | Lista completa de nós de permissão |
+| **[PlaceholderAPI](reference/placeholders.md)** | Todos os placeholders `%nexusprism_*%` |
 
 ---
 
-## Author
+## Autor
 
-NexusPrism is developed by **O-Tiger**
+NexusPrism é desenvolvido por **O-Tiger**
 
-- API version: `1.21`
-- Soft dependencies: `PlaceholderAPI`, `LuckPerms`, `SkinsRestorer`
+- Versão da API: `1.21`
+- Dependências opcionais: `PlaceholderAPI`, `LuckPerms`, `SkinsRestorer`
