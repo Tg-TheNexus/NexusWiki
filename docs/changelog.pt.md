@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `8c2d4d4`
+
+
+### 🔧 Manutenção
+
+- **deps**: Bump actions/setup-python from 5 to 7 (#73)
+
+---
+
 ## [2026-10-16] · `fbf3dd0`
 
 
