@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-16] · `fbf3dd0`
+
+
+### 🔧 Manutenção
+
+- **deps**: Bump softprops/action-gh-release from 2 to 3 (#72)
+
+---
+
 ## [2026-10-16] · `039ff07`
 
 
