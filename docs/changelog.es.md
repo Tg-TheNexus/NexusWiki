@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-10-26] · `8908fd9`
+
+
+### ✨ Añadido
+
+- **web**: Wiki export up to 5000 entries with its own timeout (#85)
+
+---
+
 ## [2026-10-26] · `7ccc3ab`
 
 
