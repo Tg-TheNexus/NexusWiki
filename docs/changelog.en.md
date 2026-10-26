@@ -5,6 +5,58 @@
 
 ---
 
+## [2026-10-26] · `7ccc3ab`
+
+
+### ✨ Added
+
+- **web**: WikiProvider hook and WikiExportService publish items to nexus-gateway (#83)
+
+### 🐛 Fixed
+
+- **core**: Do not crash on config files the jar no longer ships (#84)
+- **ci**: Stage the changelog files the wiki actually has (#86)
+
+## [2026-10-25] · `d60ea69`
+
+
+### 💥 Breaking Changes
+
+- **delivery**: Talk to nexus-gateway over signed HTTPS instead of the database (#81)
+
+### ✨ Added
+
+- **custommobs**: White Death JSON-model boss, shadow daggers, Lynx model overhaul (#82)
+
+## [2026-10-22] · `8e17bf3`
+
+
+### ✨ Added
+
+- **chat**: Mention Discord members with @name from Minecraft chat (#77)
+- **discord**: Webhook-only player chat, delivery per kind, Lynx persona (#78)
+- **security**: Show the account names in the Alt-Detector alert (#80)
+
+### 🐛 Fixed
+
+- **discord**: The Lynx persona matches the real account name Lynx_AI (#79)
+
+## [2026-10-17] · `f9036a5`
+
+
+### ✨ Added
+
+- **api**: PluginLang helper for companion plugins (#76)
+
+## [2026-10-16] · `ce559c9`
+
+
+### 🔧 Maintenance
+
+- **deps**: Bump the maven-minor group with 2 updates (#75)
+
+---
+
 ## [2026-10-16] · `8c2d4d4`
 
 
