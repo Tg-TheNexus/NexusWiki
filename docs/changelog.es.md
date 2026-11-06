@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-06] · `6ee6432`
+
+
+### 📚 Documentación
+
+- **web**: Drop PayPal from the payment provider comments
+
+---
+
 ## [2026-11-06] · `bd279f9`
 
 
