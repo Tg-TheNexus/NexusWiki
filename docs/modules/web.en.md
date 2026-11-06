@@ -120,7 +120,7 @@ gdpr:
 
 payments:
   enabled: false
-  provider: "custom"               # stripe | paypal | mercadopago | custom
+  provider: "custom"               # stripe | mercadopago | custom
   webhook-secret: ""               # Auto-generated UUID on first run
   currency: "USD"
 

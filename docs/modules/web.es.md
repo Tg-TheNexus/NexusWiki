@@ -71,7 +71,7 @@ gdpr:
 
 payments:
   enabled: false
-  provider: "custom"               # stripe | paypal | mercadopago | custom
+  provider: "custom"               # stripe | mercadopago | custom
   webhook-secret: ""               # Generado automáticamente en el primer inicio
   currency: "USD"
 

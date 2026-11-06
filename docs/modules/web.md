@@ -100,7 +100,7 @@ gdpr:
 
 payments:
   enabled: false
-  provider: "custom"               # stripe | paypal | mercadopago | custom
+  provider: "custom"               # stripe | mercadopago | custom
   webhook-secret: ""               # Gerado automaticamente na primeira execução
   currency: "BRL"
 
