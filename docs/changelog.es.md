@@ -5,6 +5,19 @@
 
 ---
 
+## [2026-11-06] · `bd279f9`
+
+
+### ✨ Añadido
+
+- **twitch**: Renew the IRC bot token automatically
+
+### ♻️ Modificado
+
+- **web**: Remove the unused payment webhook secret
+
+---
+
 ## [2026-10-26] · `8908fd9`
 
 
