@@ -31,7 +31,7 @@
       
       
       <link rel="icon" href="../../../assets/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -2268,7 +2268,7 @@
 </table>
 <hr />
 <h2 id="autenticacion">Autenticación<a class="headerlink" href="#autenticacion" title="Permanent link">&para;</a></h2>
-<p>Los jugadores en servidores crackeados deben <code>/register</code> en el primer acceso y <code>/login</code> en los accesos siguientes. Las cuentas premium son verificadas mediante la API de Mojang y omiten la autenticación.</p>
+<p>Los jugadores en servidores crackeados deben <code>/register</code> en el primer acceso y <code>/login</code> en los accesos siguientes. Las cuentas premium omiten la autenticación solo después de que el handshake de sesión de Mojang demuestra que son dueñas del nombre (ver <a href="#verificacion-premium">Verificación Premium</a>).</p>
 <h3 id="comandos">Comandos<a class="headerlink" href="#comandos" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2294,6 +2294,16 @@
 <td>Cambiar contraseña</td>
 <td><em>(autenticado)</em></td>
 </tr>
+<tr>
+<td><code>/auth premiumclaim &lt;nombre&gt;</code></td>
+<td>Hace un nombre solo-premium (todo acceso debe pasar el handshake)</td>
+<td>OP</td>
+</tr>
+<tr>
+<td><code>/auth premiumunclaim &lt;nombre&gt;</code></td>
+<td>Quita un claim (el dueño perdió la cuenta, o un nombre reclamado por error)</td>
+<td>OP</td>
+</tr>
 </tbody>
 </table>
 <h3 id="configuracion-auth-securityauthyml">Configuración Auth (<code>security/auth.yml</code>)<a class="headerlink" href="#configuracion-auth-securityauthyml" title="Permanent link">&para;</a></h3>
@@ -2309,11 +2319,15 @@
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <h3 id="verificacion-premium">Verificación Premium<a class="headerlink" href="#verificacion-premium" title="Permanent link">&para;</a></h3>
-<p>Cuando <code>premium-check.enabled</code> es <code>true</code>, NexusPrism valida las cuentas premium mediante un proceso de dos pasos para que los jugadores crackeados no puedan hacerse pasar por cuentas de pago:</p>
+<p>Un nombre que existe en Mojang no prueba nada: cualquiera puede escribirlo. La única prueba de que el jugador es dueño de la cuenta es el <strong>handshake de sesión de Mojang</strong>, que realiza el módulo FastLogin (requiere ProtocolLib 5.4.0+): el cliente inicia sesión en Mojang y el servidor lo confirma con <code>sessionserver.mojang.com/session/minecraft/hasJoined</code>. El resultado vale para un solo acceso y queda ligado al nombre exacto y al UUID real (versión 4) de Mojang.</p>
+<p>Un cliente crackeado no puede responder al handshake, así que solo se exige a nombres que el dueño <strong>reclamó</strong> (claim):</p>
 <ol>
-<li><strong>Verificación de versión de UUID</strong> — los servidores offline asignan UUIDs versión 3 a todos los jugadores. Un jugador premium autenticado mediante FastLogin/JPremium recibe su UUID real de Mojang (versión 4). Versión 3 = crackeado, rechazado inmediatamente.</li>
-<li><strong>Comparación con la API de Mojang</strong> — incluso para UUIDs versión 4, el nombre se consulta en <code>api.mojang.com</code> y el UUID devuelto se compara con el UUID real del jugador. Cualquier discrepancia se marca como intento de suplantación.</li>
+<li>Un cliente crackeado entra con un nombre que parece premium (sin claim todavía): <strong>no</strong> se le da acceso. Recibe el aviso SÍ/NO y el flujo normal de <code>/register</code> y <code>/login</code>.</li>
+<li>El dueño real pulsa <strong>SÍ</strong>. El nombre queda reclamado y el jugador es expulsado para reconectar con el launcher oficial. Un clic nunca da acceso. Un nombre que ya tiene cuenta con contraseña en el servidor no se puede reclamar con un clic; el admin usa <code>/auth premiumclaim</code>.</li>
+<li>A partir de ahí cada acceso de ese nombre debe pasar el handshake. Si lo pasa, omite el CAPTCHA y el <code>/login</code> y juega con su UUID real. Quien falla (cliente crackeado, Mojang caído, tiempo agotado) es desconectado y <strong>nunca</strong> cae en <code>/login</code>. Sin FastLogin cargado, los nombres reclamados se rechazan.</li>
 </ol>
+<p><code>premium-uuid-required: false</code> (premium solo por nombre) fue eliminado; la clave se ignora y el log de inicio lo avisa. Los nombres Bedrock (empiezan con <code>.</code>) no se pueden reclamar.</p>
+<p>Claves opcionales en el <code>config.yml</code> principal: <code>fastlogin.handshake-timeout-seconds</code> (20), <code>fastlogin.mojang-timeout-ms</code> (5000), <code>fastlogin.max-handshakes-per-minute-per-ip</code> (10), <code>fastlogin.messages.failed|busy|unavailable</code>.</p>
 <h4 id="cache-y-resiliencia">Caché y Resiliencia<a class="headerlink" href="#cache-y-resiliencia" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -2345,9 +2359,9 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition warning">
-<p class="admonition-title">Detección de suplantación</p>
-<p>Si un jugador se conecta con un UUID versión 3 (offline) pero la caché indica que ese nombre posee una cuenta de Mojang, se registra una advertencia: <code>IMPERSONATION DETECTED</code>. El jugador aún puede entrar, pero es tratado como crackeado (debe usar <code>/login</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">La caché solo dice si el nombre existe</p>
+<p>La caché y la API anteriores solo responden si existe una cuenta Mojang con ese nombre. Eso nunca sustituye al <code>/login</code>: lo sustituye el handshake.</p>
 </div>
 <hr />
 <h2 id="anti-bot">Anti-Bot<a class="headerlink" href="#anti-bot" title="Permanent link">&para;</a></h2>
@@ -2675,7 +2689,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>

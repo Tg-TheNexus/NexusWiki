@@ -31,7 +31,7 @@
       
       
       <link rel="icon" href="../../../assets/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.1">
     
     
       
@@ -2504,7 +2504,7 @@
 <h2 id="authentication">Authentication<a class="headerlink" href="#authentication" title="Permanent link">&para;</a></h2>
 <p>Players on cracked servers must <code>/register</code> on first join and <code>/login</code> on subsequent joins.
 Bedrock players (via Geyser+Floodgate) are authenticated by Xbox Live and <strong>bypass all Java auth</strong> entirely.
-Premium Java accounts are verified via the Mojang API and also bypass auth.</p>
+Premium Java accounts bypass auth only after the Mojang session handshake proves they own the name (see <a href="#premium-verification-java">Premium Verification</a>).</p>
 <h3 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -2533,6 +2533,16 @@ Premium Java accounts are verified via the Mojang API and also bypass auth.</p>
 <tr>
 <td><code>/auth trustip &lt;player&gt; &lt;ip&gt;</code></td>
 <td>Manually approve a new IP for a premium player</td>
+<td>OP</td>
+</tr>
+<tr>
+<td><code>/auth premiumclaim &lt;name&gt;</code></td>
+<td>Make a name premium-only (every login must pass the handshake)</td>
+<td>OP</td>
+</tr>
+<tr>
+<td><code>/auth premiumunclaim &lt;name&gt;</code></td>
+<td>Lift a claim (owner lost the account, or a name was claimed by mistake)</td>
 <td>OP</td>
 </tr>
 </tbody>
@@ -2588,11 +2598,15 @@ and immediately marks the player as premium (Xbox-authenticated), skipping:</p>
 <p>This is correct: Bedrock accounts require a real Microsoft/Xbox account with Geyser's
 online-mode enforcement, so they are inherently more trusted than cracked Java clients.</p>
 <h3 id="premium-verification-java">Premium Verification (Java)<a class="headerlink" href="#premium-verification-java" title="Permanent link">&para;</a></h3>
-<p>When <code>premium-check.enabled</code> is <code>true</code>, NexusPrism validates premium Java accounts:</p>
+<p>A name that exists on Mojang proves nothing: anybody can type it. The only proof of ownership is the <strong>Mojang session handshake</strong>, run by the FastLogin module (needs ProtocolLib 5.4.0+): the client signs in with Mojang and the server confirms it through <code>sessionserver.mojang.com/session/minecraft/hasJoined</code>. The result is single use and bound to the exact name and the real (version 4) Mojang UUID.</p>
+<p>A cracked client cannot answer the handshake, so it is demanded only from names an owner <strong>claimed</strong>:</p>
 <ol>
-<li><strong>UUID version check</strong> — FastLogin assigns real Mojang UUIDs (v4). Offline UUIDs are v3. Mismatch → cracked.</li>
-<li><strong>Mojang API comparison</strong> — the player name is looked up and the returned UUID is compared against the actual UUID. Mismatch → flagged as impersonation attempt.</li>
+<li>A cracked client joins with a premium-looking name (not claimed yet): it is <strong>not</strong> logged in. It gets a YES/NO prompt and the normal <code>/register</code> and <code>/login</code> flow.</li>
+<li>The real owner clicks <strong>YES</strong>. The name is claimed and the player is kicked to reconnect with the official launcher. A click never logs anybody in. A name that already has a password account here cannot be claimed with a click; an admin uses <code>/auth premiumclaim</code>.</li>
+<li>From then on every login of that name must pass the handshake. It then skips the CAPTCHA and <code>/login</code> and plays with its real UUID. A client that fails it (a cracked client, Mojang unreachable, timeout) is disconnected and <strong>never</strong> falls back to <code>/login</code>. Without FastLogin loaded, claimed names are refused.</li>
 </ol>
+<p><code>premium-uuid-required: false</code> (premium by username alone) was removed; the key is ignored and the startup log says so. Bedrock names (starting with <code>.</code>) cannot be claimed.</p>
+<p>Optional keys in the main <code>config.yml</code>: <code>fastlogin.handshake-timeout-seconds</code> (20), <code>fastlogin.mojang-timeout-ms</code> (5000), <code>fastlogin.max-handshakes-per-minute-per-ip</code> (10), <code>fastlogin.messages.failed|busy|unavailable</code>.</p>
 <h4 id="cache-resilience">Cache &amp; Resilience<a class="headerlink" href="#cache-resilience" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -2632,7 +2646,7 @@ online-mode enforcement, so they are inherently more trusted than cracked Java c
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>2. Join rate limiter → blocks IPs exceeding max-joins per window
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>3. Name blacklist → regex patterns block scanner-like usernames
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>4. VPN detection → optional proxycheck.io / iphub.info integration
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>5. Premium check → Mojang UUID verification
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>5. Premium → handshake proof consumed; a claimed name without it is refused; a Mojang-registered name gets the claim prompt
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>6. Alt detection → alerts if one IP has too many linked accounts
 </code></pre></div>
 <p>On join: CAPTCHA map challenge (skipped for premium and Bedrock players).</p>
@@ -2685,7 +2699,7 @@ which evades rate-limit windows.</p>
 <a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">  </span><span class="nt">session-hours</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24</span><span class="w">        </span><span class="c1"># Skip CAPTCHA for 24h after first successful pass</span>
 <a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="nt">premium-check</span><span class="p">:</span>
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">            </span><span class="c1"># Query Mojang API to verify premium accounts</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">            </span><span class="c1"># Look up whether a name belongs to a Mojang account (existence only, never proof of ownership)</span>
 <a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
 <a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="nt">alt-detection</span><span class="p">:</span>
 <a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">  </span><span class="nt">max-accounts-per-ip</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w">   </span><span class="c1"># Alert admins if one IP has 3+ accounts (0 = disable)</span>
@@ -3081,7 +3095,7 @@ at 19:35 UTC. Full details in <code>ATTACKS.md</code> (gitignored).</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
     
   </body>
