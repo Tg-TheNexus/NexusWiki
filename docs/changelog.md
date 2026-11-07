@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `a1b9583`
+
+
+### 💥 Mudanças Críticas
+
+- **build**: DEV, EXP and RELEASE channels with computed versions and retention (#94)
+
+---
+
 ## [2026-11-07] · `dc08126`
 
 
