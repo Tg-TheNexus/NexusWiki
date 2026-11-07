@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `dc08126`
+
+
+### 💥 Mudanças Críticas
+
+- **security**: Prove premium accounts with the real Mojang handshake (#93)
+
+---
+
 ## [2026-11-06] · `6ee6432`
 
 
