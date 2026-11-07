@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-07] · `3dae412`
+
+
+### 🔧 Mantenimiento
+
+- **deps**: Bump the maven-minor group with 2 updates (#92)
+- **deps**: Bump actions/setup-java from 5 to 6 (#89)
+
+---
+
 ## [2026-11-07] · `a1b9583`
 
 
