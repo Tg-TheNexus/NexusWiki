@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `02ff3d4`
+
+
+### 🔧 Mantenimiento
+
+- **deps**: Bump the maven group across 1 directory with 2 updates (#87)
+
+---
+
 ## [2026-11-07] · `3dae412`
 
 
