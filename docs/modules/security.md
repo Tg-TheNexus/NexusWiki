@@ -17,7 +17,7 @@ O módulo Segurança fornece **autenticação BCrypt**, proteção anti-bot com 
 
 ## Autenticação
 
-Jogadores em servidores cracked devem `/register` no primeiro acesso e `/login` nos acessos seguintes. Contas premium são verificadas via API Mojang e ignoram a autenticação.
+Jogadores em servidores cracked devem `/register` no primeiro acesso e `/login` nos acessos seguintes. Contas premium ignoram a autenticação somente depois que o handshake de sessão da Mojang prova que são donas do nome (veja [Verificação Premium](#verificacao-premium)).
 
 ### Comandos
 
@@ -26,6 +26,8 @@ Jogadores em servidores cracked devem `/register` no primeiro acesso e `/login` 
 | `/register <senha> <confirmar>` | Registrar uma conta | *(todos)* |
 | `/login <senha>` | Entrar na conta | *(todos)* |
 | `/changepassword <antiga> <nova>` | Alterar senha | *(autenticado)* |
+| `/auth premiumclaim <nome>` | Torna um nome somente-premium (todo login precisa passar pelo handshake) | OP |
+| `/auth premiumunclaim <nome>` | Remove um claim (dono perdeu a conta, ou nome reivindicado por engano) | OP |
 
 ### Configuração Auth (`security/auth.yml`)
 
@@ -44,10 +46,17 @@ login-spawn:
 
 ### Verificação Premium
 
-Quando `premium-check.enabled` é `true`, o NexusPrism valida contas premium com um processo de duas etapas para que jogadores cracked não possam se passar por contas pagas:
+Um nome que existe na Mojang não prova nada: qualquer um pode digitá-lo. A única prova de que o jogador é dono da conta é o **handshake de sessão da Mojang**, feito pelo módulo FastLogin (exige ProtocolLib 5.4.0+): o cliente entra com a conta na Mojang e o servidor confirma por `sessionserver.mojang.com/session/minecraft/hasJoined`. O resultado vale para um único login e fica preso ao nome exato e ao UUID real (versão 4) da Mojang.
 
-1. **Verificação da versão do UUID** — servidores offline atribuem UUIDs versão 3 a todos os jogadores. Um jogador premium autenticado via FastLogin/JPremium recebe seu UUID real da Mojang (versão 4). Versão 3 = cracked, rejeitado imediatamente.
-2. **Comparação com a API da Mojang** — mesmo para UUIDs versão 4, o nome é consultado em `api.mojang.com` e o UUID retornado é comparado com o UUID real do jogador. Qualquer discrepância é sinalizada como tentativa de impersonação.
+Um cliente cracked não consegue responder ao handshake, então ele só é exigido de nomes que o dono **reivindicou** (claim):
+
+1. Um cliente cracked entra com um nome que parece premium (ainda sem claim): **não** é logado. Recebe o prompt SIM/NÃO e o fluxo normal de `/register` e `/login`.
+2. O dono verdadeiro clica **SIM**. O nome é reivindicado e o jogador é expulso para reconectar pelo launcher oficial. Um clique nunca loga ninguém. Um nome que já tem conta com senha no servidor não pode ser reivindicado por clique; o admin usa `/auth premiumclaim`.
+3. Dali em diante todo login desse nome precisa passar pelo handshake. Passando, pula o CAPTCHA e o `/login` e joga com o UUID real. Quem falha (cliente cracked, Mojang fora do ar, tempo esgotado) é desconectado e **nunca** cai no `/login`. Sem o FastLogin carregado, nomes reivindicados são recusados.
+
+`premium-uuid-required: false` (premium só pelo nome) foi removido; a chave é ignorada e o log de inicialização avisa. Nomes Bedrock (começam com `.`) não podem ser reivindicados.
+
+Chaves opcionais no `config.yml` principal: `fastlogin.handshake-timeout-seconds` (20), `fastlogin.mojang-timeout-ms` (5000), `fastlogin.max-handshakes-per-minute-per-ip` (10), `fastlogin.messages.failed|busy|unavailable`.
 
 #### Cache e Resiliência
 
@@ -59,8 +68,8 @@ Quando `premium-check.enabled` é `true`, o NexusPrism valida contas premium com
 | **Backoff exponencial** | Recua até 60 s em caso de falhas repetidas na API |
 | **Fallback** | Usa o último resultado em cache quando a API estiver inacessível |
 
-!!! warning "Detecção de impersonação"
-    Se um jogador se conectar com um UUID versão 3 (offline) mas o cache indicar que aquele nome possui uma conta Mojang, um aviso é registrado: `IMPERSONATION DETECTED`. O jogador ainda pode entrar, mas é tratado como cracked (deve usar `/login`).
+!!! note "O cache só diz se o nome existe"
+    O cache e a API acima respondem apenas se existe uma conta Mojang com aquele nome. Isso nunca dispensa o `/login`: quem dispensa é o handshake.
 
 ---
 
