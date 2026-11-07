@@ -22,7 +22,7 @@ The Security module provides **BCrypt-based player authentication**, CAPTCHA ant
 
 Players on cracked servers must `/register` on first join and `/login` on subsequent joins.
 Bedrock players (via Geyser+Floodgate) are authenticated by Xbox Live and **bypass all Java auth** entirely.
-Premium Java accounts are verified via the Mojang API and also bypass auth.
+Premium Java accounts bypass auth only after the Mojang session handshake proves they own the name (see [Premium Verification](#premium-verification-java)).
 
 ### Commands
 
@@ -32,6 +32,8 @@ Premium Java accounts are verified via the Mojang API and also bypass auth.
 | `/login <password>` | Log into your account | *(all players)* |
 | `/changepassword <old> <new>` | Change password | *(authenticated)* |
 | `/auth trustip <player> <ip>` | Manually approve a new IP for a premium player | OP |
+| `/auth premiumclaim <name>` | Make a name premium-only (every login must pass the handshake) | OP |
+| `/auth premiumunclaim <name>` | Lift a claim (owner lost the account, or a name was claimed by mistake) | OP |
 
 ### Auth Configuration (`security/auth.yml`)
 
@@ -90,10 +92,17 @@ online-mode enforcement, so they are inherently more trusted than cracked Java c
 
 ### Premium Verification (Java)
 
-When `premium-check.enabled` is `true`, NexusPrism validates premium Java accounts:
+A name that exists on Mojang proves nothing: anybody can type it. The only proof of ownership is the **Mojang session handshake**, run by the FastLogin module (needs ProtocolLib 5.4.0+): the client signs in with Mojang and the server confirms it through `sessionserver.mojang.com/session/minecraft/hasJoined`. The result is single use and bound to the exact name and the real (version 4) Mojang UUID.
 
-1. **UUID version check** — FastLogin assigns real Mojang UUIDs (v4). Offline UUIDs are v3. Mismatch → cracked.
-2. **Mojang API comparison** — the player name is looked up and the returned UUID is compared against the actual UUID. Mismatch → flagged as impersonation attempt.
+A cracked client cannot answer the handshake, so it is demanded only from names an owner **claimed**:
+
+1. A cracked client joins with a premium-looking name (not claimed yet): it is **not** logged in. It gets a YES/NO prompt and the normal `/register` and `/login` flow.
+2. The real owner clicks **YES**. The name is claimed and the player is kicked to reconnect with the official launcher. A click never logs anybody in. A name that already has a password account here cannot be claimed with a click; an admin uses `/auth premiumclaim`.
+3. From then on every login of that name must pass the handshake. It then skips the CAPTCHA and `/login` and plays with its real UUID. A client that fails it (a cracked client, Mojang unreachable, timeout) is disconnected and **never** falls back to `/login`. Without FastLogin loaded, claimed names are refused.
+
+`premium-uuid-required: false` (premium by username alone) was removed; the key is ignored and the startup log says so. Bedrock names (starting with `.`) cannot be claimed.
+
+Optional keys in the main `config.yml`: `fastlogin.handshake-timeout-seconds` (20), `fastlogin.mojang-timeout-ms` (5000), `fastlogin.max-handshakes-per-minute-per-ip` (10), `fastlogin.messages.failed|busy|unavailable`.
 
 #### Cache & Resilience
 
@@ -118,7 +127,7 @@ Connection flow at `AsyncPlayerPreLoginEvent`:
 2. Join rate limiter → blocks IPs exceeding max-joins per window
 3. Name blacklist → regex patterns block scanner-like usernames
 4. VPN detection → optional proxycheck.io / iphub.info integration
-5. Premium check → Mojang UUID verification
+5. Premium → handshake proof consumed; a claimed name without it is refused; a Mojang-registered name gets the claim prompt
 6. Alt detection → alerts if one IP has too many linked accounts
 ```
 
@@ -182,7 +191,7 @@ captcha:
   session-hours: 24        # Skip CAPTCHA for 24h after first successful pass
 
 premium-check:
-  enabled: true            # Query Mojang API to verify premium accounts
+  enabled: true            # Look up whether a name belongs to a Mojang account (existence only, never proof of ownership)
 
 alt-detection:
   max-accounts-per-ip: 3   # Alert admins if one IP has 3+ accounts (0 = disable)
