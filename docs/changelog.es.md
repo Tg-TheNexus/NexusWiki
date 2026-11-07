@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `93e277c`
+
+
+### 🐛 Corregido
+
+- **ci**: Show the versions and branch in the Dependabot Discord message (#97)
+
+---
+
 ## [2026-11-07] · `4e16ff7`
 
 
