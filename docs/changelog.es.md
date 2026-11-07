@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `4e16ff7`
+
+
+### 🔧 Mantenimiento
+
+- **build**: Do not publish or announce dependency bumps (#96)
+
+---
+
 ## [2026-11-07] · `69accfa`
 
 
