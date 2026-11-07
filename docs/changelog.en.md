@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `fa7a26f`
+
+
+### 🔧 Maintenance
+
+- **build**: Dry run for DEV and EXP builds with a Discord message marked as a test (#98)
+
+---
+
 ## [2026-11-07] · `93e277c`
 
 
