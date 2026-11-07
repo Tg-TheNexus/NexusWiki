@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-07] · `f3d7e4b`
+
+
+### 🔧 Manutenção
+
+- **deps**: Bump actions/upload-artifact from 4 to 7 (#90)
+
+---
+
 ## [2026-11-07] · `02ff3d4`
 
 
