@@ -5,6 +5,20 @@
 
 ---
 
+## [2026-11-09] · `2bdbfe4`
+
+
+### 💥 Breaking Changes
+
+- **contributors**: Contributor Pass command, permission, tag and API path
+- **contributors**: Contributor Pass command, permission, tag and API path (#99)
+
+### ♻️ Changed
+
+- **contributors**: SKUs are contributor-pass and tag-contributor
+
+---
+
 ## [2026-11-07] · `fa7a26f`
 
 
