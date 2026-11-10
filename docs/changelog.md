@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-10] · `6eaf865`
+
+
+### 🐛 Corrigido
+
+- **config**: Wire debug, auto-save, waila and integrations keys; move MySQL password to key_configs (#100)
+
+---
+
 ## [2026-11-09] · `2bdbfe4`
 
 
