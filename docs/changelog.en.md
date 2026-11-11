@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-11] · `9fbbb69`
+
+
+### 🐛 Fixed
+
+- **delivery**: Accept the Floodgate dot in the delivery name check (#103)
+
+---
+
 ## [2026-11-10] · `e369b0e`
 
 
