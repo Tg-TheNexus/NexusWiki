@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-10] · `e369b0e`
+
+
+### ✨ Añadido
+
+- **core**: Implement settings.check-updates and settings.metrics (bStats) (#102)
+
+---
+
 ## [2026-11-10] · `65ac969`
 
 
