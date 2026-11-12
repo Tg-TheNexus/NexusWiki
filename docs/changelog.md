@@ -5,6 +5,30 @@
 
 ---
 
+## [2026-11-12] · `7ebd4f4`
+
+
+### ✨ Adicionado
+
+- **discord**: Send a periodic server stats snapshot to nexus-bot (#104)
+
+## [2026-11-11] · `9fbbb69`
+
+
+### 🐛 Corrigido
+
+- **delivery**: Accept the Floodgate dot in the delivery name check (#103)
+
+## [2026-11-10] · `e369b0e`
+
+
+### ✨ Adicionado
+
+- **votifier**: Gateway mode (#101)
+- **core**: Implement settings.check-updates and settings.metrics (bStats) (#102)
+
+---
+
 ## [2026-11-11] · `4571a12`
 
 
