@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-12] · `bc016d9`
+
+
+### ✨ Added
+
+- **events**: Report active server events in the nexus-bot stats snapshot (#105)
+
+---
+
 ## [2026-11-12] · `7ebd4f4`
 
 
