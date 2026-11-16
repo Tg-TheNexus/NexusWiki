@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-16] · `8fb3a54`
+
+
+### 🐛 Fixed
+
+- **config**: Twitch messages point at key_configs.yml; add security.silent
+- **config**: Twitch messages point at key_configs.yml; add security.silent (#107)
+
+---
+
 ## [2026-11-16] · `42a3123`
 
 
