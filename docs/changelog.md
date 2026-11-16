@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-16] · `42a3123`
+
+
+### ✨ Adicionado
+
+- **waila**: Block name lookup hook for addons
+- **waila**: Block name lookup hook for addons (#106)
+
+---
+
 ## [2026-11-12] · `bc016d9`
 
 
