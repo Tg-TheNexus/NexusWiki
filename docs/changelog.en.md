@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-17] · `e8472d9`
+
+
+### ✨ Added
+
+- **quests**: Addon hook for custom quest reward items
+- **quests**: Addon hook for custom quest reward items (#110)
+
+---
+
 ## [2026-11-17] · `f5b8932`
 
 
