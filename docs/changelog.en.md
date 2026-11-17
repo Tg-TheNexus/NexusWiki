@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-17] · `09dc094`
+
+
+### 🐛 Fixed
+
+- **quests**: Translate NPC/quest texts per player and show localized reward item names
+- **quests**: Translate NPC/quest texts and show reward item names (#108)
+
+---
+
 ## [2026-11-16] · `8fb3a54`
 
 
