@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-17] · `f5b8932`
+
+
+### ✨ Added
+
+- **waila**: RegisterBlockInfoLookup lets addons append info lines to the block HUD
+- **waila**: RegisterBlockInfoLookup for addon block info lines (#109)
+
+---
+
 ## [2026-11-17] · `09dc094`
 
 
