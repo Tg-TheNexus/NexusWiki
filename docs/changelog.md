@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `7b88feb`
+
+
+### ♻️ Alterado
+
+- **lang**: Remaining Twitch texts to lang/*.yml (#122)
+
+---
+
 ## [2026-11-18] · `7fbb0a0`
 
 
