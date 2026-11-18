@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `fae12b9`
+
+
+### ♻️ Modificado
+
+- **chat**: Move mute messages to lang files (#121)
+
+---
+
 ## [2026-11-18] · `3c32e4b`
 
 
