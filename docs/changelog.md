@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `8c05b3b`
+
+
+### ♻️ Alterado
+
+- **clans**: Move upgrade names and effects to lang files (#123)
+
+---
+
 ## [2026-11-18] · `7b88feb`
 
 
