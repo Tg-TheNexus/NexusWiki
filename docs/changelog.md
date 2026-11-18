@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `58a009b`
+
+
+### ✨ Adicionado
+
+- **clans**: Member_cap and territory_cap upgrades raise the limits (#114)
+
+---
+
 ## [2026-11-18] · `befe54f`
 
 
