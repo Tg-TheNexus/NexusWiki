@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-18] · `befe54f`
+
+
+### ✨ Added
+
+- **clans**: Read config limits; feat(discord): channel webhooks in key_configs
+- **clans,discord**: Read clan limits, move channel webhooks to key_configs (#113)
+
+---
+
 ## [2026-11-18] · `5be6186`
 
 
