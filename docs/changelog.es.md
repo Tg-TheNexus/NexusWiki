@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `5be6186`
+
+
+### 🔧 Mantenimiento
+
+- **config**: Restore clans keys, add TODO notes (#112)
+
+---
+
 ## [2026-11-18] · `4967fc2`
 
 
