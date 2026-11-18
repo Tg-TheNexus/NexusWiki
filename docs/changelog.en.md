@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `4967fc2`
+
+
+### 🔧 Maintenance
+
+- **config**: Audit dead keys and move remaining secrets to key_configs.yml (#111)
+
+---
+
 ## [2026-11-17] · `e8472d9`
 
 
