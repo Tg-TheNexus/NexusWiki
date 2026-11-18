@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `e656129`
+
+
+### ✨ Añadido
+
+- Implement the config keys no code read; disable unimplemented enchants (#118)
+
+---
+
 ## [2026-11-18] · `2813686`
 
 
