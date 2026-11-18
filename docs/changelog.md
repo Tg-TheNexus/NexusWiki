@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `3c32e4b`
+
+
+### ♻️ Alterado
+
+- **lang**: Kit descriptions to lang/*.yml (#127)
+
+---
+
 ## [2026-11-18] · `9bebcbc`
 
 
