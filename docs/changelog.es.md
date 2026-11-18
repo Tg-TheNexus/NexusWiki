@@ -5,6 +5,17 @@
 
 ---
 
+## [2026-11-18] · `fc1e404`
+
+
+### 📚 Documentación
+
+- Update SECURITY.md and CONTRIBUTING.md to the current project
+- Replace the stale Javadoc example in CONTRIBUTING.md
+- Update SECURITY.md and CONTRIBUTING.md (#116)
+
+---
+
 ## [2026-11-18] · `58a009b`
 
 
