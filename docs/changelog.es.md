@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `6a221bc`
+
+
+### 🔧 Mantenimiento
+
+- **audit**: Review of the uncertain dead-key findings (#115)
+
+---
+
 ## [2026-11-18] · `fc1e404`
 
 
