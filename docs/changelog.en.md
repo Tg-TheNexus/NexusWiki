@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `7fbb0a0`
+
+
+### ✨ Added
+
+- **discord**: Per-channel options; refactor(lang): twitch and dreams messages (#120)
+
+---
+
 ## [2026-11-18] · `91deccc`
 
 
