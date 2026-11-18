@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `2813686`
+
+
+### ✨ Adicionado
+
+- Outbound queue limits, mute bypass, config fixes from the audit review (#117)
+
+---
+
 ## [2026-11-18] · `6a221bc`
 
 
