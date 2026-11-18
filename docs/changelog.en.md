@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `8296663`
+
+
+### ✨ Added
+
+- **enchantments**: Implement 32 PASSIVE enchantments (#128)
+
+---
+
 ## [2026-11-18] · `8c05b3b`
 
 
