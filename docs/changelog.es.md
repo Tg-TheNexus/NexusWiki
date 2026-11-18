@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `91deccc`
+
+
+### ✨ Añadido
+
+- **enchantments**: Implement the 42 ON_HIT enchantments (#119)
+
+---
+
 ## [2026-11-18] · `e656129`
 
 
