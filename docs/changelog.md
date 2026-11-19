@@ -5,6 +5,22 @@
 
 ---
 
+## [2026-11-19] · `4ad130e`
+
+
+### ✨ Adicionado
+
+- **enchantments**: Implement 7 ON_SHOOT enchantments (#134)
+
+## [2026-11-18] · `1476ccd`
+
+
+### ✨ Adicionado
+
+- **enchantments**: Implement 7 ON_SHOOT enchantments
+
+---
+
 ## [2026-11-19] · `c60982a`
 
 
