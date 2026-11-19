@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-18] · `f603a98`
+
+
+### ✨ Added
+
+- **enchantments**: Implement 22 ON_ARROW_HIT enchantments
+- **enchantments**: Implement 22 ON_ARROW_HIT enchantments (#131)
+
+---
+
 ## [2026-11-18] · `c9ce1c6`
 
 
