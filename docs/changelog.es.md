@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `3b4bf18`
+
+
+### ♻️ Modificado
+
+- **lang**: Economy job texts to lang/*.yml (#124)
+
+---
+
 ## [2026-11-18] · `fae12b9`
 
 
