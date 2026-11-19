@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-19] · `ebd02d6`
+
+
+### ♻️ Alterado
+
+- **lang**: Essentials rules and tag descriptions to lang; fix /rules keys (#137)
+
+---
+
 ## [2026-11-19] · `93102f9`
 
 
