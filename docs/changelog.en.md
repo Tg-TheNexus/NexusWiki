@@ -5,6 +5,22 @@
 
 ---
 
+## [2026-11-19] · `93102f9`
+
+
+### ✨ Added
+
+- **enchantments**: Implement the ON_DEATH and ON_FALL_DAMAGE enchantments (#135)
+
+## [2026-11-18] · `bebe7c7`
+
+
+### ✨ Added
+
+- **enchantments**: Implement the ON_DEATH and ON_FALL_DAMAGE enchantments
+
+---
+
 ## [2026-11-19] · `4ad130e`
 
 
