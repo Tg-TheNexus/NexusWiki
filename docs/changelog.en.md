@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-18] · `d0b3f3e`
+
+
+### ♻️ Changed
+
+- **lang**: Discord mention notification to lang/*.yml (#129)
+
+---
+
 ## [2026-11-18] · `867ff74`
 
 
