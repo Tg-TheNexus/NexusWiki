@@ -5,6 +5,22 @@
 
 ---
 
+## [2026-11-19] · `11791ca`
+
+
+### ✨ Adicionado
+
+- **enchantments**: Implement 20 ON_BLOCK_BREAK enchantments (#132)
+
+## [2026-11-18] · `bad15ae`
+
+
+### ✨ Adicionado
+
+- **enchantments**: Implement 20 ON_BLOCK_BREAK enchantments
+
+---
+
 ## [2026-11-18] · `f603a98`
 
 
