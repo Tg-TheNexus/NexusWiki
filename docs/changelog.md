@@ -5,6 +5,22 @@
 
 ---
 
+## [2026-11-19] · `c60982a`
+
+
+### ✨ Adicionado
+
+- **enchantments**: Implement 14 ON_FISH enchantments (#133)
+
+## [2026-11-18] · `b703ff5`
+
+
+### ✨ Adicionado
+
+- **enchantments**: Implement 14 ON_FISH enchantments
+
+---
+
 ## [2026-11-19] · `11791ca`
 
 
