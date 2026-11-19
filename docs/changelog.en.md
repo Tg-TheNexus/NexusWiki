@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-18] · `c9ce1c6`
+
+
+### ✨ Added
+
+- **enchantments**: Implement 18 ON_DAMAGED enchantments
+- **enchantments**: Implement 18 ON_DAMAGED enchantments (#130)
+
+---
+
 ## [2026-11-18] · `d0b3f3e`
 
 
