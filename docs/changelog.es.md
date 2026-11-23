@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-23] · `ced9e8a`
+
+
+### ✨ Añadido
+
+- **core**: KeyConfig getBoolean/getInt for optional overrides
+
+---
+
 ## [2026-11-19] · `8ccd67e`
 
 
