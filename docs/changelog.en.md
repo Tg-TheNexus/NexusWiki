@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `37ba746`
+
+
+### ✨ Added
+
+- **cosmetics**: New module with particle wings (/wings) and a WingsRegistry API (#147)
+
+---
+
 ## [2026-11-24] · `2a525a7`
 
 
