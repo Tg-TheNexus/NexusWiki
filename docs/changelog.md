@@ -5,6 +5,20 @@
 
 ---
 
+## [2026-11-24] · `8347ce9`
+
+
+### ✨ Adicionado
+
+- **essentials**: Customisable first-join, join and quit messages
+- **essentials**: Customisable first-join, join and quit messages (#139)
+
+### 📚 Documentação
+
+- Session resume 2026-11-24 join messages
+
+---
+
 ## [2026-11-23] · `ced9e8a`
 
 
