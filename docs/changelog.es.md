@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `df69a01`
+
+
+### ✨ Añadido
+
+- **rng**: Lock the cobble generator to chosen worlds (#152)
+
+---
+
 ## [2026-11-24] · `8226e41`
 
 
