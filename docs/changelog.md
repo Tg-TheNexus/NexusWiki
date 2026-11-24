@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `84317c1`
+
+
+### ✨ Adicionado
+
+- **quests**: Group NPC files in folders, /questnpc list and reload (#140)
+
+---
+
 ## [2026-11-24] · `d8128b8`
 
 
