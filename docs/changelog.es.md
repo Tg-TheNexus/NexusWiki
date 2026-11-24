@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `304767b`
+
+
+### ✨ Añadido
+
+- **cosmetics**: Custom music discs from admin-supplied audio (/disc) (#148)
+
+---
+
 ## [2026-11-24] · `37ba746`
 
 
