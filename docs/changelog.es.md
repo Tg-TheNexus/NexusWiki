@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `1885e87`
+
+
+### ✨ Añadido
+
+- **tab**: Several sidebar scoreboard layouts by permission and world (#142)
+
+---
+
 ## [2026-11-24] · `5e4ec4b`
 
 
