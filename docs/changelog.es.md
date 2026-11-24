@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `2237e5c`
+
+
+### ✨ Añadido
+
+- **rng**: Custom drops for blocks, mobs and fishing from rng/drops (#145)
+
+---
+
 ## [2026-11-24] · `ca89634`
 
 
