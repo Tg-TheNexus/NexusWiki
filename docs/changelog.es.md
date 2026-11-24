@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `ca89634`
+
+
+### ✨ Añadido
+
+- **holograms**: Placeholders, hex colours, text line properties and block lines (#144)
+
+---
+
 ## [2026-11-24] · `f72e77d`
 
 
