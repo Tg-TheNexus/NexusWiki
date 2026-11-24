@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `f72e77d`
+
+
+### ✨ Added
+
+- **events**: Mob attribute multipliers (/mobattr) and a progressive Blood Moon horde (#143)
+
+---
+
 ## [2026-11-24] · `1885e87`
 
 
