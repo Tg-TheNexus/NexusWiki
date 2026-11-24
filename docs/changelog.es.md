@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `b4932a3`
+
+
+### 📚 Documentación
+
+- Remove duplicated rng lines from CONFIGURATIONS.md (#153)
+
+---
+
 ## [2026-11-24] · `df69a01`
 
 
