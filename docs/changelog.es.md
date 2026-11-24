@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `5e4ec4b`
+
+
+### ✨ Añadido
+
+- **tab**: MOTD player-count hover and /ntab maxplayers (#141)
+
+---
+
 ## [2026-11-24] · `84317c1`
 
 
