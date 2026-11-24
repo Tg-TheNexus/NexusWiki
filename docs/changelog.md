@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `2a525a7`
+
+
+### ✨ Adicionado
+
+- **rng**: Configurable cobblestone ore generator (rng/oregen.yml) (#146)
+
+---
+
 ## [2026-11-24] · `2237e5c`
 
 
