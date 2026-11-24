@@ -5,6 +5,16 @@
 
 ---
 
+## [2026-11-24] · `d8128b8`
+
+
+### ✨ Añadido
+
+- **essentials**: /waypoint track points you to a waypoint
+- **essentials**: /waypoint track points you to a waypoint (#149)
+
+---
+
 ## [2026-11-24] · `8347ce9`
 
 
