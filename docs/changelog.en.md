@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-24] · `8226e41`
+
+
+### ✨ Added
+
+- **essentials**: Shared waypoints, region drops, paper-api for MiniMessage (#151)
+
+---
+
 ## [2026-11-24] · `7b11711`
 
 
