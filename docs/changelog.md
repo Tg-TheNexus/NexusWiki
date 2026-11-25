@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-25] · `6c6ab2d`
+
+
+### 🔧 Manutenção
+
+- **rng**: Lock the cobble generator to the Vallheim skyblock world (#154)
+
+---
+
 ## [2026-11-24] · `b4932a3`
 
 
