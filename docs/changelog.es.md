@@ -5,6 +5,15 @@
 
 ---
 
+## [2026-11-25] · `7974256`
+
+
+### 🐛 Corregido
+
+- **plugin**: Stop the Lynx reporter from sending its own log lines (#155)
+
+---
+
 ## [2026-11-25] · `6c6ab2d`
 
 
